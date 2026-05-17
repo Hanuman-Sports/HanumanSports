@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping & Returns - Hanuman Sports</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="theme-color" content="#00F0FF">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="logo.png" sizes="192x192">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00F0FF;
+            --primary-light: rgba(0, 240, 255, 0.12);
+            --secondary: #0A0E17;
+            --accent: #00F0FF;
+            --light: #F8F9FA;
+            --dark: #212529;
+            --white: #FFFFFF;
+            --gray: #6C757D;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --neon-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
+            --primary-shadow: 0 0 18px rgba(0, 240, 255, 0.6);
+            --success: #4CAF50;
+            --danger: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        h1,h2,h3,h4, h5,h6 {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        /* Enhanced Futuristic Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: var(--secondary);
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 14, 23, 0.8);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+            border: 2px solid var(--secondary);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00c5d4;
+        }
+
+        /* Floating Background Elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(0, 240, 255, 0.1);
+            filter: blur(40px);
+            animation: float 15s infinite linear;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 5%;
+            animation-duration: 20s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: 15%;
+            right: 10%;
+            animation-delay: 3s;
+            animation-duration: 25s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            top: 50%;
+            left: 30%;
+            animation-delay: 5s;
+            animation-duration: 18s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(30vw, 30vh) rotate(180deg);
+            }
+
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .top-bar {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .top-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .top-bar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            position: relative;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .contact-info a {
+            color: var(--white);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .contact-info a:hover {
+            color: var(--accent);
+            text-shadow: 0 0 8px var(--accent);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icons a {
+            color: var(--white);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+            text-shadow: 0 0 8px var(--accent);
+        }
+
+        .main-header {
+            padding: 1rem 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .logo img {
+            height: 60px;
+            filter: drop-shadow(0 0 5px var(--primary));
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            color: var(--white);
+            font-weight: 700;
+            background: linear-gradient(to right, #ffffff, var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: var(--gray);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* ===== IMPROVED NAVIGATION BUTTONS ===== */
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid transparent;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(4px);
+        }
+
+        .nav-links a i {
+            font-size: 1rem;
+            color: var(--primary);
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: var(--primary);
+            color: var(--secondary);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a:hover i {
+            color: var(--secondary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--light);
+            transition: all 0.3s;
+        }
+
+        .mobile-menu-btn:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .policy-hero {
+            background: linear-gradient(rgba(10, 14, 23, 0.8), rgba(10, 14, 23, 0.9)),
+                url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 13rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .policy-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent, rgba(0, 240, 255, 0.1));
+            pointer-events: none;
+        }
+
+        .policy-hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .policy-hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #ffffff, var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+            }
+
+            to {
+                text-shadow: 0 0 20px rgba(0, 240, 255, 0.8), 0 0 30px rgba(0, 240, 255, 0.6);
+            }
+        }
+
+        .policy-hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 3rem 1rem;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.6rem;
+            background: linear-gradient(to right, #ffffff, var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, #ffffff, var(--accent));
+            border-radius: 2px;
+        }
+
+        /* Policy Content */
+        .policy-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .policy-card {
+            background: var(--glass);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            margin-bottom: 3rem;
+            padding: 2.5rem;
+        }
+
+        .policy-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .policy-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: linear-gradient(to right, #ffffff, var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .policy-card h3 i {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .policy-content {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .policy-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .policy-content h4 {
+            color: var(--primary);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.2rem;
+        }
+
+        .policy-content ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .policy-content ul li {
+            margin-bottom: 0.8rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .policy-content ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .policy-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .policy-content ol li {
+            margin-bottom: 0.8rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .policy-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .policy-table th,
+        .policy-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .policy-table th {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--primary);
+            font-weight: 600;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .policy-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .policy-table tr:hover td {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .policy-note {
+            background: rgba(0, 240, 255, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .policy-note h4 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* FAQ Section */
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 1.5rem;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .faq-question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(0, 240, 255, 0.1);
+        }
+
+        .faq-question i {
+            transition: transform 0.3s;
+            color: var(--primary);
+        }
+
+        .faq-answer {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0 1rem 1rem;
+            display: none;
+            line-height: 1.8;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        /* Contact Box */
+        .contact-box {
+            background: linear-gradient(135deg, var(--primary), rgba(0, 240, 255, 0.8));
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .contact-box h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+            font-size: 1.5rem;
+        }
+
+        .contact-box p {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+            font-weight: 500;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+        }
+
+        .contact-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+        }
+
+        .contact-links a:hover {
+            background: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(to bottom, var(--secondary), #000);
+            color: var(--white);
+            padding: 5rem 1rem 2rem;
+            position: relative;
+            margin-top: 5rem;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-col h3 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, #ffffff, var(--accent));
+            border-radius: 2px;
+        }
+
+        .footer-col p {
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .footer-links li:hover {
+            transform: translateX(5px);
+        }
+
+        .footer-links li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            transition: all 0.3s;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-contact-info {
+            list-style: none;
+        }
+
+        .footer-contact-info li {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            align-items: flex-start;
+        }
+
+        .footer-contact-info i {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+            text-shadow: 0 0 8px var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 999;
+            box-shadow: 0 5px 20px rgba(0, 240, 255, 0.5);
+        }
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--accent);
+            box-shadow: 0 0 18px rgba(0, 240, 255, 0.6);
+            transform: translateY(-5px);
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1500;
+            display: none;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .policy-hero h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .policy-card {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-bar-container {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .header-container {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .policy-hero h2 {
+                font-size: 2.2rem;
+            }
+
+            .policy-hero p {
+                font-size: 1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .policy-card {
+                padding: 1.5rem;
+            }
+
+            .policy-card h3 {
+                font-size: 1.5rem;
+            }
+
+            .contact-cta {
+                padding: 3rem 1.5rem;
+            }
+
+            .contact-cta h3 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            nav {
+                display: none;
+                width: 100%;
+            }
+
+            nav.active {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1.5rem 0;
+            }
+
+            .header-icons {
+                margin-top: 1.5rem;
+            }
+
+            .policy-hero {
+                padding: 5rem 1rem;
+            }
+
+            .policy-hero h2 {
+                font-size: 2rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .policy-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .footer-container {
+                gap: 2rem;
+            }
+        }
+
+        .section-heading-left {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, #ffffff, var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+        }
+
+        .section-heading-left .heading-bar {
+            font-size: 2.2rem;
+            line-height: 1;
+            -webkit-text-fill-color: var(--primary);
+            filter: drop-shadow(0 0 6px var(--primary));
+        }
+
+        /* Horizontal divider line */
+        .section-divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-divider::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: var(--primary);
+            box-shadow: 0 0 8px var(--primary), 0 0 16px rgba(0, 240, 255, 0.5);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Elements -->
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-container">
+            <div class="contact-info">
+                <a href="tel:+919538452672"><i class="fas fa-phone"></i> +91 9538452672</a>
+                <a href="mailto:info@hanumansports.com"><i class="fas fa-envelope"></i> info@hanumansports.com</a>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header>
+        <div class="main-header">
+            <div class="header-container">
+                <div class="logo">
+                    <img src="logo.png" alt="Hanuman Sports Logo">
+                    <div class="logo-text">
+                        <h1>Hanuman Sports</h1>
+                        <p>Mysore's Premier Sports Destination</p>
+                    </div>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                    <a href="category.html"><i class="fas fa-th-large"></i> Categories</a>
+                    <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Policy Hero Section -->
+    <section class="policy-hero">
+        <div class="policy-hero-content">
+            <h2>Shipping & Returns Policy</h2>
+            <p>At Hanuman Sports, we strive to make your shopping experience seamless. Learn about our shipping options
+                and hassle-free return policy.</p>
+        </div>
+    </section>
+
+    <!-- Shipping Policy Section -->
+    <section class="section" id="shipping">
+        <div class="section-title">
+            <h2>Shipping Information</h2>
+        </div>
+        <div class="policy-container">
+            <div class="policy-card">
+                <h3><i class="fas fa-shipping-fast"></i> Domestic Shipping</h3>
+                <div class="policy-content">
+                    <p>We offer fast and reliable shipping across India. All orders are processed within 1-2 business
+                        days after payment verification.</p>
+
+                    <table class="policy-table">
+                        <thead>
+                            <tr>
+                                <th>Shipping Method</th>
+                                <th>Delivery Time</th>
+                                <th>Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Standard Shipping</td>
+                                <td>5-7 business days</td>
+                                <td>₹99 (Free on orders above ₹2999)</td>
+                            </tr>
+                            <tr>
+                                <td>Express Shipping</td>
+                                <td>2-3 business days</td>
+                                <td>₹199</td>
+                            </tr>
+                            <tr>
+                                <td>Next Day Delivery*</td>
+                                <td>1 business day</td>
+                                <td>₹399</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p>*Next day delivery available only in select metropolitan areas. Order must be placed before 12 PM
+                        IST.</p>
+
+                    <div class="policy-note">
+                        <h4><i class="fas fa-info-circle"></i> Important Note</h4>
+                        <p>Delivery times are estimates and may be affected by factors beyond our control such as
+                            weather conditions, customs delays, or carrier delays. During festive seasons, delivery
+                            times may be extended.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="policy-card">
+                <h3><i class="fas fa-globe-asia"></i> International Shipping</h3>
+                <div class="policy-content">
+                    <p>We now ship to select international destinations. International orders typically take 10-20
+                        business days for delivery depending on the destination.</p>
+
+                    <p>International shipping costs are calculated at checkout based on the weight of your order and
+                        destination. Customs duties and taxes may apply and are the responsibility of the recipient.</p>
+
+                    <div class="policy-note">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Customs & Import Taxes</h4>
+                        <p>International customers are responsible for all customs and import taxes that may be applied
+                            by their country. Hanuman Sports is not responsible for these additional charges.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="policy-card">
+                <h3><i class="fas fa-box-open"></i> Order Tracking</h3>
+                <div class="policy-content">
+                    <p>Once your order is shipped, you will receive a confirmation email with your tracking number and a
+                        link to track your package.</p>
+
+                    <p>If you have any questions about your order's status, please contact our customer service team
+                        with your order number.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Returns Policy Section -->
+    <section class="section" id="returns">
+        <div class="policy-container" style="margin-bottom: 2rem;">
+            <hr class="section-divider">
+            <h2 class="section-heading-left"><span class="heading-bar">|</span> Return & Exchange Policy</h2>
+        </div>
+        <div class="policy-container">
+            <div class="policy-card">
+                <h3><i class="fas fa-undo-alt"></i> Returns & Exchanges</h3>
+                <div class="policy-content">
+                    <p>We want you to be completely satisfied with your purchase. If you're not happy with your order,
+                        we offer a 30-day return policy for most items.</p>
+
+                    <h4>Eligibility Conditions:</h4>
+                    <ul>
+                        <li>Item must be unused and in its original condition</li>
+                        <li>Original packaging and tags must be intact</li>
+                        <li>Return request must be made within 30 days of delivery</li>
+                        <li>Proof of purchase is required</li>
+                    </ul>
+
+                    <h4>Non-Returnable Items:</h4>
+                    <ul>
+                        <li>Personalized or custom-made products</li>
+                        <li>Underwear and swimwear (for hygiene reasons)</li>
+                        <li>Products without original packaging</li>
+                        <li>Products damaged due to misuse</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="policy-card">
+                <h3><i class="fas fa-exchange-alt"></i> How to Return</h3>
+                <div class="policy-content">
+                    <p>Follow these simple steps to return an item:</p>
+
+                    <ol>
+                        <li>Contact our customer service team to initiate the return process</li>
+                        <li>Package the item securely in its original packaging</li>
+                        <li>Include the original invoice and reason for return</li>
+                        <li>Ship the package to our return address</li>
+                    </ol>
+
+                    <p>Once we receive and inspect the returned item, we will process your refund or exchange within 5-7
+                        business days.</p>
+
+                    <div class="policy-note">
+                        <h4><i class="fas fa-credit-card"></i> Refund Processing</h4>
+                        <p>Refunds will be issued to the original payment method. Depending on your bank, it may take
+                            7-10 business days for the refund to reflect in your account.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="policy-card">
+                <h3><i class="fas fa-tools"></i> Warranty Claims</h3>
+                <div class="policy-content">
+                    <p>Most of our products come with manufacturer warranties. If you experience any issues with your
+                        product during the warranty period, please contact us with:</p>
+
+                    <ul>
+                        <li>Your order details</li>
+                        <li>Photos/videos of the issue</li>
+                        <li>Description of the problem</li>
+                    </ul>
+
+                    <p>We will guide you through the warranty claim process with the manufacturer.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section">
+        <div class="policy-container" style="margin-bottom: 2rem;">
+            <hr class="section-divider">
+            <h2 class="section-heading-left"><span class="heading-bar">|</span> Frequently Asked Questions</h2>
+        </div>
+        <div class="policy-container">
+            <div class="policy-card">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How long will it take to receive my order?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Delivery times depend on your location and the shipping method chosen. Typically, domestic
+                            orders arrive within 5-7 business days with standard shipping. You'll receive a tracking
+                            number once your order ships.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you offer free shipping?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we offer free standard shipping on all orders over ₹2999 within India. For orders below
+                            this amount, a flat shipping fee of ₹99 applies.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What if I receive a damaged product?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>If you receive a damaged product, please contact us within 48 hours of delivery with photos
+                            of the damaged item and packaging. We will arrange for a replacement or refund at no extra
+                            cost.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I change my delivery address after ordering?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We can only change the delivery address if the order hasn't been shipped yet. Please contact
+                            our customer service team as soon as possible with your order number and the updated
+                            address.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do I track my order?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Once your order is shipped, you will receive an email with a tracking number and a link to
+                            track your package. You can also track your order by logging into your account on our
+                            website.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Us -->
+    <section class="section" id="contact-us">
+        <div class="policy-container">
+            <hr class="section-divider">
+            <h2 class="section-heading-left"><span class="heading-bar">|</span> Contact Us</h2>
+            <p style="color: rgba(255,255,255,0.85); margin-bottom: 2rem;">
+                If you have questions about our policies or want assistance, please contact us:
+            </p>
+            <div class="contact-box">
+                <h3>Get In Touch</h3>
+                <p>Our team is here to help you with any questions or concerns.</p>
+                <div class="contact-links">
+                    <a href="mailto:hanumanssports@gmail.com">
+                        <i class="fas fa-envelope"></i> Email Us
+                    </a>
+                    <a href="tel:+919538452672">
+                        <i class="fas fa-phone"></i> Call Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>Hanuman Sports</h3>
+                <p>Mysore's premier destination for professional and amateur athletes. We're committed to helping you
+                    achieve your personal best through quality equipment and expert advice.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="profile.html">My Account</a></li>
+                    <li><a href="order.html">Order Tracking</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Visit Us</h3>
+                <ul class="footer-contact-info">
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Sports Street, Nazarbad, Mysore - 570010</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>+91 9538452672</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>info@hanumansports.com</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-clock"></i>
+                        <span>Mon-Sat: 9:00 AM - 8:00 PM<br>Sun: 10:00 AM - 6:00 PM</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Hanuman Sports. All Rights Reserved. | Designed with <i class="fas fa-heart"
+                    style="color: var(--primary);"></i> for athletes</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mainNav = document.getElementById('main-nav');
+
+        if (mobileMenuBtn && mainNav) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                mobileMenuBtn.innerHTML = mainNav.classList.contains('active') ?
+                    '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
+        }
+
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('active');
+            } else {
+                backToTopButton.classList.remove('active');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+
+                // Toggle active class on answer
+                answer.classList.toggle('active');
+
+                // Rotate icon
+                if (answer.classList.contains('active')) {
+                    icon.style.transform = 'rotate(180deg)';
+                } else {
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+
+                    // Close mobile menu if open
+                    if (mainNav.classList.contains('active')) {
+                        mainNav.classList.remove('active');
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                }
+            });
+        });
+
+        // Logout Functionality
+        const logoutBtn = document.getElementById("logout-btn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                if (confirm("Are you sure you want to logout?")) {
+                    localStorage.clear();
+                    window.location.href = "login.html";
+                }
+            });
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanuman AI - Sports Assistant | Hanuman Sports</title>
+        <meta name="theme-color" content="#00F0FF">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="logo.png" sizes="192x192">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Chat with Hanuman AI - Your personal sports assistant for equipment recommendations, pricing, and expert advice from Hanuman Sports in Mysore.">
+    <meta name="theme-color" content="#00F0FF">
+    <style>
+        :root {
+            --primary: #00F0FF;
+            --primary-light: rgba(0, 240, 255, 0.12);
+            --primary-dark: #0097a7;
+            --secondary: #0A0E17;
+            --accent: #00F0FF;
+            --light: #F8F9FA;
+            --dark: #212529;
+            --white: #FFFFFF;
+            --gray: #6C757D;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-border-strong: rgba(0, 240, 255, 0.3);
+            --neon-shadow: 0 0 12px rgba(0, 240, 255, 0.8);
+            --primary-shadow: 0 0 18px rgba(0, 240, 255, 0.6);
+            --success: #4CAF50;
+            --danger: #ff3b3b;
+            --warning: #ffc107;
+            --gradient-1: linear-gradient(135deg, rgba(0,240,255,0.2), rgba(0,240,255,0.05));
+            --gradient-2: linear-gradient(90deg, rgba(0,240,255,0.1), rgba(0,240,255,0.02));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--secondary);
+            color: var(--light);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Futuristic Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 240, 255, 0.03) 0%, transparent 70%);
+            animation: rotateBg 60s linear infinite;
+            z-index: -2;
+        }
+
+        @keyframes rotateBg {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(0, 240, 255, 0.03);
+            filter: blur(40px);
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(50px, -50px) rotate(120deg); }
+            66% { transform: translate(-30px, 30px) rotate(240deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        /* Enhanced Futuristic Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: var(--secondary);
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 14, 23, 0.8);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+            border: 2px solid var(--secondary);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00c5d4;
+        }
+
+        /* Header */
+        .chat-header {
+            background: rgba(10, 14, 23, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border-strong);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo img {
+            height: 50px;
+            filter: drop-shadow(0 0 10px var(--primary));
+        }
+
+        .logo-text h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #ffffff, #00F0FF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-btn {
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.6rem 1.2rem;
+            color: var(--light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .header-btn:hover {
+            background: rgba(0, 240, 255, 0.2);
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+        }
+
+        .header-btn i {
+            font-size: 1rem;
+        }
+
+        /* Main Chat Container */
+        .chat-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 1.5rem;
+            height: calc(100vh - 120px);
+        }
+
+        /* Sidebar */
+        .chat-sidebar {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .sidebar-section h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 1px;
+        }
+
+        .quick-topics {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .topic-chip {
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .topic-chip:hover {
+            background: rgba(0, 240, 255, 0.15);
+            border-color: var(--primary);
+            transform: translateX(5px);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+        }
+
+        .topic-chip i {
+            color: var(--primary);
+            font-size: 1rem;
+            width: 20px;
+        }
+
+        /* Chat Agent Header */
+        .chat-agent {
+            padding: 1.2rem 1.8rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid var(--glass-border-strong);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .agent-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(0,240,255,0.2), rgba(0,240,255,0.05));
+            border: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(0,240,255,0.4);
+        }
+
+        .agent-avatar img {
+            width: 35px;
+            height: 35px;
+            filter: drop-shadow(0 0 5px var(--primary));
+        }
+
+        .agent-info h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .agent-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        /* Messages Area */
+        .messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            display: flex;
+            gap: 12px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1.5px solid rgba(0, 240, 255, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .message.bot .message-avatar {
+            color: var(--primary);
+        }
+
+        .message.user .message-avatar {
+            background: rgba(0, 240, 255, 0.2);
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 1rem 1.2rem;
+            border-radius: 18px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .message.bot .message-bubble {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-bottom-left-radius: 4px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(0, 240, 255, 0.1));
+            border: 1px solid rgba(0, 240, 255, 0.4);
+            border-bottom-right-radius: 4px;
+            text-align: right;
+        }
+
+        .message-time {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.3);
+            margin-top: 5px;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .typing-dots {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 18px;
+            border-bottom-left-radius: 4px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            gap: 5px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: typing 1.2s infinite;
+        }
+
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-8px); opacity: 1; }
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 1.2rem 1.8rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid var(--glass-border-strong);
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 0.5rem 0.5rem 0.5rem 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+            background: rgba(0, 240, 255, 0.03);
+        }
+
+        .message-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--light);
+            font-size: 0.9rem;
+            padding: 0.8rem 0;
+            resize: none;
+            max-height: 100px;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .message-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .input-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .input-action-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--light);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .input-action-btn:hover {
+            background: rgba(0, 240, 255, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            color: var(--light);
+            font-size: 1.1rem;
+        }
+
+        .send-btn:hover {
+            background: rgba(0, 240, 255, 0.1);
+            box-shadow: 0 0 20px var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Suggestion Chips */
+        .suggestion-chips {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            padding: 0 0.5rem;
+        }
+
+        .suggestion-chip {
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .suggestion-chip:hover {
+            background: rgba(0, 240, 255, 0.15);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .chat-container {
+                grid-template-columns: 1fr;
+                height: auto;
+                min-height: calc(100vh - 120px);
+            }
+
+            .chat-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .logo {
+                flex-direction: column;
+            }
+
+            .chat-agent {
+                padding: 1rem;
+            }
+
+            .message-bubble {
+                max-width: 85%;
+            }
+
+            .suggestion-chips {
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .chat-container {
+                padding: 0 1rem;
+            }
+
+            .input-wrapper {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .input-actions {
+                justify-content: flex-end;
+            }
+        }
+
+        /* Product Cards (for recommendations) */
+        .product-recommendation {
+            background: rgba(0, 240, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 0.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .product-recommendation img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .product-recommendation h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .product-recommendation .price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Welcome Overlay */
+        .welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s;
+        }
+
+        .welcome-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border-strong);
+            border-radius: 30px;
+            padding: 3rem;
+            max-width: 500px;
+            text-align: center;
+            animation: glowPulse 3s infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(0,240,255,0.2); }
+            50% { box-shadow: 0 0 50px rgba(0,240,255,0.4); }
+        }
+
+        .welcome-card img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 20px var(--primary));
+        }
+
+        .welcome-card h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            background: linear-gradient(to right, #ffffff, #00F0FF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-card p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .welcome-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--secondary);
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .welcome-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px var(--primary);
+        }
+
+        /* Back to Home */
+        .back-home {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s;
+            z-index: 99;
+        }
+
+        .back-home:hover {
+            background: var(--primary);
+            color: var(--secondary);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Elements -->
+    <div class="floating-elements">
+        <div class="floating-element" style="width: 300px; height: 300px; top: 10%; left: 5%;"></div>
+        <div class="floating-element" style="width: 400px; height: 400px; bottom: 15%; right: 10%; animation-delay: 3s;"></div>
+        <div class="floating-element" style="width: 250px; height: 250px; top: 50%; left: 30%; animation-delay: 5s;"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="chat-header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="logo.png" alt="Hanuman Sports Logo">
+                <div class="logo-text">
+                    <h1>HANUMAN AI</h1>
+                    <p>Your Sports Assistant</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="index.html" class="header-btn">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="category.html" class="header-btn">
+                    <i class="fas fa-store"></i>
+                    <span>Shop</span>
+                </a>
+                <a href="#" class="header-btn" id="clear-chat-btn">
+                    <i class="fas fa-trash-alt"></i>
+                    <span>Clear Chat</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Chat Container -->
+    <div class="chat-container">
+        <!-- Sidebar -->
+        <aside class="chat-sidebar">
+            <div class="sidebar-section">
+                <h3><i class="fas fa-bolt"></i> QUICK TOPICS</h3>
+                <div class="quick-topics">
+                    <div class="topic-chip" data-query="What cricket equipment do you have?">
+                        <i class="fas fa-baseball-ball"></i>
+                        <span>Cricket Equipment</span>
+                    </div>
+                    <div class="topic-chip" data-query="Show me badminton rackets">
+                        <i class="fas fa-table-tennis"></i>
+                        <span>Badminton Rackets</span>
+                    </div>
+                    <div class="topic-chip" data-query="What footballs are available?">
+                        <i class="fas fa-futbol"></i>
+                        <span>Football</span>
+                    </div>
+                    <div class="topic-chip" data-query="Where is your store located?">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Store Location</span>
+                    </div>
+                    <div class="topic-chip" data-query="What are your store timings?">
+                        <i class="fas fa-clock"></i>
+                        <span>Store Timings</span>
+                    </div>
+                    <div class="topic-chip" data-query="Do you offer discounts?">
+                        <i class="fas fa-tag"></i>
+                        <span>Offers & Discounts</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Chat Main Area -->
+        <main class="chat-main">
+            <!-- Agent Info -->
+            <div class="chat-agent">
+                <div class="agent-avatar">
+                    <img src="logo.png" alt="Hanuman AI">
+                </div>
+                <div class="agent-info">
+                    <h2>HANUMAN AI ASSISTANT</h2>
+                    <div class="agent-status">
+                        <span class="status-dot"></span>
+                        <span>Online • Sports Expert</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Area -->
+            <div class="messages-area" id="messagesArea">
+                <!-- Messages will be added here dynamically -->
+            </div>
+
+                <!-- Input Wrapper -->
+                <div class="input-wrapper">
+                    <textarea 
+                        class="message-input" 
+                        id="messageInput" 
+                        placeholder="Ask me about sports equipment, prices, recommendations..."
+                        rows="1"
+                        onkeydown="handleKeyDown(event)"
+                        oninput="autoResize(this)"
+                    ></textarea>
+                    <div class="input-actions">
+                        <button class="input-action-btn" id="attachBtn" title="Attach image">
+                            <i class="fas fa-image"></i>
+                        </button>
+                        <button class="input-action-btn send-btn" id="sendBtn" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Back to Home Button -->
+    <a href="index.html" class="back-home" title="Back to Home">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+
+    <!-- Welcome Overlay -->
+    <div class="welcome-overlay" id="welcomeOverlay">
+        <div class="welcome-card">
+            <img src="logo.png" alt="Hanuman AI">
+            <h2>Jai Hanuman!</h2>
+            <p>Welcome to Hanuman Sports AI Assistant! I'm here to help you find the perfect sports equipment, answer questions about pricing, provide recommendations, and guide you to our store in Mysore. How can I assist you today?</p>
+            <button class="welcome-btn" onclick="startChat()">Start Chatting</button>
+        </div>
+    </div>
+
+    <script>
+        // Chat State
+        let isLoading = false;
+        let conversationHistory = [];
+        let isWelcomeDismissed = false;
+
+        const SYSTEM_PROMPT = `You are Hanuman AI, the friendly and knowledgeable sports assistant for Hanuman Sports — a premium sports equipment store based in Mysore, India. You help customers with:
+
+- Product recommendations for cricket, badminton, football, volleyball, tennis, and other sports
+- Pricing guidance (typical ranges in INR)
+- Equipment selection based on skill level (beginner, intermediate, professional)
+- Store information: located in Mysore, Karnataka, India at 8JR8+72 Mysuru
+- Contact: +91 9538452672, info@hanumansports.com
+- Store hours: Monday-Saturday 9:00 AM - 8:00 PM, Sunday 10:00 AM - 6:00 PM
+- Brand suggestions: SG, SS, GM, Kookaburra for cricket; Yonex, Victor, Li-Ning for badminton; Nike, Adidas, Cosco for football; Nivia for volleyball
+- Sports tips and which gear suits different players
+
+Always be enthusiastic, concise, and helpful. Use emojis occasionally to keep it lively. Respond in 2-4 sentences unless more detail is needed. Always end with an offer to help further or suggest a related product. You represent Hanuman Sports proudly.`;
+
+        // DOM Elements
+        const messagesArea = document.getElementById('messagesArea');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const welcomeOverlay = document.getElementById('welcomeOverlay');
+        const clearChatBtn = document.getElementById('clear-chat-btn');
+
+        // Get current time
+        function getCurrentTime() {
+            return new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Add message to chat
+        function addMessage(text, sender) {
+            const time = getCurrentTime();
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            let formattedText = text;
+            if (sender === 'bot') {
+                formattedText = text
+                    .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#00F0FF">$1</strong>')
+                    .replace(/\n/g, '<br>');
+            }
+
+            messageDiv.innerHTML = `
+                <div class="message-avatar">
+                    <i class="fas fa-${sender === 'bot' ? 'robot' : 'user'}"></i>
+                </div>
+                <div>
+                    <div class="message-bubble">${formattedText}</div>
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+
+            messagesArea.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        // Show typing indicator
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="message-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            `;
+            messagesArea.appendChild(typingDiv);
+            scrollToBottom();
+        }
+
+        // Hide typing indicator
+        function hideTyping() {
+            const typing = document.getElementById('typingIndicator');
+            if (typing) typing.remove();
+        }
+
+        // Scroll to bottom
+        function scrollToBottom() {
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+
+        // Auto resize textarea
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
+        }
+
+        // Handle Enter key
+        function handleKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        // Send message
+        async function sendMessage() {
+            const text = messageInput.value.trim();
+            if (!text || isLoading) return;
+
+            // Dismiss welcome if still showing
+            if (welcomeOverlay && welcomeOverlay.style.display !== 'none') {
+                welcomeOverlay.style.display = 'none';
+            }
+
+            // Add user message
+            addMessage(text, 'user');
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+
+            conversationHistory.push({ role: 'user', content: text });
+
+            isLoading = true;
+            sendBtn.disabled = true;
+            showTyping();
+
+            try {
+                // Simulate AI response (replace with actual API call)
+                await simulateAIResponse(text);
+            } catch (error) {
+                hideTyping();
+                addMessage("Sorry, I'm having trouble connecting. Please try again or visit our store in Mysore! 🏪", 'bot');
+            }
+
+            isLoading = false;
+            sendBtn.disabled = false;
+            messageInput.focus();
+        }
+
+        // Simulate AI responses (replace with actual API)
+        async function simulateAIResponse(query) {
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            let response = "";
+
+            if (query.toLowerCase().includes('cricket')) {
+                response = "🏏 For cricket, we have premium equipment from **SG**, **SS**, **GM**, and **Kookaburra**. We stock everything from Kashmir Willow bats for beginners (₹1500-3000) to English Willow for pros (₹5000-15000). Would you like specific recommendations based on your batting style?";
+            } else if (query.toLowerCase().includes('badminton')) {
+                response = "🏸 Our badminton section features **Yonex**, **Victor**, and **Li-Ning** rackets. For beginners, we recommend the Yonex Nanoray series (₹2000-4000). Intermediate players love the Astrox series (₹5000-8000). Would you like to know about shuttlecocks or strings too?";
+            } else if (query.toLowerCase().includes('football')) {
+                response = "⚽ We have footballs from **Nike**, **Adidas**, **Cosco**, and **Nivia**. Size 3 for kids (₹500-1000), Size 4 for youth (₹800-1500), Size 5 for adults (₹1500-4000). The Adidas Tango and Nike Premier League balls are our top sellers! Interested in any specific brand?";
+            } else if (query.toLowerCase().includes('location') || query.toLowerCase().includes('store')) {
+                response = "📍 We're located at **8JR8+72 Mysuru, Karnataka**. Open Monday-Saturday 9AM-8PM, Sunday 10AM-6PM. You can call us at **+91 9538452672** for directions. Would you like the Google Maps link?";
+            } else if (query.toLowerCase().includes('price') || query.toLowerCase().includes('cost')) {
+                response = "💰 Our prices range from budget-friendly to professional grade. Basic equipment starts from ₹500, mid-range from ₹2000-5000, and professional gear from ₹8000 upwards. We also have frequent discounts! What's your budget and sport of interest?";
+            } else if (query.toLowerCase().includes('beginner')) {
+                response = "🌟 For beginners, we recommend starting with quality mid-range equipment that offers good value. For cricket, the SG Club bats (₹2500-3500) are perfect. For badminton, Yonex Nanoray Light (₹3000) is great. Would you like personalized advice for any sport?";
+            } else {
+                response = "Thanks for reaching out to Hanuman Sports! 🙏 We're Mysore's premier sports destination with 25+ years of experience. Could you please specify which sport or equipment you're interested in? I'd love to help you find the perfect gear!";
+            }
+
+            hideTyping();
+            addMessage(response, 'bot');
+            conversationHistory.push({ role: 'assistant', content: response });
+        }
+
+        // Start chat (dismiss welcome)
+        function startChat() {
+            welcomeOverlay.style.display = 'none';
+            addMessage("Jai Hanuman! 🙏 Welcome to Hanuman Sports AI Assistant! I'm here to help you with sports equipment recommendations, pricing, store information, and more. What sport are you interested in today?", 'bot');
+        }
+
+        // Clear chat
+        function clearChat() {
+            messagesArea.innerHTML = '';
+            conversationHistory = [];
+            addMessage("Chat cleared. How can I help you today?", 'bot');
+        }
+
+        // Initialize event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Quick topics
+            document.querySelectorAll('.topic-chip, .sports-list li, .suggestion-chip').forEach(element => {
+                element.addEventListener('click', () => {
+                    const query = element.getAttribute('data-query') || element.textContent.trim();
+                    messageInput.value = query;
+                    sendMessage();
+                });
+            });
+
+            // Clear chat button
+            if (clearChatBtn) {
+                clearChatBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to clear the chat?')) {
+                        clearChat();
+                    }
+                });
+            }
+
+            // Attach button (placeholder)
+            document.getElementById('attachBtn')?.addEventListener('click', () => {
+                alert('Image upload feature coming soon! You can still describe the product you\'re looking for.');
+            });
+        });
+
+        // Auto-resize on input
+        window.autoResize = autoResize;
+        window.handleKeyDown = handleKeyDown;
+        window.sendMessage = sendMessage;
+        window.startChat = startChat;
+
+        // Hide welcome overlay after 5 seconds automatically
+        setTimeout(() => {
+            if (welcomeOverlay && !isWelcomeDismissed) {
+                welcomeOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    welcomeOverlay.style.display = 'none';
+                }, 500);
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
