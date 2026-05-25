@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+ // Only redirect to loading page if we haven't just come from it
+ if (sessionStorage.getItem('hasSeenLoading') !== 'true') {
+     localStorage.setItem("loadingTarget", "order.html");
+     window.location.href = "loading_page.html";
+ }
+</script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanuman Sports</title>
+    <meta name="theme-color" content="#00F0FF">
+    <link rel="icon" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+    :root {
+        --primary: #00F0FF;
+        --secondary: #0A0E17;
+        --accent: #00F0FF;
+        --light: #F8F9FA;
+        --white: #FFFFFF;
+        --gray: #6C757D;
+        --glass: rgba(255, 255, 255, 0.1);
+        --glass-border: rgba(255, 255, 255, 0.2);
+        --neon-shadow: 0 0 12px rgba(0, 240, 255, 0.8);
+        --primary-shadow: 0 0 18px rgba(0, 240, 255, 0.6);
+    }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #0A0E17; color: #F8F9FA; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0A0E17; }
+        ::-webkit-scrollbar-thumb { background: #00F0FF; border-radius: 10px; }
+    
+    /* ===== RESPONSIVE MEDIA QUERIES ===== */
+    @media (max-width: 1024px) {
+        .header-container { padding: 0 1.5rem; }
+        .hero h2 { font-size: 2rem; }
+        .section-title h2 { font-size: 1.8rem; }
+        .products, .categories, .category-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+        .footer-container { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+    }
+
+    @media (max-width: 768px) {
+        .top-bar-container { flex-direction: column; gap: 0.5rem; text-align: center; }
+        .contact-info { justify-content: center; flex-wrap: wrap; }
+        .mobile-menu-btn { display: block !important; }
+        nav#main-nav { position: fixed; top: 0; left: -100%; width: 80%; max-width: 320px; height: 100vh; background: rgba(10,14,23,0.98); z-index: 3000; padding: 2rem; transition: left 0.3s ease; border-right: 1px solid rgba(255,255,255,0.1); }
+        nav#main-nav.active { left: 0; }
+        nav#main-nav ul { flex-direction: column; gap: 1rem; margin-top: 3rem; }
+        nav#main-nav ul li a { font-size: 1.1rem; }
+        .hero { padding: 6rem 1rem; }
+        .hero h2 { font-size: 1.6rem; }
+        .hero p { font-size: 0.95rem; }
+        .hero-buttons { flex-direction: column; align-items: center; gap: 1rem; }
+        .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+        .hero-stat span { font-size: 1.5rem; }
+        .products, .categories, .category-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+        .section { padding: 3rem 1rem; }
+        .section-title { margin-bottom: 2.5rem; }
+        .section-title h2 { font-size: 1.5rem; }
+        .product-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important; }
+        .category-filter { flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+        .filter-btn { font-size: 0.8rem; padding: 0.4rem 1rem; }
+        .footer-container { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+        .footer-col h3::after { left: 50%; transform: translateX(-50%); }
+        .footer-links li { padding-left: 0; }
+        .footer-links li::before { display: none; }
+        .cart-sidebar { max-width: 100%; right: -100%; }
+        .search-container { padding: 2rem 1.5rem; width: 95%; }
+        .search-container h3 { font-size: 1.3rem; }
+        .logo img { height: 45px; }
+        .logo-text h1 { font-size: 1.3rem; }
+        .logo-text p { font-size: 0.65rem; }
+        .header-icons { gap: 1rem; font-size: 1rem; }
+        .back-to-top { width: 40px; height: 40px; bottom: 20px; right: 20px; font-size: 0.9rem; }
+        .features-grid { grid-template-columns: 1fr 1fr !important; gap: 1rem; }
+        .brands-grid { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+        .brand-item img { max-width: 100px; }
+        /* Table responsive */
+        .table-wrapper { overflow-x: auto; }
+        .policy-table { font-size: 0.85rem; }
+        .policy-table th, .policy-table td { padding: 0.5rem; }
+        /* Product detail */
+        .product-detail-grid { flex-direction: column !important; }
+        .gallery-wrapper { max-width: 100% !important; }
+        .tabs-container { padding: 1rem !important; }
+        .tab-buttons { flex-wrap: wrap; gap: 0.5rem; }
+        .tab-btn { font-size: 0.8rem; padding: 0.5rem 1rem; }
+        .quantity-cart { flex-wrap: wrap; gap: 1rem; }
+        /* Profile */
+        .main-container { flex-direction: column !important; }
+        .profile-sidebar { width: 100% !important; max-width: 100% !important; }
+        .profile-menu { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .profile-menu li { flex: 1; min-width: 120px; }
+        .form-grid { grid-template-columns: 1fr !important; }
+        .form-row { flex-direction: column !important; }
+        /* Order page */
+        .order-info-grid { grid-template-columns: 1fr !important; }
+        .order-items { grid-template-columns: 1fr !important; }
+        .history-table { font-size: 0.8rem; }
+        .order-header h1 { font-size: 1.5rem; }
+        .lookup-form { flex-direction: column; }
+        .order-actions { flex-wrap: wrap; }
+        /* Sale page */
+        .sale-hero-content h2 { font-size: 1.5rem; }
+        .countdown-timer { gap: 0.8rem; }
+        .countdown-value { font-size: 1.5rem; width: 50px; height: 50px; }
+        .countdown-label { font-size: 0.7rem; }
+        /* Admin */
+        .admin-container { padding: 1rem; }
+        .stats-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important; gap: 1rem; }
+        .form-grid { grid-template-columns: 1fr !important; }
+        .search-box { flex-direction: column; gap: 0.5rem; }
+        .products-section { overflow-x: auto; }
+        /* Shipping */
+        .policy-container { padding: 0 1rem; }
+        .policy-card { padding: 1.5rem; }
+        .faq-item { padding: 1rem; }
+        .contact-box { padding: 1.5rem; }
+        .category-hero-content h1 { font-size: 1.8rem; }
+        .category-hero { padding: 4rem 1rem; }
+        /* Modal */
+        .modal-content { width: 95%; margin: 1rem; padding: 1.5rem; }
+        .popup-box { width: 90%; padding: 2rem; }
+        .category-item { flex-direction: column !important; }
+        .category-image { width: 100% !important; }
+    }
+
+    @media (max-width: 576px) {
+        .hero { padding: 4rem 1rem; }
+        .hero h2 { font-size: 1.3rem; }
+        .hero p { font-size: 0.85rem; }
+        .products, .categories, .category-grid { grid-template-columns: 1fr; gap: 1rem; }
+        .product-grid { grid-template-columns: 1fr 1fr !important; gap: 0.8rem; }
+        .product-image { height: 160px; }
+        .section { padding: 2rem 0.8rem; }
+        .section-title h2 { font-size: 1.2rem; }
+        .section-title h2::after { width: 60px; }
+        .features-grid { grid-template-columns: 1fr !important; }
+        .feature-card { padding: 1.2rem; }
+        .header-container { padding: 0.5rem 0.8rem; }
+        .logo img { height: 35px; }
+        .logo-text h1 { font-size: 1.1rem; }
+        .logo-text p { display: none; }
+        .header-icons { gap: 0.8rem; font-size: 0.9rem; }
+        .header-icons a span { width: 16px; height: 16px; font-size: 0.6rem; top: -8px; right: -8px; }
+        .top-bar { font-size: 0.75rem; padding: 0.3rem 0; }
+        .contact-info { gap: 0.8rem; font-size: 0.75rem; }
+        .social-icons { gap: 0.6rem; }
+        .cart-sidebar { max-width: 100%; }
+        .cart-header { padding: 1.5rem; }
+        .cart-header h3 { font-size: 1.2rem; }
+        .cart-items { padding: 1rem; }
+        .cart-item { gap: 1rem; }
+        .cart-item-image { width: 60px; height: 60px; }
+        .cart-footer { padding: 1rem; }
+        nav#main-nav { width: 100%; max-width: 280px; }
+        .back-to-top { width: 35px; height: 35px; bottom: 15px; right: 15px; font-size: 0.8rem; }
+        .search-container { padding: 1.5rem 1rem; }
+        .search-container h3 { font-size: 1.1rem; }
+        #search-input { font-size: 0.9rem; padding: 0.8rem 1rem; }
+        .category-hero-content h1 { font-size: 1.4rem; }
+        .category-hero { padding: 3rem 1rem; }
+        .category-hero-content p { font-size: 0.85rem; }
+        .product-filter { flex-direction: column; gap: 0.8rem; align-items: flex-start; }
+        .filter-group { width: 100%; }
+        .filter-select { width: 100%; }
+        .category-item .category-content { padding: 1rem; }
+        .category-item .category-content h3 { font-size: 1.1rem; }
+        .order-header h1 { font-size: 1.2rem; }
+        .order-lookup h2 { font-size: 1.1rem; }
+        .order-details-header h2 { font-size: 1.1rem; }
+        .order-info-grid { grid-template-columns: 1fr; gap: 1rem; }
+        .order-item { flex-direction: column; align-items: flex-start; }
+        .order-item-image { width: 100%; height: 150px; }
+        .history-table { font-size: 0.7rem; }
+        .history-table th, .history-table td { padding: 0.4rem; }
+        .policy-hero-content h2 { font-size: 1.3rem; }
+        .policy-hero { padding: 3rem 1rem; }
+        .admin-header .logo h1 { font-size: 1rem; }
+        .stat-card { padding: 1rem; }
+        .stat-card .value { font-size: 1.5rem; }
+        .form-section h2 { font-size: 1.1rem; }
+        .products-section h2 { font-size: 1.1rem; }
+        .sale-hero-content h2 { font-size: 1.2rem; }
+        .countdown-timer { gap: 0.5rem; }
+        .countdown-value { font-size: 1.2rem; width: 40px; height: 40px; line-height: 40px; }
+        .countdown-label { font-size: 0.6rem; }
+        .profile-name { font-size: 1rem; }
+        .profile-email { font-size: 0.8rem; }
+        .content-header h2 { font-size: 1.2rem; }
+        .content-header p { font-size: 0.85rem; }
+        .register-container { padding: 1.5rem; }
+        .login-container { padding: 1.5rem; }
+        /* Product detail mobile */
+        .product-title { font-size: 1.2rem; }
+        .price-block .current-price { font-size: 1.3rem; }
+        .thumbnail-list { justify-content: center; }
+        .thumbnail { width: 50px; height: 50px; }
+        .reviews-section { padding: 1rem; }
+        .rating-summary { flex-direction: column; align-items: center; }
+        .avg-score { text-align: center; }
+        .write-review-btn { width: 100%; text-align: center; }
+        /* Logout popup */
+        .popup-box h2 { font-size: 1.2rem; }
+        .logout-icon { font-size: 2.5rem; }
+        /* Notification */
+        .add-to-cart-notification { width: 90%; font-size: 0.85rem; bottom: 20px; }
+        .order-notification { width: 90%; font-size: 0.85rem; }
+    }
+
+    @media (max-width: 380px) {
+        .product-grid { grid-template-columns: 1fr !important; }
+        .hero h2 { font-size: 1.1rem; }
+        .hero p { font-size: 0.8rem; }
+        .logo-text h1 { font-size: 0.95rem; }
+        .header-icons { gap: 0.6rem; font-size: 0.8rem; }
+        .section-title h2 { font-size: 1rem; }
+        .category-hero-content h1 { font-size: 1.2rem; }
+    }
+
+    /* Print Styles */
+    @media print {
+        .top-bar, .mobile-menu-btn, .back-to-top, .cart-sidebar, .overlay,
+        .search-modal, .floating-elements, .profile-dropdown, .order-actions { display: none !important; }
+        body { background: #fff !important; color: #000 !important; }
+    }
+</style>
+</head>
+>
+    <!-- Floating Background Elements -->
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-container">
+            <div class="contact-info">
+                <a href="tel:+919538452672"><i class="fas fa-phone"></i> +91 9538452672</a>
+                <a href="mailto:info@hanumansports.com"><i class="fas fa-envelope"></i> info@hanumansports.com</a>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header>
+        <div class="main-header">
+            <div class="header-container">
+                <div class="logo">
+                    <img src="logo.png" alt="Hanuman Sports Logo">
+                    <div class="logo-text">
+                        <h1>Hanuman Sports</h1>
+                        <p>Mysore's Premier Sports Destination</p>
+                    </div>
+                </div>
+
+                <nav id="main-nav">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="category.html">Categories</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+
+                <div class="header-icons">
+                    <!-- PROFILE DROPDOWN START -->
+                    <div class="profile-dropdown">
+                        <a href="#" id="profile-btn"><i class="fas fa-user"></i></a>
+                        <div class="dropdown-content" id="profile-menu">
+                            <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+                            <a href="profile.html#wishlist"><i class="fas fa-heart"></i> Wishlist</a>
+                            <a href="profile.html#orders"><i class="fas fa-box"></i> Orders</a>
+                            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                    <!-- PROFILE DROPDOWN END -->
+
+                    <a href="#" id="cart-btn" aria-label="Shopping cart"><i class="fas fa-shopping-cart"></i><span>0</span></a>
+                </div>
+
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle mobile menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Order Tracking Section -->
+    <section class="order-section">
+        <div class="order-header">
+            <h1>Order Tracking</h1>
+            <p>Track your orders and view order history</p>
+        </div>
+
+        <!-- Order Lookup Form -->
+        <div class="order-lookup">
+            <h2><i class="fas fa-search"></i> Lookup Order</h2>
+            <div class="lookup-form">
+                <div class="form-group">
+                    <label for="order-id">Order ID</label>
+                    <input type="text" id="order-id" placeholder="e.g. HS123456">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Your email address">
+                </div>
+                <button class="btn" id="track-order-btn">Track Order</button>
+            </div>
+        </div>
+
+        <!-- Order Details -->
+        <div class="order-details" id="order-details">
+            <div class="order-details-header">
+                <h2><i class="fas fa-receipt"></i> Order Details</h2>
+                <span class="order-status status-shipped">Shipped</span>
+            </div>
+
+            <div class="order-info-grid">
+                <div class="order-info-card">
+                    <h3><i class="fas fa-info-circle"></i> Order Information</h3>
+                    <p><strong>Order ID:</strong> HS789456</p>
+                    <p><strong>Order Date:</strong> October 15, 2023</p>
+                    <p><strong>Order Total:</strong> ₹8,777</p>
+                    <p><strong>Payment Method:</strong> Credit Card</p>
+                </div>
+
+                <div class="order-info-card">
+                    <h3><i class="fas fa-truck"></i> Shipping Information</h3>
+                    <p><strong>Status:</strong> Shipped</p>
+                    <p><strong>Carrier:</strong> BlueDart Express</p>
+                    <p><strong>Tracking Number:</strong> BD123456789IN</p>
+                    <p><strong>Estimated Delivery:</strong> October 20, 2023</p>
+                </div>
+
+                <div class="order-info-card">
+                    <h3><i class="fas fa-map-marker-alt"></i> Shipping Address</h3>
+                    <p>Rajesh Kumar</p>
+                    <p>123 Sports Street, Nazarbad</p>
+                    <p>Mysore, Karnataka 570010</p>
+                    <p>India</p>
+                    <p><i class="fas fa-phone"></i> +91 9876543210</p>
+                </div>
+            </div>
+
+            <!-- Order Timeline -->
+            <div class="order-timeline">
+                <h3><i class="fas fa-history"></i> Order Timeline</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">October 15, 2023 - 10:30 AM</div>
+                            <div class="timeline-text">Order placed</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">October 15, 2023 - 2:15 PM</div>
+                            <div class="timeline-text">Order confirmed and payment processed</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">October 16, 2023 - 9:45 AM</div>
+                            <div class="timeline-text">Order packaged and ready for shipment</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">October 17, 2023 - 11:20 AM</div>
+                            <div class="timeline-text">Order shipped with BlueDart Express</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">October 18, 2023 - 3:40 PM</div>
+                            <div class="timeline-text">Out for delivery</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Items -->
+            <div class="order-items">
+                <h3><i class="fas fa-box-open"></i> Order Items</h3>
+                <div class="order-item">
+                    <div class="order-item-image">
+                        <img src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Pro Runner XT">
+                    </div>
+                    <div class="order-item-details">
+                        <div class="order-item-name">Pro Runner XT Shoes</div>
+                        <div class="order-item-price">₹2,499</div>
+                        <div class="order-item-quantity">Quantity: 1</div>
+                    </div>
+                </div>
+                <div class="order-item">
+                    <div class="order-item-image">
+                        <img src="https://images.unsplash.com/photo-1516478177764-9fe5bd7e9717?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Cricket Bat">
+                    </div>
+                    <div class="order-item-details">
+                        <div class="order-item-name">Tournament Grade Bat</div>
+                        <div class="order-item-price">₹3,999</div>
+                        <div class="order-item-quantity">Quantity: 1</div>
+                    </div>
+                </div>
+                <div class="order-item">
+                    <div class="order-item-image">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Yoga Mat">
+                    </div>
+                    <div class="order-item-details">
+                        <div class="order-item-name">Pro Yoga Mat 2.0</div>
+                        <div class="order-item-price">₹1,299</div>
+                        <div class="order-item-quantity">Quantity: 1</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Actions -->
+            <div class="order-actions">
+                <button class="btn btn-small" id="print-invoice"><i class="fas fa-print"></i> Print Invoice</button>
+                <button class="btn btn-outline btn-small"><i class="fas fa-redo"></i> Reorder Items</button>
+                <button class="btn btn-outline btn-small"><i class="fas fa-headset"></i> Get Help</button>
+            </div>
+        </div>
+
+        <!-- Order History -->
+        <div class="order-history">
+            <h2><i class="fas fa-clock"></i> Order History</h2>
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>HS789456</td>
+                        <td>Oct 15, 2023</td>
+                        <td>3 Items</td>
+                        <td>₹8,777</td>
+                        <td><span class="order-status status-shipped">Shipped</span></td>
+                        <td><button class="btn btn-small view-order" data-order="HS789456">View</button></td>
+                    </tr>
+                    <tr>
+                        <td>HS654321</td>
+                        <td>Oct 5, 2023</td>
+                        <td>2 Items</td>
+                        <td>₹5,299</td>
+                        <td><span class="order-status status-delivered">Delivered</span></td>
+                        <td><button class="btn btn-small view-order" data-order="HS654321">View</button></td>
+                    </tr>
+                    <tr>
+                        <td>HS321654</td>
+                        <td>Sep 22, 2023</td>
+                        <td>1 Item</td>
+                        <td>₹3,499</td>
+                        <td><span class="order-status status-delivered">Delivered</span></td>
+                        <td><button class="btn btn-small view-order" data-order="HS321654">View</button></td>
+                    </tr>
+                    <tr>
+                        <td>HS987123</td>
+                        <td>Sep 10, 2023</td>
+                        <td>4 Items</td>
+                        <td>₹12,499</td>
+                        <td><span class="order-status status-delivered">Delivered</span></td>
+                        <td><button class="btn btn-small view-order" data-order="HS987123">View</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>Hanuman Sports</h3>
+                <p>Mysore's premier destination for professional and amateur athletes. We're committed to helping you achieve your personal best through quality equipment and expert advice.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="profile.html">My Account</a></li>
+                    <li><a href="order.html">Order Tracking</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="shipping.html">Shipping Policy</a></li>
+                    <li><a href="terms.html">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Visit Us</h3>
+                <ul class="footer-contact-info">
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Sports Street, Nazarbad, Mysore - 570010</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>+91 9538452672</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>info@hanumansports.com</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-clock"></i>
+                        <span>Mon-Sat: 9:00 AM - 8:00 PM<br>Sun: 10:00 AM - 6:00 PM</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Hanuman Sports. All Rights Reserved. | Designed with <i class="fas fa-heart" style="color: var(--primary);"></i> for athletes</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart" id="close-cart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">₹0.00</span>
+            </div>
+            <a href="checkout.html" class="btn">Proceed to Checkout</a>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mainNav = document.getElementById('main-nav');
+
+        if (mobileMenuBtn && mainNav) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                mobileMenuBtn.innerHTML = mainNav.classList.contains('active') ? 
+                    '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
+        }
+
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('active');
+            } else {
+                backToTopBtn.classList.remove('active');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // ✅ Load real orders from DB on page load
+        async function loadMyOrders() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+            try {
+                const API_BASE = window.location.origin.includes('localhost') ? 'http://localhost:3000/api' : '/api';
+                const res = await fetch(`${API_BASE}/orders/my-orders`, {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+                const container = document.getElementById('order-details');
+                if (!container) return;
+
+                if (!data.success || data.orders.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align:center; padding: 3rem; color: #aaa;">
+                            <i class="fas fa-box-open" style="font-size:3rem; margin-bottom:1rem; color:#00F0FF;"></i>
+                            <h3>No orders yet</h3>
+                            <p>You haven't placed any orders yet.</p>
+                            <a href="index.html" style="color:#00F0FF;">Start Shopping →</a>
+                        </div>`;
+                    return;
+                }
+
+                container.innerHTML = data.orders.map(order => `
+                    <div style="background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:1.5rem; margin-bottom:1.5rem;">
+                        <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:1rem;">
+                            <div>
+                                <div style="font-family:'Orbitron',sans-serif; color:#00F0FF; font-size:0.9rem;">ORDER #${order.order_number}</div>
+                                <div style="color:#aaa; font-size:0.85rem; margin-top:0.3rem;">${new Date(order.created_at).toLocaleDateString('en-IN', {day:'numeric',month:'long',year:'numeric'})}</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <span style="background:${order.status==='delivered'?'rgba(0,200,100,0.2)': order.status==='cancelled'?'rgba(255,0,0,0.2)':'rgba(0,240,255,0.2)'}; color:${order.status==='delivered'?'#00c864':order.status==='cancelled'?'#ff4444':'#00F0FF'}; padding:0.3rem 1rem; border-radius:20px; font-size:0.85rem; text-transform:capitalize;">${order.status}</span>
+                                <div style="color:#fff; font-size:1.1rem; font-weight:600; margin-top:0.5rem;">₹${Number(order.total_amount).toLocaleString()}</div>
+                            </div>
+                        </div>
+                        <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:1rem;">
+                            ${(order.items||[]).map(item => `
+                                <div style="display:flex; justify-content:space-between; padding:0.4rem 0; color:#ccc; font-size:0.9rem;">
+                                    <span>${item.product_name} × ${item.quantity}</span>
+                                    <span>₹${Number(item.price * item.quantity).toLocaleString()}</span>
+                                </div>`).join('')}
+                        </div>
+                        <div style="margin-top:0.8rem; font-size:0.85rem; color:#aaa;">
+                            <i class="fas fa-map-marker-alt" style="color:#00F0FF;"></i> ${order.shipping_address || 'N/A'}
+                            &nbsp;&nbsp;
+                            <i class="fas fa-credit-card" style="color:#00F0FF;"></i> ${order.payment_method || 'COD'}
+                        </div>
+                    </div>`).join('');
+            } catch(e) {
+                console.error('Orders load error:', e);
+            }
+        }
+        loadMyOrders();
+
+        // Order Lookup Form
+        const lookupForm = document.querySelector('.lookup-form');
+        const trackOrderBtn = document.getElementById('track-order-btn');
+        
+        if (lookupForm) {
+            lookupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const orderId = document.getElementById('order-id').value.trim();
+                const email = document.getElementById('email').value.trim();
+                if (orderId && email) {
+                    showNotification(`Searching for order ${orderId}...`);
+                    loadMyOrders();
+                    document.getElementById('order-details').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    showNotification('Please enter both Order ID and Email address', 'error');
+                }
+            });
+        }
+
+        // View Order Buttons
+        const viewButtons = document.querySelectorAll('.view-order');
+        
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const orderId = this.getAttribute('data-order');
+                showNotification(`Loading details for order ${orderId}`);
+                
+                // Scroll to order details section
+                document.getElementById('order-details').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Print Invoice
+        const printBtn = document.getElementById('print-invoice');
+        if (printBtn) {
+            printBtn.addEventListener('click', () => {
+                window.print();
+            });
+        }
+
+        // Show notification function
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `order-notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (mainNav.classList.contains('active')) {
+                        mainNav.classList.remove('active');
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                }
+            });
+        });
+
+        // ============ CART FUNCTIONALITY ============
+        const cartBtn = document.getElementById('cart-btn');
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const closeCart = document.getElementById('close-cart');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartTotalPrice = document.getElementById('cart-total-price');
+        const overlay = document.getElementById('overlay');
+
+        let cart = JSON.parse(localStorage.getItem('hs_cart')) || [];
+
+        // Update cart count on page load
+        updateCartCount();
+
+        if (cartBtn && cartSidebar && overlay) {
+            cartBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                cartSidebar.classList.add('active');
+                overlay.style.display = 'block';
+                renderCartItems();
+            });
+        }
+
+        if (closeCart && cartSidebar && overlay) {
+            closeCart.addEventListener('click', () => {
+                cartSidebar.classList.remove('active');
+                overlay.style.display = 'none';
+            });
+        }
+
+        if (overlay && cartSidebar) {
+            overlay.addEventListener('click', () => {
+                cartSidebar.classList.remove('active');
+                overlay.style.display = 'none';
+            });
+        }
+
+        function renderCartItems() {
+            if (!cartItemsContainer || !cartTotalPrice) return;
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-basket"></i>
+                        <p>Your cart is empty</p>
+                        <a href="category.html" class="btn">Browse Products</a>
+                    </div>
+                `;
+                cartTotalPrice.textContent = '₹0.00';
+                return;
+            }
+            
+            cartItemsContainer.innerHTML = cart.map(item => `
+                <div class="cart-item" data-id="${item.id}">
+                    <div class="cart-item-image">
+                        <img src="${item.image}" alt="${item.name}">
+                    </div>
+                    <div class="cart-item-details">
+                        <h4 class="cart-item-title">${item.name}</h4>
+                        <p class="cart-item-price">₹${item.price.toLocaleString()}</p>
+                        <div class="cart-item-quantity">
+                            <button class="decrease-quantity">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="increase-quantity">+</button>
+                        </div>
+                    </div>
+                    <div class="cart-item-remove">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Calculate total
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotalPrice.textContent = `₹${total.toLocaleString('en-IN')}`;
+            
+            // Add event listeners to quantity buttons
+            document.querySelectorAll('.decrease-quantity').forEach(button => {
+                button.addEventListener('click', () => {
+                    const itemId = button.closest('.cart-item').getAttribute('data-id');
+                    updateCartItemQuantity(itemId, -1);
+                });
+            });
+            
+            document.querySelectorAll('.increase-quantity').forEach(button => {
+                button.addEventListener('click', () => {
+                    const itemId = button.closest('.cart-item').getAttribute('data-id');
+                    updateCartItemQuantity(itemId, 1);
+                });
+            });
+            
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.cart-item-remove').forEach(button => {
+                button.addEventListener('click', () => {
+                    const itemId = button.closest('.cart-item').getAttribute('data-id');
+                    removeFromCart(itemId);
+                });
+            });
+        }
+
+        function updateCartItemQuantity(itemId, change) {
+            const itemIndex = cart.findIndex(item => item.id == itemId);
+            
+            if (itemIndex !== -1) {
+                cart[itemIndex].quantity += change;
+                
+                if (cart[itemIndex].quantity < 1) {
+                    cart.splice(itemIndex, 1);
+                }
+                
+                saveCart();
+                updateCartCount();
+                renderCartItems();
+            }
+        }
+
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id != itemId);
+            saveCart();
+            updateCartCount();
+            renderCartItems();
+        }
+
+        function saveCart() {
+            localStorage.setItem('hs_cart', JSON.stringify(cart));
+        }
+
+        function updateCartCount() {
+            const cartCount = document.querySelector('#cart-btn span');
+            if (!cartCount) return;
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+
+        // ============ PROFILE DROPDOWN ============
+        const profileBtn = document.getElementById("profile-btn");
+        const profileMenu = document.getElementById("profile-menu");
+
+        if (profileBtn && profileMenu) {
+            profileBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                profileMenu.style.display =
+                profileMenu.style.display === "block" ? "none" : "block";
+           });
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", function (e) {
+            if (!e.target.closest(".profile-dropdown") && profileMenu) {
+                profileMenu.style.display = "none";
+            }  
+        });
+
+        // Logout Functionality
+        const logoutBtn = document.getElementById("logout-btn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                if (confirm("Are you sure you want to logout?")) {
+                    localStorage.clear();
+                    window.location.href = "login.html";
+                }
+            });
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            updateCartCount();
+        });
+    </script>
+<script src="hs-utils.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const API_BASE = window.location.origin.includes('localhost') ? 'http://localhost:3000/api' : '/api';
+            const trackOrderBtn = document.getElementById("track-order-btn");
+            const orderDetailsSection = document.getElementById("order-details");
+
+            trackOrderBtn.addEventListener("click", async function () {
+                const orderId = document.getElementById('order-id').value.trim();
+                const email = document.getElementById('email').value.trim();
+
+                if (!orderId || !email) {
+                    alert("Please enter both Order ID and Email Address");
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${API_BASE}/orders/lookup?orderId=${encodeURIComponent(orderId)}&email=${encodeURIComponent(email)}`, {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // Populate order details with the fetched data
+                        populateOrderDetails(data.order);
+                        // Show the order details section
+                        orderDetailsSection.style.display = 'block';
+                        
+                        if (typeof toastInfo === 'function') {
+                            toastInfo('Success', 'Order found!');
+                        }
+                    } else {
+                        alert("Error: " + data.message);
+                        orderDetailsSection.style.display = 'none';
+                    }
+                } catch (err) {
+                    console.error("Connection Failed:", err);
+                    if (typeof toastInfo === 'function') {
+                        toastInfo('Notice', 'Server is not responding. Is node server.js running?');
+                    } else {
+                        alert('Server is not responding. Ensure your backend is running.');
+                    }
+                    orderDetailsSection.style.display = 'none';
+                }
+            });
+        });
+
+        function populateOrderDetails(order) {
+            // Update order information cards
+            document.querySelector('.order-info-card:nth-child(1) p:nth-child(1)').innerHTML = `<strong>Order ID:</strong> ${order.orderNumber || 'N/A'}`;
+            document.querySelector('.order-info-card:nth-child(1) p:nth-child(2)').innerHTML = `<strong>Order Date:</strong> ${new Date(order.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
+            document.querySelector('.order-info-card:nth-child(1) p:nth-child(3)').innerHTML = `<strong>Order Total:</strong> ₹${parseFloat(order.totalAmount).toFixed(2)}`;
+            document.querySelector('.order-info-card:nth-child(1) p:nth-child(4)').innerHTML = `<strong>Payment Method:</strong> Credit Card`; // This would come from payment info in a real app
+
+            // Update shipping information
+            document.querySelector('.order-info-card:nth-child(2) p:nth-child(1)').innerHTML = `<strong>Status:</strong> ${order.status}`;
+            document.querySelector('.order-info-card:nth-child(2) p:nth-child(2)').innerHTML = `<strong>Carrier:</strong> BlueDart Express`; // This would come from shipping info
+            document.querySelector('.order-info-card:nth-child(2) p:nth-child(3)').innerHTML = `<strong>Tracking Number:</strong> BD${Math.floor(100000000 + Math.random() * 900000000)}IN`; // Mock tracking number
+            document.querySelector('.order-info-card:nth-child(2) p:nth-child(4)').innerHTML = `<strong>Estimated Delivery:</strong> ${new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`; // 3 days from now
+
+            // Update order status badge
+            const statusBadge = document.querySelector('.order-status');
+            statusBadge.textContent = order.status.toUpperCase();
+            statusBadge.className = `order-status status-${order.status.toLowerCase()}`;
+
+            // In a real app, we would fetch order items, timeline, etc. from the backend
+            // For now, we'll keep the static data but show that the order was found
+        }
+    </script>
+</body>
+</html>

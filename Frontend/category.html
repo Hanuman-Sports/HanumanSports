@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script>
+ // Only redirect to loading page if we haven't just come from it
+ if (sessionStorage.getItem('hasSeenLoading') !== 'true') {
+     localStorage.setItem("loadingTarget", "category.html");
+     window.location.href = "loading_page.html";
+ }
+</script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories - Hanuman Sports</title>
+    <meta name="theme-color" content="#00F0FF">
+    <link rel="icon" href="logo.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+    :root {
+        --primary: #00F0FF;
+        --secondary: #0A0E17;
+        --accent: #00F0FF;
+        --light: #F8F9FA;
+        --white: #FFFFFF;
+        --gray: #6C757D;
+        --glass: rgba(255, 255, 255, 0.1);
+        --glass-border: rgba(255, 255, 255, 0.2);
+        --neon-shadow: 0 0 12px rgba(0, 240, 255, 0.8);
+        --primary-shadow: 0 0 18px rgba(0, 240, 255, 0.6);
+    }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #0A0E17; color: #F8F9FA; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0A0E17; }
+        ::-webkit-scrollbar-thumb { background: #00F0FF; border-radius: 10px; }
+        a { text-decoration: none; color: inherit; }
+        ::selection { background: var(--primary); color: #000; }
+
+        .top-bar { background: linear-gradient(90deg, var(--primary), var(--secondary)); color: var(--white); padding: 0.5rem 0; font-size: 0.9rem; position: relative; overflow: hidden; }
+        .top-bar-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        .contact-info { display: flex; gap: 1.5rem; }
+        .contact-info a { color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: color 0.3s; }
+        .contact-info a:hover { color: var(--accent); }
+        .social-icons { display: flex; gap: 1rem; }
+        .social-icons a { color: var(--white); font-size: 1rem; transition: all 0.3s; }
+        .social-icons a:hover { color: var(--accent); transform: translateY(-3px); }
+        .main-header { padding: 1rem 0; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        .logo { display: flex; align-items: center; gap: 0.8rem; }
+        .logo img { height: 60px; filter: drop-shadow(0 0 5px var(--primary)); }
+        .logo-text h1 { font-size: 1.8rem; font-weight: 700; background: linear-gradient(to right, #ffffff, var(--primary)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-text p { font-size: 0.75rem; color: var(--gray); }
+        nav ul { display: flex; list-style: none; gap: 1.5rem; }
+        nav ul li a { text-decoration: none; color: var(--light); font-weight: 500; transition: all 0.3s; position: relative; padding: 0.5rem 0; }
+        nav ul li a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--primary); transition: width 0.3s; }
+        nav ul li a:hover { color: var(--primary); }
+        nav ul li a:hover::after { width: 100%; }
+        .mobile-menu-btn { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--light); }
+        .mobile-menu-btn:hover { color: var(--primary); }
+        .header-icons { display: flex; gap: 1.5rem; font-size: 1.2rem; align-items: center; }
+        .header-icons a { color: var(--light); position: relative; transition: all 0.3s; }
+        .header-icons a:hover { color: var(--primary); transform: translateY(-3px); }
+        .profile-dropdown { position: relative; display: inline-block; }
+        .dropdown-content { display: none; position: absolute; right: 0; background: var(--secondary); min-width: 220px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1001; border-radius: 10px; overflow: hidden; border: 1px solid var(--glass-border); backdrop-filter: blur(10px); }
+        .dropdown-content a { color: var(--white); padding: 12px 20px; text-decoration: none; display: block; font-size: 0.9rem; border-bottom: 1px solid var(--glass-border); transition: all 0.3s; }
+        .dropdown-content a:hover { background: rgba(0,240,255,0.1); color: var(--primary); padding-left: 25px; }
+        .dropdown-content a i { margin-right: 10px; width: 20px; text-align: center; color: var(--primary); }
+        header { background: rgba(10,14,23,0.95); backdrop-filter: blur(15px); box-shadow: 0 5px 30px rgba(0,0,0,0.4); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--glass-border); }
+
+        .floating-elements { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .floating-element { position: absolute; border-radius: 50%; background: rgba(0, 240, 255, 0.05); filter: blur(40px); animation: float 15s infinite linear; }
+        @keyframes float { 0% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(10vw, 10vh) rotate(180deg); } 100% { transform: translate(0, 0) rotate(360deg); } }
+
+        .category-hero { background: linear-gradient(rgba(10,14,23,0.8), rgba(10,14,23,0.95)), url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1920'); background-size: cover; background-position: center; padding: 6rem 1rem; text-align: center; position: relative; }
+        .category-hero-content { max-width: 700px; margin: 0 auto; position: relative; z-index: 1; }
+        .category-hero-content h1 { font-size: 2.8rem; background: linear-gradient(to right, #ffffff, var(--primary)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .category-hero-content p { color: rgba(255,255,255,0.7); font-size: 1.05rem; line-height: 1.8; }
+        .section { padding: 5rem 1rem; position: relative; }
+        .section-title { text-align: center; margin-bottom: 4rem; }
+        .section-title h2 { font-size: 2.2rem; color: var(--white); position: relative; display: inline-block; padding-bottom: 1rem; }
+        .section-title h2::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; background: linear-gradient(to right, var(--primary), var(--accent)); border-radius: 2px; }
+        .category-filter { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
+        .filter-btn { padding: 0.6rem 1.5rem; border: 1px solid var(--glass-border); border-radius: 30px; background: rgba(255,255,255,0.05); color: var(--white); cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 0.9rem; transition: all 0.3s; }
+        .filter-btn:hover, .filter-btn.active { background: var(--primary); color: #000; border-color: var(--primary); box-shadow: 0 0 15px rgba(0,240,255,0.3); }
+        .category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .category-item { display: flex; background: var(--glass); border-radius: 15px; overflow: hidden; backdrop-filter: blur(10px); border: 1px solid var(--glass-border); transition: all 0.5s; }
+        .category-item:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.3); border-color: rgba(0,240,255,0.3); }
+        .category-image { width: 40%; min-height: 220px; overflow: hidden; }
+        .category-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .category-item:hover .category-image img { transform: scale(1.1); }
+        .category-content { flex: 1; padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; }
+        .category-content h3 { font-size: 1.4rem; color: var(--white); margin-bottom: 0.8rem; }
+        .category-content p { color: rgba(255,255,255,0.7); margin-bottom: 1.2rem; font-size: 0.9rem; line-height: 1.6; }
+        .btn { display: inline-block; background: rgba(0,240,255,0.15); color: var(--primary); padding: 0.6rem 1.5rem; border-radius: 50px; text-decoration: none; font-weight: 600; transition: all 0.3s; border: 1px solid var(--primary); font-size: 0.85rem; cursor: pointer; text-align: center; }
+        .btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 15px rgba(0,240,255,0.4); transform: translateY(-2px); }
+        .brands-section { padding: 3rem 1rem; max-width: 1200px; margin: 0 auto; }
+        .brands-grid { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+        .brand-item { padding: 1rem 2rem; background: var(--glass); border-radius: 10px; border: 1px solid var(--glass-border); transition: all 0.3s; }
+        .brand-item:hover { border-color: var(--primary); transform: translateY(-3px); }
+        .brand-item img { max-width: 120px; height: auto; filter: grayscale(1); opacity: 0.6; transition: all 0.3s; }
+        .brand-item:hover img { filter: grayscale(0); opacity: 1; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .feature-card { background: var(--glass); border-radius: 15px; padding: 2rem; text-align: center; border: 1px solid var(--glass-border); transition: all 0.3s; }
+        .feature-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .feature-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; }
+        .feature-card h3 { font-size: 1.2rem; color: var(--white); margin-bottom: 0.8rem; }
+        .feature-card p { color: rgba(255,255,255,0.7); font-size: 0.9rem; line-height: 1.6; }
+        .search-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+        .search-container { background: var(--secondary); padding: 3rem; border-radius: 15px; width: 90%; max-width: 700px; position: relative; border: 1px solid var(--glass-border); box-shadow: 0 0 30px rgba(0,240,255,0.2); }
+        .close-search { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--gray); transition: all 0.3s; }
+        .close-search:hover { color: var(--primary); transform: rotate(90deg); }
+        .search-container h3 { margin-bottom: 2rem; color: var(--white); font-size: 1.8rem; text-align: center; }
+        #search-form { display: flex; margin-bottom: 2rem; position: relative; }
+        #search-input { flex: 1; padding: 1rem 1.5rem; border: 2px solid var(--glass-border); border-radius: 50px; font-size: 1rem; background: rgba(255,255,255,0.1); color: var(--white); outline: none; transition: all 0.3s; }
+        #search-input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(0,240,255,0.3); }
+        #search-form button { padding: 0 2rem; background: var(--primary); color: #000; border: none; border-radius: 50px; cursor: pointer; font-weight: 600; transition: all 0.3s; position: absolute; right: 0; height: 100%; }
+        .search-results { max-height: 400px; overflow-y: auto; padding-right: 1rem; }
+        .search-result-item { display: flex; gap: 1rem; padding: 0.8rem; border-radius: 8px; cursor: pointer; transition: all 0.3s; border-bottom: 1px solid var(--glass-border); }
+        .search-result-item:hover { background: rgba(0,240,255,0.1); transform: translateX(5px); }
+        .search-result-item img { width: 50px; height: 50px; border-radius: 5px; object-fit: cover; }
+        .search-result-item h4 { color: var(--white); font-size: 0.9rem; margin-bottom: 0.2rem; }
+        .search-result-item p { color: var(--primary); font-size: 0.85rem; }
+        .no-results { text-align: center; padding: 2rem; color: var(--gray); }
+        .cart-sidebar { position: fixed; top: 0; right: -450px; width: 100%; max-width: 450px; height: 100%; background: var(--secondary); box-shadow: -5px 0 30px rgba(0,0,0,0.3); z-index: 2000; transition: right 0.4s; display: flex; flex-direction: column; border-left: 1px solid var(--glass-border); }
+        .cart-sidebar.active { right: 0; }
+        .cart-header { padding: 2rem; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); }
+        .cart-header h3 { font-size: 1.5rem; color: var(--white); }
+        .close-cart { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--gray); }
+        .close-cart:hover { color: var(--primary); transform: rotate(90deg); }
+        .cart-items { flex: 1; overflow-y: auto; padding: 2rem; }
+        .cart-item { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--glass-border); }
+        .cart-item-image { width: 80px; height: 80px; border-radius: 10px; overflow: hidden; flex-shrink: 0; }
+        .cart-item-image img { width: 100%; height: 100%; object-fit: cover; }
+        .cart-item-details { flex: 1; }
+        .cart-item-title { font-size: 0.9rem; margin-bottom: 0.3rem; font-weight: 600; color: var(--white); }
+        .cart-item-price { color: var(--primary); font-weight: 600; font-size: 0.9rem; }
+        .cart-item-quantity { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; }
+        .cart-item-quantity button { width: 25px; height: 25px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.1); cursor: pointer; border-radius: 5px; color: var(--white); }
+        .cart-item-quantity button:hover { background: var(--primary); color: #000; }
+        .cart-item-remove { color: var(--gray); cursor: pointer; margin-left: 0.5rem; }
+        .cart-item-remove:hover { color: var(--primary); }
+        .cart-footer { padding: 2rem; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.2); }
+        .cart-total { display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 1.2rem; font-weight: 600; color: var(--white); }
+        .cart-footer .btn { width: 100%; text-align: center; padding: 0.8rem; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1500; display: none; backdrop-filter: blur(5px); }
+        .empty-cart { text-align: center; padding: 2rem; }
+        .empty-cart i { font-size: 3rem; color: var(--gray); margin-bottom: 1rem; }
+        .empty-cart p { color: var(--gray); margin-bottom: 1rem; }
+        .empty-cart .btn { display: inline-block; width: auto; }
+        .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--primary); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 999; box-shadow: 0 5px 20px rgba(0,240,255,0.5); }
+        .back-to-top.active { opacity: 1; visibility: visible; }
+        .back-to-top:hover { background: var(--accent); transform: translateY(-5px); }
+        footer { background: linear-gradient(to bottom, var(--secondary), #000); color: var(--white); padding: 5rem 1rem 2rem; position: relative; margin-top: 5rem; }
+        footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(to right, transparent, var(--primary), transparent); }
+        .footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; max-width: 1200px; margin: 0 auto; }
+        .footer-col h3 { font-size: 1.5rem; margin-bottom: 2rem; position: relative; padding-bottom: 1rem; color: var(--white); }
+        .footer-col h3::after { content: ''; position: absolute; bottom: 0; left: 0; width: 50px; height: 3px; background: linear-gradient(to right, #ffffff, var(--primary)); border-radius: 2px; }
+        .footer-col p { margin-bottom: 1.5rem; color: rgba(255,255,255,0.7); line-height: 1.8; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 1rem; position: relative; padding-left: 1.5rem; }
+        .footer-links li::before { content: '→'; position: absolute; left: 0; color: var(--primary); }
+        .footer-links a { color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s; }
+        .footer-links a:hover { color: var(--primary); padding-left: 0.5rem; }
+        .footer-contact-info { list-style: none; }
+        .footer-contact-info li { margin-bottom: 1rem; display: flex; gap: 1rem; color: rgba(255,255,255,0.7); }
+        .footer-contact-info i { color: var(--primary); }
+        .footer-bottom { text-align: center; padding-top: 3rem; margin-top: 3rem; border-top: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); font-size: 0.9rem; }
+    
+    /* ===== RESPONSIVE MEDIA QUERIES ===== */
+    @media (max-width: 1024px) {
+        .header-container { padding: 0 1.5rem; }
+        .hero h2 { font-size: 2rem; }
+        .section-title h2 { font-size: 1.8rem; }
+        .products, .categories, .category-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+        .footer-container { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+    }
+
+    @media (max-width: 768px) {
+        .top-bar-container { flex-direction: column; gap: 0.5rem; text-align: center; }
+        .contact-info { justify-content: center; flex-wrap: wrap; }
+        .mobile-menu-btn { display: block !important; }
+        nav#main-nav { position: fixed; top: 0; left: -100%; width: 80%; max-width: 320px; height: 100vh; background: rgba(10,14,23,0.98); z-index: 3000; padding: 2rem; transition: left 0.3s ease; border-right: 1px solid rgba(255,255,255,0.1); }
+        nav#main-nav.active { left: 0; }
+        nav#main-nav ul { flex-direction: column; gap: 1rem; margin-top: 3rem; }
+        nav#main-nav ul li a { font-size: 1.1rem; }
+        .hero { padding: 6rem 1rem; }
+        .hero h2 { font-size: 1.6rem; }
+        .hero p { font-size: 0.95rem; }
+        .hero-buttons { flex-direction: column; align-items: center; gap: 1rem; }
+        .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+        .hero-stat span { font-size: 1.5rem; }
+        .products, .categories, .category-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+        .section { padding: 3rem 1rem; }
+        .section-title { margin-bottom: 2.5rem; }
+        .section-title h2 { font-size: 1.5rem; }
+        .product-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important; }
+        .category-filter { flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+        .filter-btn { font-size: 0.8rem; padding: 0.4rem 1rem; }
+        .footer-container { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+        .footer-col h3::after { left: 50%; transform: translateX(-50%); }
+        .footer-links li { padding-left: 0; }
+        .footer-links li::before { display: none; }
+        .cart-sidebar { max-width: 100%; right: -100%; }
+        .search-container { padding: 2rem 1.5rem; width: 95%; }
+        .search-container h3 { font-size: 1.3rem; }
+        .logo img { height: 45px; }
+        .logo-text h1 { font-size: 1.3rem; }
+        .logo-text p { font-size: 0.65rem; }
+        .header-icons { gap: 1rem; font-size: 1rem; }
+        .back-to-top { width: 40px; height: 40px; bottom: 20px; right: 20px; font-size: 0.9rem; }
+        .features-grid { grid-template-columns: 1fr 1fr !important; gap: 1rem; }
+        .brands-grid { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+        .brand-item img { max-width: 100px; }
+        /* Table responsive */
+        .table-wrapper { overflow-x: auto; }
+        .policy-table { font-size: 0.85rem; }
+        .policy-table th, .policy-table td { padding: 0.5rem; }
+        /* Product detail */
+        .product-detail-grid { flex-direction: column !important; }
+        .gallery-wrapper { max-width: 100% !important; }
+        .tabs-container { padding: 1rem !important; }
+        .tab-buttons { flex-wrap: wrap; gap: 0.5rem; }
+        .tab-btn { font-size: 0.8rem; padding: 0.5rem 1rem; }
+        .quantity-cart { flex-wrap: wrap; gap: 1rem; }
+        /* Profile */
+        .main-container { flex-direction: column !important; }
+        .profile-sidebar { width: 100% !important; max-width: 100% !important; }
+        .profile-menu { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .profile-menu li { flex: 1; min-width: 120px; }
+        .form-grid { grid-template-columns: 1fr !important; }
+        .form-row { flex-direction: column !important; }
+        /* Order page */
+        .order-info-grid { grid-template-columns: 1fr !important; }
+        .order-items { grid-template-columns: 1fr !important; }
+        .history-table { font-size: 0.8rem; }
+        .order-header h1 { font-size: 1.5rem; }
+        .lookup-form { flex-direction: column; }
+        .order-actions { flex-wrap: wrap; }
+        /* Sale page */
+        .sale-hero-content h2 { font-size: 1.5rem; }
+        .countdown-timer { gap: 0.8rem; }
+        .countdown-value { font-size: 1.5rem; width: 50px; height: 50px; }
+        .countdown-label { font-size: 0.7rem; }
+        /* Admin */
+        .admin-container { padding: 1rem; }
+        .stats-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important; gap: 1rem; }
+        .form-grid { grid-template-columns: 1fr !important; }
+        .search-box { flex-direction: column; gap: 0.5rem; }
+        .products-section { overflow-x: auto; }
+        /* Shipping */
+        .policy-container { padding: 0 1rem; }
+        .policy-card { padding: 1.5rem; }
+        .faq-item { padding: 1rem; }
+        .contact-box { padding: 1.5rem; }
+        .category-hero-content h1 { font-size: 1.8rem; }
+        .category-hero { padding: 4rem 1rem; }
+        /* Modal */
+        .modal-content { width: 95%; margin: 1rem; padding: 1.5rem; }
+        .popup-box { width: 90%; padding: 2rem; }
+        .category-item { flex-direction: column !important; }
+        .category-image { width: 100% !important; }
+    }
+
+    @media (max-width: 576px) {
+        .hero { padding: 4rem 1rem; }
+        .hero h2 { font-size: 1.3rem; }
+        .hero p { font-size: 0.85rem; }
+        .products, .categories, .category-grid { grid-template-columns: 1fr; gap: 1rem; }
+        .product-grid { grid-template-columns: 1fr 1fr !important; gap: 0.8rem; }
+        .product-image { height: 160px; }
+        .section { padding: 2rem 0.8rem; }
+        .section-title h2 { font-size: 1.2rem; }
+        .section-title h2::after { width: 60px; }
+        .features-grid { grid-template-columns: 1fr !important; }
+        .feature-card { padding: 1.2rem; }
+        .header-container { padding: 0.5rem 0.8rem; }
+        .logo img { height: 35px; }
+        .logo-text h1 { font-size: 1.1rem; }
+        .logo-text p { display: none; }
+        .header-icons { gap: 0.8rem; font-size: 0.9rem; }
+        .header-icons a span { width: 16px; height: 16px; font-size: 0.6rem; top: -8px; right: -8px; }
+        .top-bar { font-size: 0.75rem; padding: 0.3rem 0; }
+        .contact-info { gap: 0.8rem; font-size: 0.75rem; }
+        .social-icons { gap: 0.6rem; }
+        .cart-sidebar { max-width: 100%; }
+        .cart-header { padding: 1.5rem; }
+        .cart-header h3 { font-size: 1.2rem; }
+        .cart-items { padding: 1rem; }
+        .cart-item { gap: 1rem; }
+        .cart-item-image { width: 60px; height: 60px; }
+        .cart-footer { padding: 1rem; }
+        nav#main-nav { width: 100%; max-width: 280px; }
+        .back-to-top { width: 35px; height: 35px; bottom: 15px; right: 15px; font-size: 0.8rem; }
+        .search-container { padding: 1.5rem 1rem; }
+        .search-container h3 { font-size: 1.1rem; }
+        #search-input { font-size: 0.9rem; padding: 0.8rem 1rem; }
+        .category-hero-content h1 { font-size: 1.4rem; }
+        .category-hero { padding: 3rem 1rem; }
+        .category-hero-content p { font-size: 0.85rem; }
+        .product-filter { flex-direction: column; gap: 0.8rem; align-items: flex-start; }
+        .filter-group { width: 100%; }
+        .filter-select { width: 100%; }
+        .category-item .category-content { padding: 1rem; }
+        .category-item .category-content h3 { font-size: 1.1rem; }
+        .order-header h1 { font-size: 1.2rem; }
+        .order-lookup h2 { font-size: 1.1rem; }
+        .order-details-header h2 { font-size: 1.1rem; }
+        .order-info-grid { grid-template-columns: 1fr; gap: 1rem; }
+        .order-item { flex-direction: column; align-items: flex-start; }
+        .order-item-image { width: 100%; height: 150px; }
+        .history-table { font-size: 0.7rem; }
+        .history-table th, .history-table td { padding: 0.4rem; }
+        .policy-hero-content h2 { font-size: 1.3rem; }
+        .policy-hero { padding: 3rem 1rem; }
+        .admin-header .logo h1 { font-size: 1rem; }
+        .stat-card { padding: 1rem; }
+        .stat-card .value { font-size: 1.5rem; }
+        .form-section h2 { font-size: 1.1rem; }
+        .products-section h2 { font-size: 1.1rem; }
+        .sale-hero-content h2 { font-size: 1.2rem; }
+        .countdown-timer { gap: 0.5rem; }
+        .countdown-value { font-size: 1.2rem; width: 40px; height: 40px; line-height: 40px; }
+        .countdown-label { font-size: 0.6rem; }
+        .profile-name { font-size: 1rem; }
+        .profile-email { font-size: 0.8rem; }
+        .content-header h2 { font-size: 1.2rem; }
+        .content-header p { font-size: 0.85rem; }
+        .register-container { padding: 1.5rem; }
+        .login-container { padding: 1.5rem; }
+        /* Product detail mobile */
+        .product-title { font-size: 1.2rem; }
+        .price-block .current-price { font-size: 1.3rem; }
+        .thumbnail-list { justify-content: center; }
+        .thumbnail { width: 50px; height: 50px; }
+        .reviews-section { padding: 1rem; }
+        .rating-summary { flex-direction: column; align-items: center; }
+        .avg-score { text-align: center; }
+        .write-review-btn { width: 100%; text-align: center; }
+        /* Logout popup */
+        .popup-box h2 { font-size: 1.2rem; }
+        .logout-icon { font-size: 2.5rem; }
+        /* Notification */
+        .add-to-cart-notification { width: 90%; font-size: 0.85rem; bottom: 20px; }
+        .order-notification { width: 90%; font-size: 0.85rem; }
+    }
+
+    @media (max-width: 380px) {
+        .product-grid { grid-template-columns: 1fr !important; }
+        .hero h2 { font-size: 1.1rem; }
+        .hero p { font-size: 0.8rem; }
+        .logo-text h1 { font-size: 0.95rem; }
+        .header-icons { gap: 0.6rem; font-size: 0.8rem; }
+        .section-title h2 { font-size: 1rem; }
+        .category-hero-content h1 { font-size: 1.2rem; }
+    }
+
+    /* Print Styles */
+    @media print {
+        .top-bar, .mobile-menu-btn, .back-to-top, .cart-sidebar, .overlay,
+        .search-modal, .floating-elements, .profile-dropdown, .order-actions { display: none !important; }
+        body { background: #fff !important; color: #000 !important; }
+    }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Elements -->
+    <div class="floating-elements">
+        <div class="floating-element" style="width: 300px; height: 300px; top: 10%; left: 5%;"></div>
+        <div class="floating-element"
+            style="width: 400px; height: 400px; bottom: 15%; right: 10%; animation-delay: 3s;"></div>
+        <div class="floating-element" style="width: 250px; height: 250px; top: 50%; left: 30%; animation-delay: 5s;">
+        </div>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-container">
+            <div class="contact-info">
+                <a href="tel:+919538452672"><i class="fas fa-phone"></i> +91 9538452672</a>
+                <a href="mailto:info@hanumansports.com"><i class="fas fa-envelope"></i> info@hanumansports.com</a>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header>
+        <div class="main-header">
+            <div class="header-container">
+                <div class="logo">
+                    <img src="logo.png" alt="Hanuman Sports Logo">
+                    <div class="logo-text">
+                        <h1>Hanuman Sports</h1>
+                        <p>Mysore's Premier Sports Destination</p>
+                    </div>
+                </div>
+
+                <nav id="main-nav">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="category.html" class="active">Categories</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+
+                <div class="header-icons">
+                    <a href="#" id="search-btn" aria-label="Search products"><i class="fas fa-search"></i></a>
+
+                    <!-- PROFILE DROPDOWN START -->
+                    <div class="profile-dropdown">
+                        <a href="#" id="profile-btn"><i class="fas fa-user"></i></a>
+                        <div class="dropdown-content" id="profile-menu">
+                            <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+                            <a href="profile.html#wishlist"><i class="fas fa-heart"></i> Wishlist</a>
+                            <a href="profile.html#orders"><i class="fas fa-box"></i> Orders</a>
+                            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                    <!-- PROFILE DROPDOWN END -->
+
+                    <a href="#" id="cart-btn" aria-label="Shopping cart"><i
+                            class="fas fa-shopping-cart"></i><span>0</span></a>
+                </div>
+
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle mobile menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Category Hero Section -->
+    <section class="category-hero">
+        <div class="category-hero-content">
+            <h1>Explore Our Categories</h1>
+            <p>Discover premium sports equipment across all categories. Find everything you need to elevate your game,
+                from professional gear to training essentials.</p>
+        </div>
+    </section>
+
+    <section class="section" id="categories">
+        <div class="section-title">
+            <h2>Our Performance Categories</h2>
+        </div>
+
+        <div class="category-filter" aria-label="Category filters">
+            <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+            <button class="filter-btn" data-filter="badminton" aria-pressed="false">Badminton</button>
+            <button class="filter-btn" data-filter="cricket" aria-pressed="false">Cricket</button>
+            <button class="filter-btn" data-filter="ball-badminton" aria-pressed="false">Ball Badminton</button>
+            <button class="filter-btn" data-filter="balls" aria-pressed="false">Balls</button>
+            <button class="filter-btn" data-filter="accessories" aria-pressed="false">Accessories</button>
+        </div>
+
+        <div class="category-grid" id="category-grid">
+            <!-- Badminton -->
+            <div class="category-item" data-category="badminton">
+                <div class="category-image">
+                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:linear-gradient(135deg,#0A0E17,#1a1a2e);">
+                        <circle cx="200" cy="150" r="120" fill="none" stroke="#00F0FF" stroke-width="2" opacity="0.15"/>
+                        <circle cx="200" cy="150" r="90" fill="none" stroke="#00F0FF" stroke-width="1" opacity="0.1"/>
+                        <ellipse cx="200" cy="90" rx="12" ry="18" fill="none" stroke="#00F0FF" stroke-width="3" transform="rotate(-30,200,90)"/>
+                        <line x1="200" y1="108" x2="200" y2="230" stroke="#00F0FF" stroke-width="3" stroke-linecap="round"/>
+                        <ellipse cx="248" cy="210" rx="50" ry="12" fill="none" stroke="#00F0FF" stroke-width="2.5" transform="rotate(-20,248,210)" opacity="0.9"/>
+                        <ellipse cx="248" cy="210" rx="35" ry="8" fill="none" stroke="#00F0FF" stroke-width="1.5" transform="rotate(-20,248,210)" opacity="0.5"/>
+                        <circle cx="155" cy="120" r="8" fill="#00F0FF" opacity="0.8">
+                            <animate attributeName="r" values="8;10;8" dur="2s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="165" cy="108" r="5" fill="#00F0FF" opacity="0.4">
+                            <animate attributeName="opacity" values="0.4;0.8;0.4" dur="1.5s" repeatCount="indefinite"/>
+                        </circle>
+                        <text x="200" y="275" text-anchor="middle" fill="#00F0FF" font-family="Orbitron,sans-serif" font-size="14" font-weight="700" letter-spacing="4">BADMINTON</text>
+                    </svg>
+                </div>
+                <div class="category-content">
+                    <h3>Badminton</h3>
+                    <p>High-performance rackets, precision shuttlecocks, and tournament-grade nets for players of all levels.</p>
+                    <a href="badminton.html" class="btn">View Products</a>
+                </div>
+            </div>
+
+            <!-- Cricket -->
+            <div class="category-item" data-category="cricket">
+                <div class="category-image">
+                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:linear-gradient(135deg,#0A0E17,#1a1a2e);">
+                        <circle cx="200" cy="150" r="120" fill="none" stroke="#00c864" stroke-width="2" opacity="0.15"/>
+                        <circle cx="200" cy="150" r="90" fill="none" stroke="#00c864" stroke-width="1" opacity="0.1"/>
+                        <rect x="175" y="60" width="22" height="170" rx="4" fill="none" stroke="#00c864" stroke-width="3" stroke-linecap="round"/>
+                        <rect x="175" y="80" width="22" height="100" rx="2" fill="#00c864" opacity="0.15" stroke="none"/>
+                        <ellipse cx="186" cy="60" rx="16" ry="8" fill="none" stroke="#00c864" stroke-width="2.5"/>
+                        <line x1="197" y1="70" x2="230" y2="50" stroke="#00c864" stroke-width="2.5" stroke-linecap="round"/>
+                        <circle cx="240" cy="44" r="12" fill="none" stroke="#00c864" stroke-width="2.5"/>
+                        <path d="M240 34v4M240 50v4M230 44h4M246 44h4" stroke="#00c864" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+                        <text x="200" y="275" text-anchor="middle" fill="#00c864" font-family="Orbitron,sans-serif" font-size="14" font-weight="700" letter-spacing="4">CRICKET</text>
+                    </svg>
+                </div>
+                <div class="category-content">
+                    <h3>Cricket</h3>
+                    <p>Professional bats, premium balls, and advanced protective gear for cricket enthusiasts.</p>
+                    <a href="cricket.html" class="btn">View Products</a>
+                </div>
+            </div>
+
+            <!-- Ball Badminton -->
+            <div class="category-item" data-category="ball-badminton">
+                <div class="category-image">
+                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:linear-gradient(135deg,#0A0E17,#1a1a2e);">
+                        <circle cx="200" cy="150" r="120" fill="none" stroke="#a064ff" stroke-width="2" opacity="0.15"/>
+                        <circle cx="200" cy="150" r="90" fill="none" stroke="#a064ff" stroke-width="1" opacity="0.1"/>
+                        <ellipse cx="160" cy="100" rx="10" ry="16" fill="none" stroke="#a064ff" stroke-width="3" transform="rotate(30,160,100)"/>
+                        <line x1="164" y1="116" x2="180" y2="200" stroke="#a064ff" stroke-width="2.5" stroke-linecap="round"/>
+                        <circle cx="180" cy="200" r="22" fill="none" stroke="#a064ff" stroke-width="2.5"/>
+                        <circle cx="180" cy="200" r="10" fill="none" stroke="#a064ff" stroke-width="1.5" opacity="0.6"/>
+                        <line x1="180" y1="178" x2="180" y2="222" stroke="#a064ff" stroke-width="1.5" opacity="0.4"/>
+                        <line x1="158" y1="200" x2="202" y2="200" stroke="#a064ff" stroke-width="1.5" opacity="0.4"/>
+                        <path d="M230 70 Q250 80 240 100" fill="none" stroke="#a064ff" stroke-width="2" opacity="0.6"/>
+                        <circle cx="245" cy="65" r="4" fill="#a064ff" opacity="0.8">
+                            <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.8s" repeatCount="indefinite"/>
+                        </circle>
+                        <text x="200" y="275" text-anchor="middle" fill="#a064ff" font-family="Orbitron,sans-serif" font-size="12" font-weight="700" letter-spacing="3">BALL BADMINTON</text>
+                    </svg>
+                </div>
+                <div class="category-content">
+                    <h3>Ball Badminton</h3>
+                    <p>Fast hands. Faster game. Where reflexes rule. Speed. Skill. Smash.</p>
+                    <a href="ball_badminton.html" class="btn">View Products</a>
+                </div>
+            </div>
+
+            <!-- Balls -->
+            <div class="category-item" data-category="balls">
+                <div class="category-image">
+                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:linear-gradient(135deg,#0A0E17,#1a1a2e);">
+                        <circle cx="200" cy="150" r="120" fill="none" stroke="#00a0ff" stroke-width="2" opacity="0.15"/>
+                        <circle cx="200" cy="150" r="90" fill="none" stroke="#00a0ff" stroke-width="1" opacity="0.1"/>
+                        <circle cx="200" cy="130" r="60" fill="none" stroke="#00a0ff" stroke-width="2.5"/>
+                        <circle cx="200" cy="130" r="40" fill="none" stroke="#00a0ff" stroke-width="1.5" opacity="0.6"/>
+                        <circle cx="200" cy="130" r="20" fill="none" stroke="#00a0ff" stroke-width="1" opacity="0.3"/>
+                        <path d="M200 70 Q220 100 260 110" fill="none" stroke="#00a0ff" stroke-width="2" opacity="0.7"/>
+                        <path d="M200 190 Q180 160 140 150" fill="none" stroke="#00a0ff" stroke-width="2" opacity="0.7"/>
+                        <path d="M140 130 Q160 100 200 90" fill="none" stroke="#00a0ff" stroke-width="2" opacity="0.5"/>
+                        <path d="M260 150 Q240 180 200 170" fill="none" stroke="#00a0ff" stroke-width="2" opacity="0.5"/>
+                        <circle cx="150" cy="95" r="5" fill="#00a0ff" opacity="0.6">
+                            <animate attributeName="r" values="5;7;5" dur="2.5s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="250" cy="165" r="4" fill="#00a0ff" opacity="0.4">
+                            <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                        <text x="200" y="275" text-anchor="middle" fill="#00a0ff" font-family="Orbitron,sans-serif" font-size="14" font-weight="700" letter-spacing="4">BALLS</text>
+                    </svg>
+                </div>
+                <div class="category-content">
+                    <h3>Balls</h3>
+                    <p>From pitch to court, field to fairway — power, precision, and passion in every play.</p>
+                    <a href="balls.html" class="btn">View Products</a>
+                </div>
+            </div>
+
+            <!-- Accessories -->
+            <div class="category-item" data-category="accessories">
+                <div class="category-image">
+                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:linear-gradient(135deg,#0A0E17,#1a1a2e);">
+                        <circle cx="200" cy="150" r="120" fill="none" stroke="#ff6b35" stroke-width="2" opacity="0.15"/>
+                        <circle cx="200" cy="150" r="90" fill="none" stroke="#ff6b35" stroke-width="1" opacity="0.1"/>
+                        <circle cx="190" cy="150" r="50" fill="none" stroke="#ff6b35" stroke-width="2.5"/>
+                        <circle cx="190" cy="150" r="35" fill="none" stroke="#ff6b35" stroke-width="1.5" opacity="0.5"/>
+                        <circle cx="190" cy="150" r="20" fill="none" stroke="#ff6b35" stroke-width="1" opacity="0.3"/>
+                        <line x1="190" y1="100" x2="190" y2="200" stroke="#ff6b35" stroke-width="1.5" opacity="0.4"/>
+                        <line x1="140" y1="150" x2="240" y2="150" stroke="#ff6b35" stroke-width="1.5" opacity="0.4"/>
+                        <rect x="270" y="110" width="30" height="20" rx="3" fill="none" stroke="#ff6b35" stroke-width="2"/>
+                        <rect x="275" y="80" width="20" height="30" rx="10" fill="none" stroke="#ff6b35" stroke-width="2"/>
+                        <circle cx="285" cy="75" r="6" fill="#ff6b35" opacity="0.6"/>
+                        <rect x="100" y="170" width="25" height="18" rx="2" fill="none" stroke="#ff6b35" stroke-width="2"/>
+                        <line x1="112" y1="170" x2="112" y2="155" stroke="#ff6b35" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="112" cy="152" r="4" fill="#ff6b35" opacity="0.5"/>
+                        <text x="200" y="275" text-anchor="middle" fill="#ff6b35" font-family="Orbitron,sans-serif" font-size="12" font-weight="700" letter-spacing="3">ACCESSORIES</text>
+                    </svg>
+                </div>
+                <div class="category-content">
+                    <h3>Accessories</h3>
+                    <p>Equip for victory. Complete your sports kit with premium accessories.</p>
+                    <a href="accessories.html" class="btn">View Products</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Brands Section -->
+    <section class="brands-section">
+        <div class="section-title">
+            <h2>Brands that we have</h2>
+        </div>
+        <div class="brands-grid">
+            <div class="brand-item">
+                <img src="https://via.placeholder.com/150x50/ffffff/000000?text=Nike" alt="Nike">
+            </div>
+            <div class="brand-item">
+                <img src="https://via.placeholder.com/150x50/ffffff/000000?text=Adidas" alt="Adidas">
+            </div>
+            <div class="brand-item">
+                <img src="https://via.placeholder.com/150x50/ffffff/000000?text=Puma" alt="Puma">
+            </div>
+            <div class="brand-item">
+                <img src="https://via.placeholder.com/150x50/ffffff/000000?text=Yonex" alt="Yonex">
+            </div>
+            <div class="brand-item">
+                <img src="https://via.placeholder.com/150x50/ffffff/000000?text=SG" alt="SG">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" style="background: rgba(0,0,0,0.3);">
+        <div class="section-title">
+            <h2>Why Choose Our Products</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-award"></i>
+                </div>
+                <h3>Professional Grade</h3>
+                <p>All our products meet professional tournament standards for performance and durability.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h3>Free Shipping</h3>
+                <p>We offer free shipping on all orders above ₹1999 across India.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-undo"></i>
+                </div>
+                <h3>Easy Returns</h3>
+                <p>Not satisfied with your purchase? Return within 15 days for a full refund.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>Expert Advice</h3>
+                <p>Our team of sports experts is available to help you choose the right equipment.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>Hanuman Sports</h3>
+                <p>Mysore's premier destination for professional and amateur athletes. We're committed to helping you
+                    achieve your personal best through quality equipment and expert advice.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="profile.html">My Account</a></li>
+                    <li><a href="order.html">Order Tracking</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="shipping.html">Shipping Policy</a></li>
+                    <li><a href="terms.html">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Visit Us</h3>
+                <ul class="footer-contact-info">
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Sports Street, Nazarbad, Mysore - 570010</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>+91 9538452672</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>info@hanumansports.com</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-clock"></i>
+                        <span>Mon-Sat: 9:00 AM - 8:00 PM<br>Sun: 10:00 AM - 6:00 PM</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Hanuman Sports. All Rights Reserved. | Designed with <i class="fas fa-heart"
+                    style="color: var(--primary);"></i> for athletes</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="search-modal">
+        <div class="search-container">
+            <button class="close-search" id="close-search">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3>Find Performance Gear</h3>
+            <form id="search-form">
+                <input type="text" placeholder="Search for products, brands, or categories..." id="search-input">
+                <button type="submit"><i class="fas fa-search"></i> Search</button>
+            </form>
+            <div class="search-results" id="search-results"></div>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Performance Cart</h3>
+            <button class="close-cart" id="close-cart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">₹0.00</span>
+            </div>
+            <a href="checkout.html" class="btn">Proceed to Checkout <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mainNav = document.getElementById('main-nav');
+
+        if (mobileMenuBtn && mainNav) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                mobileMenuBtn.innerHTML = mainNav.classList.contains('active') ?
+                    '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
+        }
+
+        // Category Filter
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const categoryItems = document.querySelectorAll('.category-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active state and aria-pressed
+                filterBtns.forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-pressed', 'false');
+                });
+                btn.classList.add('active');
+                btn.setAttribute('aria-pressed', 'true');
+
+                const filter = btn.getAttribute('data-filter');
+
+                categoryItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateY(0)';
+                        }, 50);
+                    } else {
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+
+                    // Close mobile menu if open
+                    if (mainNav && mainNav.classList.contains('active')) {
+                        mainNav.classList.remove('active');
+                        if (mobileMenuBtn) mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                }
+            });
+        });
+
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('active');
+            } else {
+                backToTopButton.classList.remove('active');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Animation on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.category-item');
+
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Set initial state for animated elements
+        document.querySelectorAll('.category-item').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(30px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        });
+
+        // Run animation check on scroll and on load
+        window.addEventListener('scroll', animateOnScroll, { passive: true });
+        window.addEventListener('load', animateOnScroll);
+
+        // Profile Dropdown
+        const profileBtn = document.getElementById("profile-btn");
+        const profileMenu = document.getElementById("profile-menu");
+
+        if (profileBtn && profileMenu) {
+            profileBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                profileMenu.style.display =
+                    profileMenu.style.display === "block" ? "none" : "block";
+            });
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", function (e) {
+            if (!e.target.closest(".profile-dropdown") && profileMenu) {
+                profileMenu.style.display = "none";
+            }
+        });
+
+        // Cart Functionality
+        const cartBtn = document.getElementById('cart-btn');
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const closeCart = document.getElementById('close-cart');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartTotalPrice = document.getElementById('cart-total-price');
+        const overlay = document.getElementById('overlay');
+
+        let cart = JSON.parse(localStorage.getItem('hs_cart')) || [];
+
+        // Update cart count on page load
+        updateCartCount();
+
+        if (cartBtn && cartSidebar && overlay) {
+            cartBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                cartSidebar.classList.add('active');
+                overlay.style.display = 'block';
+                renderCartItems();
+            });
+        }
+
+        if (closeCart && cartSidebar && overlay) {
+            closeCart.addEventListener('click', () => {
+                cartSidebar.classList.remove('active');
+                overlay.style.display = 'none';
+            });
+        }
+
+        if (overlay && cartSidebar) {
+            overlay.addEventListener('click', () => {
+                cartSidebar.classList.remove('active');
+                overlay.style.display = 'none';
+            });
+        }
+
+        function renderCartItems() {
+            if (!cartItemsContainer || !cartTotalPrice) return;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-basket"></i>
+                        <p>Your cart is empty</p>
+                        <a href="category.html" class="btn">Browse Products</a>
+                    </div>
+                `;
+                cartTotalPrice.textContent = '₹0.00';
+                return;
+            }
+
+            cartItemsContainer.innerHTML = cart.map(item => `
+                <div class="cart-item" data-id="${item.id}">
+                    <div class="cart-item-image">
+                        <img src="${item.image}" alt="${item.name}">
+                    </div>
+                    <div class="cart-item-details">
+                        <h4 class="cart-item-title">${item.name}</h4>
+                        <p class="cart-item-price">₹${item.price.toLocaleString()}</p>
+                        <div class="cart-item-quantity">
+                            <button class="decrease-quantity">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="increase-quantity">+</button>
+                        </div>
+                    </div>
+                    <div class="cart-item-remove">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+            `).join('');
+
+            // Calculate total
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotalPrice.textContent = `₹${total.toLocaleString('en-IN')}`;
+
+            // Add event listeners to quantity buttons
+            document.querySelectorAll('.decrease-quantity').forEach(button => {
+                button.addEventListener('click', () => {
+                    const itemId = button.closest('.cart-item').getAttribute('data-id');
+                    updateCartItemQuantity(itemId, -1);
+                });
+            });
+
+            document.querySelectorAll('.increase-quantity').forEach(button => {
+                button.addEventListener('click', () => {
+                    const itemId = button.closest('.cart-item').getAttribute('data-id');
+                    updateCartItemQuantity(itemId, 1);
+                });
+            });
+
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.cart-item-remove').forEach(button => {
+                button.addEventListener('click', () => {
+                    const itemId = button.closest('.cart-item').getAttribute('data-id');
+                    removeFromCart(itemId);
+                });
+            });
+        }
+
+        function updateCartItemQuantity(itemId, change) {
+            const itemIndex = cart.findIndex(item => item.id == itemId);
+
+            if (itemIndex !== -1) {
+                cart[itemIndex].quantity += change;
+
+                if (cart[itemIndex].quantity < 1) {
+                    cart.splice(itemIndex, 1);
+                }
+
+                saveCart();
+                updateCartCount();
+                renderCartItems();
+            }
+        }
+
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id != itemId);
+            saveCart();
+            updateCartCount();
+            renderCartItems();
+        }
+
+        function saveCart() {
+            localStorage.setItem('hs_cart', JSON.stringify(cart));
+        }
+
+        function updateCartCount() {
+            const cartCount = document.querySelector('#cart-btn span');
+            if (!cartCount) return;
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+
+        // Search Functionality
+        const searchBtn = document.getElementById('search-btn');
+        const searchModal = document.getElementById('search-modal');
+        const closeSearch = document.getElementById('close-search');
+        const searchForm = document.getElementById('search-form');
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+        const API_BASE_URL = window.location.origin.includes('localhost') 
+            ? 'http://localhost:3000/api' 
+            : '/api';
+
+        if (searchBtn && searchModal && overlay) {
+            searchBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                searchModal.style.display = 'flex';
+                overlay.style.display = 'block';
+                if (searchInput) searchInput.focus();
+            });
+        }
+
+        if (closeSearch && searchModal && overlay) {
+            closeSearch.addEventListener('click', () => {
+                searchModal.style.display = 'none';
+                overlay.style.display = 'none';
+            });
+        }
+
+        if (overlay && searchModal) {
+            overlay.addEventListener('click', () => {
+                searchModal.style.display = 'none';
+                overlay.style.display = 'none';
+            });
+        }
+
+        if (searchForm && searchInput && searchResults) {
+            searchForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const query = searchInput.value.toLowerCase().trim();
+
+                if (query === '') {
+                    searchResults.innerHTML = '<p class="no-results">Please enter a search term</p>';
+                    return;
+                }
+
+                try {
+                    const res = await fetch(`${API_BASE_URL}/products?search=${encodeURIComponent(query)}`);
+                    const data = await res.json();
+                    const products = Array.isArray(data) ? data : (data.success ? data.products : []);
+
+                    if (products.length > 0) {
+                        searchResults.innerHTML = products.map(p => `
+                            <div class="search-result-item" onclick="window.location.href='product detail.html?id=${p.id}'">
+                                <img src="${p.main_image || p.image || 'logo.png'}" alt="${p.name}" onerror="this.src='logo.png'">
+                                <div>
+                                    <h4>${p.name}</h4>
+                                    <p>₹${p.price.toLocaleString()}</p>
+                                </div>
+                            </div>`).join('');
+                    } else {
+                        searchResults.innerHTML = '<p class="no-results">No products found matching your search.</p>';
+                    }
+                } catch(err) {
+                    console.error("Search error:", err);
+                    searchResults.innerHTML = '<p class="no-results">Error connecting to search service.</p>';
+                }
+            });
+        }
+
+        // Logout Functionality
+        const logoutBtn = document.getElementById("logout-btn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                if (confirm("Are you sure you want to logout?")) {
+                    localStorage.clear();
+                    window.location.href = "login.html";
+                }
+            });
+        }
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(function(err) {
+                console.log('SW registration failed:', err);
+            });
+        }
+    </script>
+    <script src="hs-utils.js"></script>
+</body>
+
+</html>

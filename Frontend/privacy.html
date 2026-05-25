@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanuman Sports</title>
+    <meta name="theme-color" content="#00F0FF">
+    <link rel="icon" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script>
+ // Only redirect to loading page if we haven't just come from it
+ if (sessionStorage.getItem('hasSeenLoading') !== 'true') {
+     localStorage.setItem("loadingTarget", "privacy.html");
+     window.location.href = "loading_page.html";
+ }
+</script>
+
+
+</head>
+    <style>
+        :root {
+            --primary: #00F0FF;
+            --secondary: #0A0E17;
+            --accent: #00F0FF;
+            --light: #F8F9FA;
+            --white: #FFFFFF;
+            --gray: #6C757D;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --neon-shadow: 0 0 12px rgba(0, 240, 255, 0.8);
+            --success: #4CAF50;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #0A0E17; color: #F8F9FA; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Orbitron', sans-serif; }
+        a { text-decoration: none; color: inherit; }
+        
+        .floating-elements { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .floating-element { position: absolute; border-radius: 50%; background: rgba(0, 240, 255, 0.05); filter: blur(40px); animation: float 15s infinite linear; }
+        @keyframes float { 0% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(10vw, 10vh) rotate(180deg); } 100% { transform: translate(0, 0) rotate(360deg); } }
+
+
+<body>
+    <!-- Floating Background Elements -->
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-container">
+            <div class="contact-info">
+                <a href="tel:+919538452672"><i class="fas fa-phone"></i> +91 9538452672</a>
+                <a href="mailto:info@hanumansports.com"><i class="fas fa-envelope"></i> info@hanumansports.com</a>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header>
+        <div class="main-header">
+            <div class="header-container">
+                <div class="logo">
+                    <img src="logo.png" alt="Hanuman Sports Logo">
+                    <div class="logo-text">
+                        <h1>Hanuman Sports</h1>
+                        <p>Mysore's Premier Sports Destination</p>
+                    </div>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                    <a href="category.html"><i class="fas fa-th-large"></i> Categories</a>
+                    <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Privacy Policy</h1>
+            <p>Your privacy is important to us. Learn how we collect, use, and protect your information when you use our services.</p>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="content-section">
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h3>Contents</h3>
+            <ul>
+                <li><a href="#overview" data-section="overview">Overview</a></li>
+                <li><a href="#information-we-collect" data-section="information-we-collect">Information We Collect</a></li>
+                <li><a href="#how-we-use-info" data-section="how-we-use-info">How We Use Information</a></li>
+                <li><a href="#information-sharing" data-section="information-sharing">Information Sharing</a></li>
+                <li><a href="#data-security" data-section="data-security">Data Security</a></li>
+                <li><a href="#cookies" data-section="cookies">Cookies & Tracking</a></li>
+                <li><a href="#your-rights" data-section="your-rights">Your Rights</a></li>
+                <li><a href="#updates" data-section="updates">Policy Updates</a></li>
+                <li><a href="#contact-us" data-section="contact-us">Contact Us</a></li>
+            </ul>
+        </div>
+
+        <!-- Privacy Content -->
+        <div class="privacy-content">
+            <!-- Overview Section -->
+            <div class="section" id="overview">
+                <h2>Privacy Policy Overview</h2>
+                <p><strong>Effective Date:</strong> December 2023</p>
+                <p>At Hanuman Sports, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or make purchases from our store.</p>
+                <p>By using our services, you agree to the collection and use of information in accordance with this policy.</p>
+            </div>
+
+            <!-- Information We Collect -->
+            <div class="section" id="information-we-collect">
+                <h2>Information We Collect</h2>
+                
+                <h3>Personal Information</h3>
+                <p>We may collect the following personal information:</p>
+                <ul>
+                    <li>Name and contact information (email, phone number, address)</li>
+                    <li>Payment information (credit card details, billing address)</li>
+                    <li>Account credentials (username, password)</li>
+                    <li>Purchase history and preferences</li>
+                    <li>Communication records with our support team</li>
+                </ul>
+
+                <h3>Automatically Collected Information</h3>
+                <ul>
+                    <li>IP address and device information</li>
+                    <li>Browser type and version</li>
+                    <li>Pages visited and time spent on our website</li>
+                    <li>Referring website information</li>
+                    <li>Location data (if permitted)</li>
+                </ul>
+            </div>
+
+            <!-- How We Use Information -->
+            <div class="section" id="how-we-use-info">
+                <h2>How We Use Your Information</h2>
+                <p>We use the collected information for the following purposes:</p>
+                <ul>
+                    <li>Processing and fulfilling your orders</li>
+                    <li>Providing customer support and responding to inquiries</li>
+                    <li>Personalizing your shopping experience</li>
+                    <li>Sending promotional offers and updates (with your consent)</li>
+                    <li>Improving our website and services</li>
+                    <li>Preventing fraud and ensuring security</li>
+                    <li>Complying with legal requirements</li>
+                </ul>
+            </div>
+
+            <!-- Information Sharing -->
+            <div class="section" id="information-sharing">
+                <h2>Information Sharing and Disclosure</h2>
+                <p>We do not sell, trade, or rent your personal information to third parties. We may share your information in the following circumstances:</p>
+                <ul>
+                    <li><strong>Service Providers:</strong> Trusted partners who help us operate our business (payment processors, shipping companies)</li>
+                    <li><strong>Legal Requirements:</strong> When required by law or to protect our rights</li>
+                    <li><strong>Business Transfers:</strong> In case of merger, acquisition, or sale of assets</li>
+                    <li><strong>With Your Consent:</strong> When you explicitly agree to share information</li>
+                </ul>
+            </div>
+
+            <!-- Data Security -->
+            <div class="section" id="data-security">
+                <h2>Data Security</h2>
+                <p>We implement appropriate security measures to protect your personal information:</p>
+                <ul>
+                    <li>SSL encryption for data transmission</li>
+                    <li>Secure payment processing systems</li>
+                    <li>Regular security audits and updates</li>
+                    <li>Limited access to personal information</li>
+                    <li>Employee training on data protection</li>
+                </ul>
+                <p><strong>Note:</strong> While we strive to protect your information, no method of transmission over the internet is 100% secure.</p>
+            </div>
+
+            <!-- Cookies -->
+            <div class="section" id="cookies">
+                <h2>Cookies and Tracking Technologies</h2>
+                <p>We use cookies and similar technologies to enhance your browsing experience:</p>
+                
+                <h3>Types of Cookies We Use:</h3>
+                <ul>
+                    <li><strong>Essential Cookies:</strong> Required for website functionality</li>
+                    <li><strong>Performance Cookies:</strong> Help us understand how you use our site</li>
+                    <li><strong>Functional Cookies:</strong> Remember your preferences and settings</li>
+                    <li><strong>Marketing Cookies:</strong> Show you relevant advertisements</li>
+                </ul>
+                
+                <p>You can control cookie settings through your browser preferences. Note that disabling certain cookies may affect website functionality.</p>
+            </div>
+
+            <!-- Your Rights -->
+            <div class="section" id="your-rights">
+                <h2>Your Privacy Rights</h2>
+                <p>You have the following rights regarding your personal information:</p>
+                <ul>
+                    <li><strong>Access:</strong> Request a copy of your personal data</li>
+                    <li><strong>Correction:</strong> Update or correct inaccurate information</li>
+                    <li><strong>Deletion:</strong> Request deletion of your personal data</li>
+                    <li><strong>Portability:</strong> Request transfer of your data</li>
+                    <li><strong>Opt-out:</strong> Unsubscribe from marketing communications</li>
+                    <li><strong>Restriction:</strong> Limit how we process your information</li>
+                </ul>
+                <p>To exercise these rights, please contact us using the information provided below.</p>
+            </div>
+
+            <!-- Updates -->
+            <div class="section" id="updates">
+                <h2>Policy Updates</h2>
+                <p>We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. When we make changes:</p>
+                <ul>
+                    <li>We will post the updated policy on this page</li>
+                    <li>We will update the "Effective Date" at the top</li>
+                    <li>For significant changes, we will notify you via email or website notice</li>
+                    <li>Your continued use of our services constitutes acceptance of the updated policy</li>
+                </ul>
+            </div>
+
+            <!-- Contact Us -->
+            <div class="section" id="contact-us">
+                <h2>Contact Us</h2>
+                <p>If you have questions about this Privacy Policy or want to exercise your privacy rights, please contact us:</p>
+                
+                <div class="contact-box">
+                    <h3>Get In Touch</h3>
+                    <p>Our team is here to help you with any privacy-related questions or concerns.</p>
+                    <div class="contact-links">
+                        <a href="mailto:privacy@hanumansports.com">
+                            <i class="fas fa-envelope"></i>
+                            Email Us
+                        </a>
+                        <a href="tel:+919538452672">
+                            <i class="fas fa-phone"></i>
+                            Call Us
+                        </a>
+                    </div>
+                </div>
+                
+                <p><strong>Mailing Address:</strong><br>
+                Hanuman Sports<br>
+                8JR8+72 Mysuru, Karnataka<br>
+                India</p>
+                
+                <p><strong>Response Time:</strong> We will respond to your privacy requests within 30 days.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>Hanuman Sports</h3>
+                <p>Mysore's premier destination for professional and amateur athletes. We're committed to helping you achieve your personal best through quality equipment and expert advice.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="profile.html">My Account</a></li>
+                    <li><a href="order.html">Order Tracking</a></li>
+                    <li><a href="shipping.html">Shipping Policy</a></li>
+                    <li><a href="terms.html">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Visit Us</h3>
+                <ul class="footer-contact-info">
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Sports Street, Nazarbad, Mysore - 570010</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>+91 9538452672</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>info@hanumansports.com</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-clock"></i>
+                        <span>Mon-Sat: 9:00 AM - 8:00 PM<br>Sun: 10:00 AM - 6:00 PM</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Hanuman Sports. All Rights Reserved. | Designed with <i class="fas fa-heart" style="color: var(--primary);"></i> for athletes</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mainNav = document.getElementById('main-nav');
+
+        if (mobileMenuBtn && mainNav) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                mobileMenuBtn.innerHTML = mainNav.classList.contains('active') ? 
+                    '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
+        }
+
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('.toc a[data-section]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 120,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Active section highlighting
+        function updateActiveTOCLink() {
+            const sections = document.querySelectorAll('.section');
+            const tocLinks = document.querySelectorAll('.toc a[data-section]');
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    currentSection = section.id;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-section') === currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Back to top button functionality
+        const backToTopButton = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            updateActiveTOCLink();
+            
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('active');
+            } else {
+                backToTopButton.classList.remove('active');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Logout Functionality
+        const logoutBtn = document.getElementById("logout-btn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                if (confirm("Are you sure you want to logout?")) {
+                    localStorage.clear();
+                    window.location.href = "login.html";
+                }
+            });
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            updateCartCount();
+            updateActiveTOCLink();
+        });
+    </script>
+
+<style>
+    /* ===== RESPONSIVE MEDIA QUERIES ===== */
+    @media (max-width: 1024px) {
+        .header-container { padding: 0 1.5rem; flex-wrap: wrap; }
+        .hero h2 { font-size: 2rem; }
+        .section-title h2 { font-size: 1.8rem; }
+        .footer-container { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+        .checkout-container { flex-direction: column; }
+        .products-grid, .product-grid, .categories, .category-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+        .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+        .top-bar-container { flex-direction: column; gap: 0.5rem; text-align: center; }
+        .contact-info { justify-content: center; flex-wrap: wrap; }
+        .mobile-menu-btn { display: block !important; }
+        nav#main-nav { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(10, 14, 23, 0.98); z-index: 1000; border-bottom: 2px solid var(--primary); }
+        nav#main-nav.active { display: block; }
+        nav#main-nav ul { flex-direction: column; padding: 1rem; }
+        nav#main-nav ul li { width: 100%; text-align: center; }
+        nav#main-nav ul li a { display: block; padding: 0.8rem 1rem; }
+        .header-icons .profile-dropdown .dropdown-content { right: 0; left: auto; }
+        .hero { min-height: 40vh; }
+        .hero h2 { font-size: 1.5rem; }
+        .hero-content p { font-size: 0.95rem; }
+        .category-hero-content h1 { font-size: 2rem; }
+        .category-hero-content p { font-size: 0.9rem; }
+        .section-title h2 { font-size: 1.5rem; }
+        .product-filter { flex-direction: column; gap: 1rem; align-items: stretch; }
+        .cart-sidebar { width: 100% !important; max-width: 100%; }
+        .search-modal .search-container { width: 95%; padding: 2rem 1.5rem; }
+        .form-row { flex-direction: column; gap: 0; }
+        .brands-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
+        .features-grid { grid-template-columns: 1fr; }
+        .footer-container { grid-template-columns: 1fr; text-align: center; }
+        .footer-col .social-icons { justify-content: center; }
+        .content-section { flex-direction: column; padding: 1rem; }
+        .toc { position: static; width: 100%; margin-bottom: 2rem; }
+        .chat-container { flex-direction: column; }
+        .chat-sidebar { display: none; }
+        .header-actions { flex-wrap: wrap; justify-content: center; }
+        .payment-methods { flex-direction: column; }
+        .products-grid, .product-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .back-to-top { bottom: 1rem; right: 1rem; width: 40px; height: 40px; font-size: 1rem; }
+    }
+    @media (max-width: 480px) {
+        .header-container .logo img { width: 35px; height: 35px; }
+        .logo-text h1 { font-size: 1rem; }
+        .logo-text p { font-size: 0.65rem; }
+        .hero { min-height: 35vh; }
+        .hero h2 { font-size: 1.2rem; }
+        .hero-content p { font-size: 0.85rem; }
+        .section-title h2 { font-size: 1.3rem; }
+        .product-card .product-content h3 { font-size: 0.9rem; }
+        .product-actions { flex-direction: column; gap: 0.5rem; }
+        .add-to-cart { width: 100%; justify-content: center; }
+        .category-hero-content h1 { font-size: 1.6rem; }
+        .checkout-title h1 { font-size: 1.5rem; }
+        .order-summary { padding: 1.5rem; }
+        .footer-bottom p { font-size: 0.75rem; }
+        .brands-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+        .products-grid, .product-grid { grid-template-columns: 1fr; }
+        .category-filter { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 0.5rem; padding-bottom: 0.5rem; }
+        .filter-btn { white-space: nowrap; font-size: 0.8rem; padding: 0.5rem 1rem; }
+        .features-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 380px) {
+        .header-container { padding: 0 0.8rem; }
+        .contact-info a { font-size: 0.7rem; }
+        .hero h2 { font-size: 1rem; }
+        .product-card { margin: 0; }
+    }
+    @media print {
+        .top-bar, .mobile-menu-btn, .cart-sidebar, .search-modal, .overlay, .back-to-top, .floating-elements { display: none !important; }
+        body { background: white; color: black; }
+        .product-card { break-inside: avoid; }
+    }
+
+</style>
+</body>
+</html>

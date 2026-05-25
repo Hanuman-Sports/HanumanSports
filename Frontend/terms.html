@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script>
+ // Only redirect to loading page if we haven't just come from it
+ if (sessionStorage.getItem('hasSeenLoading') !== 'true') {
+     localStorage.setItem("loadingTarget", "terms.html");
+     window.location.href = "loading_page.html";
+ }
+</script>
+
+
+<body>
+    <!-- Floating Background Elements -->
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-container">
+            <div class="contact-info">
+                <a href="tel:+919538452672"><i class="fas fa-phone"></i> +91 9538452672</a>
+                <a href="mailto:info@hanumansports.com"><i class="fas fa-envelope"></i> info@hanumansports.com</a>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header>
+        <div class="main-header">
+            <div class="header-container">
+                <div class="logo">
+                    <img src="logo.png" alt="Hanuman Sports Logo">
+                    <div class="logo-text">
+                        <h1>Hanuman Sports</h1>
+                        <p>Mysore's Premier Sports Destination</p>
+                    </div>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                    <a href="category.html"><i class="fas fa-th-large"></i> Categories</a>
+                    <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Policy Hero Section -->
+    <section class="policy-hero">
+        <div class="policy-hero-content">
+            <h2>Terms & Conditions</h2>
+            <p>Please read these terms and conditions carefully before using our website or purchasing products from
+                Hanuman Sports.</p>
+        </div>
+    </section>
+
+    <!-- Last Updated -->
+    <div class="section" style="padding: 2rem 1rem 0;">
+        <div class="policy-container">
+            <p class="last-updated"><i class="fas fa-calendar-alt"></i> Last Updated: January 15, 2023</p>
+        </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <section class="section" style="padding-top: 0;">
+        <div class="policy-container">
+            <div class="toc-container">
+                <h3><i class="fas fa-list"></i> Table of Contents</h3>
+                <div class="toc-list">
+                    <div class="toc-item"><a href="#agreement"><i class="fas fa-arrow-right"></i> Agreement to Terms</a>
+                    </div>
+                    <div class="toc-item"><a href="#accounts"><i class="fas fa-arrow-right"></i> User Accounts</a></div>
+                    <div class="toc-item"><a href="#orders"><i class="fas fa-arrow-right"></i> Orders & Payments</a>
+                    </div>
+                    <div class="toc-item"><a href="#products"><i class="fas fa-arrow-right"></i> Products
+                            Information</a></div>
+                    <div class="toc-item"><a href="#shipping"><i class="fas fa-arrow-right"></i> Shipping & Delivery</a>
+                    </div>
+                    <div class="toc-item"><a href="#returns"><i class="fas fa-arrow-right"></i> Returns & Refunds</a>
+                    </div>
+                    <div class="toc-item"><a href="#intellectual"><i class="fas fa-arrow-right"></i> Intellectual
+                            Property</a></div>
+                    <div class="toc-item"><a href="#liability"><i class="fas fa-arrow-right"></i> Limitation of
+                            Liability</a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terms Content Section -->
+    <section class="section" id="terms">
+        <div class="policy-container">
+            <!-- Agreement to Terms -->
+            <div class="policy-card" id="agreement">
+                <h3><i class="fas fa-file-contract"></i> Agreement to Terms</h3>
+                <div class="policy-content">
+                    <p>By accessing or using the Hanuman Sports website, you acknowledge that you have read, understood,
+                        and agree to be bound by these Terms and Conditions. If you do not agree with any part of these
+                        terms, you must not use our website or services.</p>
+
+                    <p>We reserve the right to update or modify these terms at any time without prior notice. Your
+                        continued use of the website after any changes constitutes acceptance of the new Terms and
+                        Conditions.</p>
+                </div>
+            </div>
+
+            <!-- User Accounts -->
+            <div class="policy-card" id="accounts">
+                <h3><i class="fas fa-user-circle"></i> User Accounts</h3>
+                <div class="policy-content">
+                    <p>When you create an account with us, you must provide accurate and complete information. You are
+                        responsible for maintaining the confidentiality of your account and password.</p>
+
+                    <p>You agree to accept responsibility for all activities that occur under your account. You must
+                        notify us immediately upon becoming aware of any breach of security or unauthorized use of your
+                        account.</p>
+
+                    <div class="policy-note">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Important</h4>
+                        <p>Hanuman Sports reserves the right to refuse service, terminate accounts, or remove content at
+                            our discretion if we believe violations of these Terms have occurred.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders & Payments -->
+            <div class="policy-card" id="orders">
+                <h3><i class="fas fa-shopping-cart"></i> Orders & Payments</h3>
+                <div class="policy-content">
+                    <p>All orders placed through our website are subject to product availability and acceptance. We
+                        reserve the right to refuse or cancel any order for any reason at any time.</p>
+
+                    <p>We accept various payment methods including credit cards, debit cards, net banking, and popular
+                        digital wallets. All payments are processed through secure payment gateways.</p>
+
+                    <h4>Pricing Information:</h4>
+                    <ul>
+                        <li>All prices are in Indian Rupees (₹)</li>
+                        <li>Prices are subject to change without notice</li>
+                        <li>We are not responsible for typographical errors regarding pricing</li>
+                        <li>Sales tax will be added as applicable</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Products Information -->
+            <div class="policy-card" id="products">
+                <h3><i class="fas fa-tshirt"></i> Products Information</h3>
+                <div class="policy-content">
+                    <p>We strive to display accurate product information, including descriptions, images, and
+                        specifications. However, we do not guarantee that product descriptions or other content is
+                        accurate, complete, or error-free.</p>
+
+                    <p>Colors of products may appear slightly different due to variations in monitor displays and
+                        lighting conditions during photography.</p>
+
+                    <div class="policy-note">
+                        <h4><i class="fas fa-info-circle"></i> Note</h4>
+                        <p>If you receive a product that is not as described, you may return it according to our Return
+                            Policy.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipping & Delivery -->
+            <div class="policy-card" id="shipping">
+                <h3><i class="fas fa-shipping-fast"></i> Shipping & Delivery</h3>
+                <div class="policy-content">
+                    <p>We ship throughout India and to select international destinations. Shipping costs and delivery
+                        times vary based on the delivery location and the shipping method selected.</p>
+
+                    <p>Delivery times are estimates and begin from the date of shipment, not the date of order. We are
+                        not responsible for delays caused by shipping carriers or customs clearance.</p>
+
+                    <h4>Risk of Loss:</h4>
+                    <p>All items purchased from Hanuman Sports are made pursuant to a shipment contract. The risk of
+                        loss and title for such items pass to you upon our delivery to the carrier.</p>
+                </div>
+            </div>
+
+            <!-- Returns & Refunds -->
+            <div class="policy-card" id="returns">
+                <h3><i class="fas fa-undo-alt"></i> Returns & Refunds</h3>
+                <div class="policy-content">
+                    <p>We accept returns within 30 days of purchase for most items in original condition with tags
+                        attached. Some products may have different return policies as specified at the time of purchase.
+                    </p>
+
+                    <p>To initiate a return, please contact our customer service team. Once your return is received and
+                        inspected, we will process your refund to the original payment method.</p>
+
+                    <h4>Non-returnable Items:</h4>
+                    <ul>
+                        <li>Personalized or custom-made products</li>
+                        <li>Underwear and swimwear (for hygiene reasons)</li>
+                        <li>Products without original packaging</li>
+                        <li>Products damaged due to misuse</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Intellectual Property -->
+            <div class="policy-card" id="intellectual">
+                <h3><i class="fas fa-copyright"></i> Intellectual Property</h3>
+                <div class="policy-content">
+                    <p>All content included on this site, such as text, graphics, logos, images, and software, is the
+                        property of Hanuman Sports or its content suppliers and protected by international copyright
+                        laws.</p>
+
+                    <p>The Hanuman Sports name and logo are registered trademarks. You may not use our trademarks
+                        without our prior written permission.</p>
+
+                    <div class="policy-note">
+                        <h4><i class="fas fa-exclamation-circle"></i> Restrictions</h4>
+                        <p>You may not reproduce, duplicate, copy, sell, resell, or exploit any portion of the website
+                            without express written permission from us.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Limitation of Liability -->
+            <div class="policy-card" id="liability">
+                <h3><i class="fas fa-balance-scale"></i> Limitation of Liability</h3>
+                <div class="policy-content">
+                    <p>Hanuman Sports shall not be liable for any indirect, incidental, special, consequential, or
+                        punitive damages resulting from your access to or use of, or inability to access or use, the
+                        website or services.</p>
+
+                    <p>Our total liability to you for any claim arising out of or relating to these terms or our
+                        services shall not exceed the amount you paid to us for the products in the six months preceding
+                        the claim.</p>
+
+                    <div class="policy-note">
+                        <h4><i class="fas fa-gavel"></i> Governing Law</h4>
+                        <p>These Terms shall be governed by and construed in accordance with the laws of India. Any
+                            disputes shall be subject to the exclusive jurisdiction of the courts in Mysore, Karnataka.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section">
+        <div class="section-title">
+            <h2>Frequently Asked Questions</h2>
+        </div>
+        <div class="policy-container">
+            <div class="policy-card">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I modify or cancel my order after placement?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You may request order modifications or cancellations within 1 hour of placing your order by
+                            contacting our customer service. Once your order has been processed for shipping, we cannot
+                            guarantee modifications or cancellations.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What payment methods do you accept?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We accept credit cards, debit cards, net banking, UPI, and popular digital wallets like
+                            Paytm, PhonePe, and Google Pay. All payments are processed through secure encrypted
+                            gateways.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How can I track my order?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Once your order is shipped, you will receive a confirmation email with your tracking number
+                            and a link to track your package. You can also track your order by logging into your account
+                            on our website.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you offer international shipping?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we ship to select international destinations. International shipping costs are
+                            calculated at checkout based on the weight of your order and destination. Customs duties and
+                            taxes may apply and are the responsibility of the recipient.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What is your warranty policy?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Most of our products come with manufacturer warranties. Warranty periods and terms vary by
+                            product. Please refer to the product documentation or contact our customer service for
+                            specific warranty information.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Us -->
+    <section class="section" id="contact-us">
+        <div class="policy-container">
+            <hr class="section-divider">
+            <h2 class="section-heading-left"><span class="heading-bar">|</span> Contact Us</h2>
+            <p style="color: rgba(255,255,255,0.85); margin-bottom: 2rem;">
+                If you have questions about our policies or want assistance, please contact us:
+            </p>
+            <div class="contact-box">
+                <h3>Get In Touch</h3>
+                <p>Our team is here to help you with any questions or concerns.</p>
+                <div class="contact-links">
+                    <a href="mailto:hanumanssports@gmail.com">
+                        <i class="fas fa-envelope"></i> Email Us
+                    </a>
+                    <a href="tel:+919538452672">
+                        <i class="fas fa-phone"></i> Call Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>Hanuman Sports</h3>
+                <p>Mysore's premier destination for professional and amateur athletes. We're committed to helping you
+                    achieve your personal best through quality equipment and expert advice.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="profile.html">My Account</a></li>
+                    <li><a href="order.html">Order Tracking</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="shipping.html">Shipping Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Visit Us</h3>
+                <ul class="footer-contact-info">
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Sports Street, Nazarbad, Mysore - 570010</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>+91 9538452672</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>info@hanumansports.com</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-clock"></i>
+                        <span>Mon-Sat: 9:00 AM - 8:00 PM<br>Sun: 10:00 AM - 6:00 PM</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Hanuman Sports. All Rights Reserved. | Designed with <i class="fas fa-heart"
+                    style="color: var(--primary);"></i> for athletes</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mainNav = document.getElementById('main-nav');
+
+        if (mobileMenuBtn && mainNav) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                mobileMenuBtn.innerHTML = mainNav.classList.contains('active') ?
+                    '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
+        }
+
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('active');
+            } else {
+                backToTopButton.classList.remove('active');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+
+                // Toggle active class on answer
+                answer.classList.toggle('active');
+
+                // Rotate icon
+                if (answer.classList.contains('active')) {
+                    icon.style.transform = 'rotate(180deg)';
+                } else {
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+
+                    // Close mobile menu if open
+                    if (mainNav.classList.contains('active')) {
+                        mainNav.classList.remove('active');
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                }
+            });
+        });
+
+        // Logout Functionality
+        const logoutBtn = document.getElementById("logout-btn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                if (confirm("Are you sure you want to logout?")) {
+                    localStorage.clear();
+                    window.location.href = "login.html";
+                }
+            });
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            updateCartCount();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,5 @@
+# API proxy — replace BACKEND_URL with your deployed backend (e.g. https://your-app.railway.app)
+# /api/*  https://BACKEND_URL/api/:splat  200
+
+# SPA fallback — all non-file routes serve index.html
+/*  /index.html  200
