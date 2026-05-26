@@ -135,6 +135,21 @@
         .category-filter { display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 2rem; flex-wrap: wrap; }
         .filter-btn { padding: 0.5rem 1.2rem; border: 1px solid var(--glass-border); border-radius: 30px; background: rgba(255,255,255,0.05); color: var(--white); cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 0.85rem; transition: all 0.3s; }
         .filter-btn:hover, .filter-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
+        .product-filter { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto 2rem; flex-wrap: wrap; gap: 1rem; }
+        .filter-group { display: flex; align-items: center; gap: 0.8rem; }
+        .filter-label { color: var(--gray); font-size: 0.85rem; }
+        .filter-select { padding: 0.5rem 1rem; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--white); font-family: 'Poppins', sans-serif; font-size: 0.85rem; cursor: pointer; outline: none; }
+        .filter-select option { background: var(--secondary); }
+        .view-options { display: flex; gap: 0.5rem; }
+        .view-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--gray); cursor: pointer; transition: all 0.3s; }
+        .view-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
+        .view-btn:hover { color: var(--primary); border-color: var(--primary); }
+        .pagination { display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin: 2rem 0 1rem; flex-wrap: wrap; }
+        .page-btn { min-width: 40px; height: 40px; padding: 0 0.8rem; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--white); cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 0.85rem; transition: all 0.3s; }
+        .page-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .page-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
+        .page-btn:disabled { opacity: 0.3; cursor: default; }
+        .page-info { color: var(--gray); font-size: 0.8rem; margin: 0 0.5rem; }
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
         .product-card { background: var(--glass); border-radius: 12px; overflow: hidden; backdrop-filter: blur(10px); border: 1px solid var(--glass-border); transition: all 0.4s; }
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.3); border-color: rgba(0,240,255,0.3); }
@@ -268,12 +283,30 @@
     </section>
 
     <section class="section">
+        <div class="product-filter">
+            <div class="filter-group">
+                <span class="filter-label">Sort by:</span>
+                <select class="filter-select" id="sort-select">
+                    <option value="default">Default</option>
+                    <option value="price_asc">Price: Low to High</option>
+                    <option value="price_desc">Price: High to Low</option>
+                    <option value="newest">Newest First</option>
+                    <option value="name">Name A-Z</option>
+                    <option value="rating">Highest Rated</option>
+                </select>
+            </div>
+            <div class="view-options">
+                <button class="view-btn active" id="grid-view"><i class="fas fa-th"></i></button>
+                <button class="view-btn" id="list-view"><i class="fas fa-list"></i></button>
+            </div>
+        </div>
         <div class="products-grid" id="products">
             <div style="text-align: center; padding: 50px; color: var(--gray); grid-column: 1 / -1;">
                 <i class="fas fa-spinner fa-spin fa-3x"></i>
                 <p style="margin-top: 15px;">Loading amazing products...</p>
             </div>
         </div>
+        <div class="pagination" id="pagination"></div>
     </section>
 
     <section class="brands-section">
@@ -411,12 +444,10 @@
         let allProducts = [];
 
         // Fetch products directly from your running active port 3001 Node/Sequelize server pipeline
-async function loadProducts() {
-    // Targets your exact grid ID container (#products)
+async function loadProducts(sort_by, page) {
     const productGrid = document.getElementById('products');
     if (!productGrid) return;
 
-    // 1. Loading Visual State - PERFECTLY CENTERED DESIGN
     productGrid.innerHTML = `
         <div style="
             grid-column: 1 / -1; 
@@ -437,10 +468,10 @@ async function loadProducts() {
     `;
 
     try {
-        // Query data safely from port 3001 server pipeline via hs-utils.js
-        const data = await getProducts('Badminton');
+        const opts = {category: 'Badminton', page: page || 1, limit: 12};
+        if (sort_by) opts.sort_by = sort_by;
+        const data = await getProducts(opts);
         
-        // Save to active local state for filters and search engines
         allProducts = data;
         
         if (!data || data.length === 0) {
@@ -449,10 +480,10 @@ async function loadProducts() {
                     No active stock inventory found for this category right now.
                 </div>
             `;
+            document.getElementById('pagination').innerHTML = '';
             return;
         }
 
-        // Render clean data map layout using your precise UI cards
         productGrid.innerHTML = data.map(product => {
             const productImg = product.image || product.main_image || 'logo.png';
             const productPrice = parseFloat(product.price) || 0;
@@ -511,11 +542,11 @@ async function loadProducts() {
         }).join('');
 
         setupFilters();
+        renderPagination();
 
     } catch (error) {
         console.error("Failed to load products:", error);
         
-        // Error state also styled centered
         productGrid.innerHTML = `
             <div style="grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 350px; width: 100%; color: #ff6b6b; font-family: 'Poppins';">
                 <i class="fas fa-exclamation-triangle fa-3x" style="margin-bottom: 15px; color: var(--primary);"></i>
@@ -523,6 +554,8 @@ async function loadProducts() {
                 <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 25px; background: transparent; color: var(--primary); border: 1px solid var(--primary); border-radius: 5px; cursor: pointer; font-family: 'Orbitron';">Re-Access Server</button>
             </div>
         `;
+        const pag = document.getElementById('pagination');
+        if (pag) pag.innerHTML = '';
     }
 }
 
@@ -608,16 +641,54 @@ async function loadProducts() {
                     btn.classList.add('active');
                     
                     const filterValue = btn.getAttribute('data-filter');
+                    const pag = document.getElementById('pagination');
                     
                     if (filterValue === 'all') {
                         renderProducts(allProducts);
+                        if (pag) pag.style.display = '';
                     } else {
                         const filtered = allProducts.filter(p => 
-                            (p.sub_category && p.sub_category.toLowerCase().includes(filterValue)) ||
-                            (p.name && p.name.toLowerCase().includes(filterValue))
+                            p.sub_category && p.sub_category.toLowerCase() === filterValue
                         );
                         renderProducts(filtered);
+                        if (pag) pag.style.display = 'none';
                     }
+                    }
+                });
+            });
+        }
+
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', () => {
+                const val = sortSelect.value;
+                document.querySelectorAll('.filter-btn').forEach(b => { b.classList.remove('active'); });
+                const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
+                if (allBtn) allBtn.classList.add('active');
+                loadProducts(val !== 'default' ? val : '', 1);
+            });
+        }
+
+        function renderPagination() {
+            const pag = document.getElementById('pagination');
+            if (!pag) return;
+            const ps = window.HanumanSports.PAGINATION_STATE;
+            if (ps.totalPages <= 1) { pag.innerHTML = ''; return; }
+            const currentSort = sortSelect ? sortSelect.value : '';
+            let html = '<button class="page-btn" data-page="prev" ' + (ps.currentPage <= 1 ? 'disabled' : '') + '><i class="fas fa-chevron-left"></i></button>';
+            html += '<span class="page-info">Page ' + ps.currentPage + ' of ' + ps.totalPages + '</span>';
+            html += '<button class="page-btn" data-page="next" ' + (ps.currentPage >= ps.totalPages ? 'disabled' : '') + '><i class="fas fa-chevron-right"></i></button>';
+            pag.innerHTML = html;
+            pag.querySelectorAll('.page-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const dp = btn.dataset.page;
+                    let np = ps.currentPage;
+                    if (dp === 'prev' && np > 1) np--;
+                    else if (dp === 'next' && np < ps.totalPages) np++;
+                    else return;
+                    const sortVal = currentSort !== 'default' ? currentSort : '';
+                    loadProducts(sortVal, np);
+                    window.scrollTo({top: 0, behavior: 'smooth'});
                 });
             });
         }
@@ -1104,32 +1175,6 @@ async function loadProducts() {
         if (logoutBtn) {
             logoutBtn.addEventListener('click', (e) => { e.preventDefault(); if(confirm('Logout?')) { localStorage.clear(); window.location.href='login.html'; } });
         }
-        let cart = JSON.parse(localStorage.getItem('hs_cart')) || [];
-        function updateCartCount() { const el = document.getElementById('cart-count'); if(el) el.textContent = cart.reduce((s,i) => s + i.quantity, 0); }
-        updateCartCount();
-        function loadProducts() {
-            const grid = document.getElementById('products');
-            if (!grid) return;
-            const API_BASE = '/api';
-            fetch(API_BASE + '/products?category=Badminton')
-                .then(r => r.json())
-                .then(d => { const ps = d.products || []; grid.innerHTML = ps.length ? ps.map(p => `<div class="product-card"><div class="product-image"><img src="${p.main_image || p.image || 'logo.png'}" alt="${p.name}" loading="lazy" onerror="this.src='logo.png'">${p.badge ? '<span class="product-badge">'+p.badge+'</span>' : ''}</div><div class="product-content"><p class="product-category">${p.category}</p><h3>${p.name}</h3><div class="price-block"><span class="current-price">\u20B9${parseFloat(p.price).toLocaleString('en-IN')}</span>${p.original_price ? '<span class="original-price">\u20B9'+parseFloat(p.original_price).toLocaleString('en-IN')+'</span>' : ''}</div><p class="product-rating">${'<i class="fas fa-star"></i>'.repeat(Math.floor(p.rating||4))}</p><button class="add-to-cart" data-id="${p.id}" data-name="${p.name.replace(/"/g,'&quot;')}" data-price="${p.price}" data-image="${p.main_image || p.image || 'logo.png'}"><i class="fas fa-cart-plus"></i> Add to Cart</button></div></div>`).join('') : '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--gray)">No products found</div>'; attachCartEvents(); })
-                .catch(() => { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--gray)">Unable to load products</div>'; });
-        }
-        function attachCartEvents() {
-            document.querySelectorAll('.add-to-cart').forEach(b => {
-                b.addEventListener('click', function() {
-                    let c = JSON.parse(localStorage.getItem('hs_cart')) || [];
-                    const id = this.dataset.id, name = this.dataset.name, price = parseFloat(this.dataset.price), image = this.dataset.image;
-                    const ex = c.find(i => String(i.id) === String(id));
-                    if (ex) ex.quantity += 1; else c.push({ id, name, price, image, quantity: 1 });
-                    localStorage.setItem('hs_cart', JSON.stringify(c));
-                    cart = c; updateCartCount();
-                    const n = document.createElement('div'); n.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#00F0FF;color:#000;padding:12px 24px;border-radius:50px;z-index:9999;font-weight:500;'; n.textContent = name + ' added to cart!'; document.body.appendChild(n); setTimeout(() => n.remove(), 2500);
-                });
-            });
-        }
-        document.addEventListener('DOMContentLoaded', loadProducts);
     </script>
 </body>
 </html>

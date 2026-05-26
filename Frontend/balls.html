@@ -90,6 +90,12 @@
     .view-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--gray); cursor: pointer; transition: all 0.3s; }
     .view-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
     .view-btn:hover { color: var(--primary); border-color: var(--primary); }
+    .pagination { display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin: 2rem 0 1rem; flex-wrap: wrap; }
+    .page-btn { min-width: 40px; height: 40px; padding: 0 0.8rem; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--white); cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 0.85rem; transition: all 0.3s; }
+    .page-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .page-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
+    .page-btn:disabled { opacity: 0.3; cursor: default; }
+    .page-info { color: var(--gray); font-size: 0.8rem; margin: 0 0.5rem; }
 
     /* Product Grid */
     .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
@@ -430,8 +436,11 @@
                 <span class="filter-label">Sort by:</span>
                 <select class="filter-select" id="sort-select">
                     <option value="default">Default</option>
-                    <option value="price-low">Price: Low to High</option>
-                    <option value="price-high">Price: High to Low</option>
+                    <option value="price_asc">Price: Low to High</option>
+                    <option value="price_desc">Price: High to Low</option>
+                    <option value="newest">Newest First</option>
+                    <option value="name">Name A-Z</option>
+                    <option value="rating">Highest Rated</option>
                 </select>
             </div>
             <div class="view-options">
@@ -441,6 +450,7 @@
         </div>
         <div class="product-grid" id="products">
             </div>
+        <div class="pagination" id="pagination"></div>
     </section>
 
     <section class="section" style="background: rgba(0,0,0,0.3);">
@@ -572,11 +582,10 @@
             });
         }
 
-        async function loadProducts() {
+        async function loadProducts(sort_by, page) {
             const productGrid = document.getElementById('products');
             if (!productGrid) return;
 
-            // 1. Centered Structural Visual Display 
             productGrid.innerHTML = `
                 <div style="
                     grid-column: 1 / -1; 
@@ -597,8 +606,9 @@
             `;
 
             try {
-                // Corrected endpoint target setup argument to pull 'Balls'
-                const data = await getProducts('Balls');
+                const opts = {category: 'Balls', page: page || 1, limit: 12};
+                if (sort_by) opts.sort_by = sort_by;
+                const data = await getProducts(opts);
                 allProducts = data;
                 
                 if (!data || data.length === 0) {
@@ -607,9 +617,11 @@
                             No active stock inventory found for this category right now.
                         </div>
                     `;
+                    document.getElementById('pagination').innerHTML = '';
                     return;
                 }
                 displayProducts(data);
+                renderPagination();
             } catch (error) {
                 console.error("Failed to load products:", error);
                 showError("Could not connect to the database securely. Ensure your server environment is running stably.");
@@ -837,10 +849,14 @@
                 filterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 currentFilter = btn.getAttribute('data-filter');
-                if (currentFilter === 'all') displayProducts(allProducts);
-                else {
+                const pag = document.getElementById('pagination');
+                if (currentFilter === 'all') {
+                    displayProducts(allProducts);
+                    if (pag) pag.style.display = '';
+                } else {
                     const filtered = allProducts.filter(p => p.sub_category && p.sub_category.toLowerCase() === currentFilter.toLowerCase());
                     displayProducts(filtered);
+                    if (pag) pag.style.display = 'none';
                 }
             });
         });
@@ -848,11 +864,36 @@
         const sortSelect = document.getElementById('sort-select');
         if (sortSelect) {
             sortSelect.addEventListener('change', () => {
-                let sorted = [...allProducts];
-                if (sortSelect.value === 'price-low') sorted.sort((a, b) => a.price - b.price);
-                else if (sortSelect.value === 'price-high') sorted.sort((a, b) => b.price - a.price);
-                if (currentFilter === 'all') displayProducts(sorted);
-                else displayProducts(sorted.filter(p => p.sub_category && p.sub_category.toLowerCase() === currentFilter.toLowerCase()));
+                const val = sortSelect.value;
+                document.querySelectorAll('.filter-btn').forEach(b => { b.classList.remove('active'); });
+                const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
+                if (allBtn) allBtn.classList.add('active');
+                currentFilter = 'all';
+                loadProducts(val !== 'default' ? val : '', 1);
+            });
+        }
+
+        function renderPagination() {
+            const pag = document.getElementById('pagination');
+            if (!pag) return;
+            const ps = window.HanumanSports.PAGINATION_STATE;
+            if (ps.totalPages <= 1) { pag.innerHTML = ''; return; }
+            const currentSort = sortSelect ? sortSelect.value : '';
+            let html = '<button class="page-btn" data-page="prev" ' + (ps.currentPage <= 1 ? 'disabled' : '') + '><i class="fas fa-chevron-left"></i></button>';
+            html += '<span class="page-info">Page ' + ps.currentPage + ' of ' + ps.totalPages + '</span>';
+            html += '<button class="page-btn" data-page="next" ' + (ps.currentPage >= ps.totalPages ? 'disabled' : '') + '><i class="fas fa-chevron-right"></i></button>';
+            pag.innerHTML = html;
+            pag.querySelectorAll('.page-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const dp = btn.dataset.page;
+                    let np = ps.currentPage;
+                    if (dp === 'prev' && np > 1) np--;
+                    else if (dp === 'next' && np < ps.totalPages) np++;
+                    else return;
+                    const sortVal = currentSort !== 'default' ? currentSort : '';
+                    loadProducts(sortVal, np);
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                });
             });
         }
 

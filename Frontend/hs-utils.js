@@ -4,6 +4,7 @@
  */
 
 const API_BASE_URL = '/api';
+const PAGINATION_STATE = { total: 0, totalPages: 0, currentPage: 1 };
 
 const CATEGORY_FALLBACKS = {
     Badminton: [
@@ -54,18 +55,34 @@ function getFallbackProducts(category) {
     return (CATEGORY_FALLBACKS[category] || []).map(normalizeProduct);
 }
 
-async function getProducts(category = '') {
+async function getProducts(opts = '') {
+    const isObj = typeof opts === 'object';
+    const category = isObj ? (opts.category || '') : (opts || '');
+    const sort_by = isObj ? opts.sort_by : '';
+    const page = isObj ? opts.page : '';
+    const limit = isObj ? opts.limit : '';
     try {
-        const url = category
-            ? `${API_BASE_URL}/products?category=${encodeURIComponent(category)}`
-            : `${API_BASE_URL}/products`;
+        const params = new URLSearchParams();
+        if (category) params.set('category', category);
+        if (sort_by) params.set('sort_by', sort_by);
+        if (page) params.set('page', page);
+        if (limit) params.set('limit', limit);
+        const qs = params.toString();
+        const url = `${API_BASE_URL}/products${qs ? '?' + qs : ''}`;
 
         const response = await fetch(url);
         if (!response.ok) throw new Error(`API ${response.status}`);
 
         const data = await response.json();
         const products = extractProducts(data);
-        if (products.length > 0) return products;
+        if (data.totalPages !== undefined) {
+            PAGINATION_STATE.total = data.total || products.length;
+            PAGINATION_STATE.totalPages = data.totalPages || 1;
+            PAGINATION_STATE.currentPage = data.currentPage || 1;
+        }
+        if (products.length > 0) {
+            return products;
+        }
 
         const fallback = getFallbackProducts(category);
         if (fallback.length > 0) {
@@ -274,5 +291,6 @@ window.HanumanSports = {
     showNotification: window.showNotification,
     migrateLegacyCart,
     updateCartCount,
-    loadProfileAvatar
+    loadProfileAvatar,
+    PAGINATION_STATE
 };
