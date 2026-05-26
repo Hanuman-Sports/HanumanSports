@@ -329,6 +329,8 @@
 
             <ul class="profile-menu">
                 <li><a href="#" class="menu-item active" data-section="overview"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#" class="menu-item" data-section="orders"><i class="fas fa-shopping-bag"></i> Orders</a></li>
+                <li><a href="#" class="menu-item" data-section="wishlist"><i class="fas fa-heart"></i> Wishlist</a></li>
                 <li><a href="#" class="menu-item" data-section="profile"><i class="fas fa-user-edit"></i> Edit Profile</a></li>
                 <li><a href="#" class="menu-item" data-section="settings"><i class="fas fa-cog"></i> Settings</a></li>
                 <li><a href="#" class="menu-item" data-section="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
@@ -349,6 +351,26 @@
                             <div class="stat-label">Total Orders</div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="orders">
+                <div class="content-header">
+                    <h2>My Orders</h2>
+                    <p>View your order history</p>
+                </div>
+                <div class="content-body" id="orders-container">
+                    <p style="text-align:center;color:var(--gray);padding:3rem 0;">Loading orders...</p>
+                </div>
+            </div>
+
+            <div class="content-section" id="wishlist">
+                <div class="content-header">
+                    <h2>My Wishlist</h2>
+                    <p>Products you've saved for later</p>
+                </div>
+                <div class="content-body" id="wishlist-container">
+                    <p style="text-align:center;color:var(--gray);padding:3rem 0;">Loading wishlist...</p>
                 </div>
             </div>
 
@@ -568,6 +590,80 @@
                 }
             });
         }
+
+        // ============ ORDERS ============
+        async function loadOrders() {
+            const container = document.getElementById('orders-container');
+            try {
+                const res = await fetch(`${API_BASE}/orders/my`, {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+                if (!data.success || !data.orders || data.orders.length === 0) {
+                    container.innerHTML = '<div style="text-align:center;padding:3rem 0;"><i class="fas fa-shopping-bag" style="font-size:3rem;color:var(--gray);margin-bottom:1rem;"></i><p style="color:var(--gray);">No orders yet</p><a href="category.html" class="btn" style="margin-top:1rem;display:inline-block;">Start Shopping</a></div>';
+                    return;
+                }
+                container.innerHTML = '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr style="border-bottom:1px solid var(--glass-border);"><th style="padding:0.8rem;text-align:left;color:var(--gray);font-size:0.8rem;">Order</th><th style="padding:0.8rem;text-align:left;color:var(--gray);font-size:0.8rem;">Date</th><th style="padding:0.8rem;text-align:left;color:var(--gray);font-size:0.8rem;">Items</th><th style="padding:0.8rem;text-align:left;color:var(--gray);font-size:0.8rem;">Total</th><th style="padding:0.8rem;text-align:left;color:var(--gray);font-size:0.8rem;">Status</th></tr></thead><tbody>' +
+                    data.orders.map(o => `<tr style="border-bottom:1px solid var(--glass-border);">
+                        <td style="padding:0.8rem;color:var(--primary);">#${o.id}</td>
+                        <td style="padding:0.8rem;font-size:0.85rem;">${new Date(o.createdAt || o.date).toLocaleDateString()}</td>
+                        <td style="padding:0.8rem;">${o.items ? o.items.length : 0}</td>
+                        <td style="padding:0.8rem;">₹${parseFloat(o.total_amount || o.total).toLocaleString()}</td>
+                        <td style="padding:0.8rem;"><span style="color:#4CAF50;">${o.status || 'Confirmed'}</span></td>
+                    </tr>`).join('') +
+                    '</tbody></table></div>';
+            } catch(e) {
+                container.innerHTML = '<p style="text-align:center;color:var(--gray);padding:3rem 0;">Could not load orders</p>';
+            }
+        }
+
+        // ============ WISHLIST ============
+        async function loadWishlist() {
+            const container = document.getElementById('wishlist-container');
+            try {
+                const res = await fetch(`${API_BASE}/wishlist`, {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+                if (!data.success || !data.products || data.products.length === 0) {
+                    container.innerHTML = '<div style="text-align:center;padding:3rem 0;"><i class="fas fa-heart" style="font-size:3rem;color:var(--gray);margin-bottom:1rem;"></i><p style="color:var(--gray);">Your wishlist is empty</p><a href="category.html" class="btn" style="margin-top:1rem;display:inline-block;">Browse Products</a></div>';
+                    return;
+                }
+                container.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;">' +
+                    data.products.map(p => `
+                        <div style="background:var(--glass);border-radius:10px;overflow:hidden;border:1px solid var(--glass-border);">
+                            <img src="${p.image}" alt="${p.name}" style="width:100%;height:140px;object-fit:cover;" onerror="this.src='logo.png'">
+                            <div style="padding:0.8rem;">
+                                <p style="font-size:0.8rem;font-weight:600;margin-bottom:0.3rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.name}</p>
+                                <p style="color:var(--primary);font-weight:700;">₹${parseFloat(p.price).toLocaleString()}</p>
+                                <button class="btn" style="font-size:0.75rem;padding:0.4rem 0.8rem;margin-top:0.5rem;width:100%;" onclick="removeFromWishlist(${p.id})">Remove</button>
+                            </div>
+                        </div>
+                    `).join('') + '</div>';
+            } catch(e) {
+                container.innerHTML = '<p style="text-align:center;color:var(--gray);padding:3rem 0;">Could not load wishlist</p>';
+            }
+        }
+
+        async function removeFromWishlist(productId) {
+            try {
+                const res = await fetch(`${API_BASE}/wishlist/${productId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showNotification('Removed from wishlist');
+                    loadWishlist();
+                }
+            } catch(e) {
+                showNotification('Error removing item', 'error');
+            }
+        }
+
+        // Load orders and wishlist on tab click
+        document.querySelector('[data-section="orders"]').addEventListener('click', () => setTimeout(loadOrders, 100));
+        document.querySelector('[data-section="wishlist"]').addEventListener('click', () => setTimeout(loadWishlist, 100));
     </script>
 </body>
 </html>

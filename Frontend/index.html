@@ -704,6 +704,8 @@
         .trust-badge span { font-size: 0.78rem; }
 
         /* Product Quick View Modal */
+        .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .popup-overlay.active { display: flex; }
         .product-modal-content { background: var(--secondary); border: 1px solid var(--primary); border-radius: 16px; max-width: 700px; width: 95%; max-height: 90vh; overflow-y: auto; padding: 0; position: relative; }
         .product-modal-close { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.6); color: var(--white); font-size: 1.1rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
         .product-modal-close:hover { background: var(--primary); color: #000; }
@@ -1057,17 +1059,17 @@
                 const data = await response.json();
                 
                 if (data.success && data.products && data.products.length > 0) {
-                    // Use database products
                     const featured = data.products.slice(0, 4);
+                    allProducts = data.products;
                     displayProducts(featured);
                 } else {
-                    // Use fallback products if database is empty
                     console.log('No products in database, showing fallback products');
+                    allProducts = [...fallbackProducts];
                     displayProducts(fallbackProducts);
                 }
             } catch (error) {
                 console.error('Error loading products:', error);
-                // Use fallback products if server is not running
+                allProducts = [...fallbackProducts];
                 displayProducts(fallbackProducts);
             }
         }
@@ -1085,21 +1087,24 @@
                 const productCard = document.createElement('div');
                 productCard.className = 'product-card';
                 productCard.innerHTML = `
-                    <div class="product-image" style="position: relative;">
+                    <div class="product-image" style="position: relative;cursor:pointer;" onclick="openProductModal('${product.id}')">
                         <img src="${productImage}" alt="${product.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
                         ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
                     </div>
                     <div class="product-info">
                         <p class="product-category">${product.category || 'Sports'}</p>
-                        <h3 class="product-title">${product.name.length > 45 ? product.name.substring(0,45) + '...' : product.name}</h3>
+                        <h3 class="product-title" style="cursor:pointer;" onclick="openProductModal('${product.id}')">${product.name.length > 45 ? product.name.substring(0,45) + '...' : product.name}</h3>
                         <div class="product-price">
                             <span class="current-price">₹${product.price.toLocaleString()}</span>
                             ${product.original_price ? `<span class="old-price">₹${product.original_price.toLocaleString()}</span>` : ''}
                         </div>
                         <div class="product-rating">${stars} (0 reviews)</div>
-                        <button class="add-to-cart" data-id="${product.id}" data-name="${product.name.replace(/"/g, '&quot;')}" data-price="${product.price}" data-image="${productImage}">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
-                        </button>
+                        <div style="display:flex;gap:0.5rem;align-items:center;">
+                            <button class="add-to-cart" data-id="${product.id}" data-name="${product.name.replace(/"/g, '&quot;')}" data-price="${product.price}" data-image="${productImage}" style="flex:1;">
+                                <i class="fas fa-cart-plus"></i> Add to Cart
+                            </button>
+                            <button class="wishlist-btn" data-id="${product.id}" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--glass-border);background:transparent;color:var(--gray);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="far fa-heart"></i></button>
+                        </div>
                     </div>
                 `;
                 container.appendChild(productCard);
@@ -1232,6 +1237,16 @@
                 btn.removeEventListener('click', handleAddToCart);
                 btn.addEventListener('click', handleAddToCart);
             });
+            document.querySelectorAll('.wishlist-btn').forEach(btn => {
+                btn.removeEventListener('click', handleWishlistCard);
+                btn.addEventListener('click', handleWishlistCard);
+            });
+        }
+
+        function handleWishlistCard(e) {
+            e.stopPropagation();
+            const btn = e.currentTarget;
+            toggleWishlistAPI(btn.dataset.id, btn);
         }
 
         function handleAddToCart(e) {
@@ -1478,16 +1493,7 @@
         });
 
         document.getElementById('modal-wishlist-btn').addEventListener('click', function () {
-            const icon = this.querySelector('i');
-            if (icon.classList.contains('far')) {
-                icon.classList.remove('far'); icon.classList.add('fas');
-                this.style.color = '#ff0000'; this.style.borderColor = '#ff0000';
-                showNotification('Added to wishlist ❤️');
-            } else {
-                icon.classList.remove('fas'); icon.classList.add('far');
-                this.style.color = ''; this.style.borderColor = '';
-                showNotification('Removed from wishlist 🤍');
-            }
+            if (modalProductId) toggleWishlistAPI(modalProductId, this);
         });
 
         // Initialize

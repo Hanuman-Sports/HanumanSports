@@ -172,6 +172,39 @@ function createToastContainer() {
 
 window.showNotification = (message) => showToast('success', 'Notice', message);
 
+async function toggleWishlistAPI(productId, btn) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        showToast('warning', 'Login Required', 'Please login to use wishlist');
+        return false;
+    }
+    try {
+        const res = await fetch(`${API_BASE_URL}/wishlist`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({ product_id: productId })
+        });
+        const data = await res.json();
+        if (data.success) {
+            const icon = btn.querySelector('i');
+            if (data.added) {
+                icon.classList.remove('far'); icon.classList.add('fas');
+                btn.style.color = '#ff0000'; btn.style.borderColor = '#ff0000';
+                showToast('success', 'Wishlist', 'Added to wishlist ❤️');
+            } else {
+                icon.classList.remove('fas'); icon.classList.add('far');
+                btn.style.color = ''; btn.style.borderColor = '';
+                showToast('success', 'Wishlist', 'Removed from wishlist 🤍');
+            }
+            return data.added;
+        }
+    } catch(e) {
+        console.error('Wishlist error:', e);
+        showToast('error', 'Error', 'Could not update wishlist');
+    }
+    return false;
+}
+
 window.HanumanSports = {
     API_BASE_URL,
     getProducts,

@@ -110,6 +110,19 @@
         .order-item-quantity { color: var(--gray); font-size: 0.8rem; }
         .order-summary-line { display: flex; justify-content: space-between; padding: 0.5rem 0; color: var(--gray); font-size: 0.9rem; }
         .order-summary-total { display: flex; justify-content: space-between; padding: 1rem 0; margin-top: 0.5rem; border-top: 1px solid var(--glass-border); font-size: 1.2rem; color: var(--white); font-weight: 600; }
+        .coupon-section { padding: 1rem 0; border-top: 1px solid var(--glass-border); }
+        .coupon-row { display: flex; gap: 0.5rem; }
+        .coupon-row input { flex: 1; padding: 0.6rem 1rem; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--white); font-family: 'Poppins',sans-serif; font-size: 0.85rem; outline: none; }
+        .coupon-row input:focus { border-color: var(--primary); }
+        .coupon-row .btn-small { padding: 0.6rem 1rem; background: var(--primary); color: #000; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-family: 'Orbitron',sans-serif; font-size: 0.75rem; white-space: nowrap; }
+        .coupon-row .btn-small:hover { box-shadow: var(--neon-shadow); }
+        .coupon-msg { font-size: 0.8rem; margin-top: 0.4rem; min-height: 1.2rem; }
+        .coupon-msg.success { color: #4CAF50; }
+        .coupon-msg.error { color: #ff4444; }
+        .coupon-applied { display: none; background: rgba(76,175,80,0.1); border: 1px solid #4CAF50; border-radius: 8px; padding: 0.6rem 1rem; margin-top: 0.5rem; font-size: 0.85rem; }
+        .coupon-applied .remove-coupon { color: #ff4444; cursor: pointer; margin-left: 0.5rem; font-size: 0.8rem; }
+        .order-summary-line.discount { color: #4CAF50; }
+        .order-summary-line.discount span:last-child { color: #4CAF50; }
         .order-summary .btn { width: 100%; padding: 1rem; margin-top: 1rem; border-radius: 30px; border: 1px solid var(--primary); background: rgba(0,240,255,0.15); color: var(--primary); font-family: 'Orbitron', sans-serif; letter-spacing: 1px; cursor: pointer; transition: all 0.3s; }
         .order-summary .btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px rgba(0,240,255,0.8); transform: translateY(-3px); }
         .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
@@ -560,6 +573,23 @@
                     <span id="tax">₹0</span>
                 </div>
 
+                <div class="coupon-section">
+                    <div class="coupon-row">
+                        <input type="text" id="coupon-input" placeholder="Enter coupon code" maxlength="20">
+                        <button class="btn-small" id="apply-coupon">Apply</button>
+                    </div>
+                    <div class="coupon-msg" id="coupon-msg"></div>
+                    <div class="coupon-applied" id="coupon-applied">
+                        <span id="coupon-applied-text"></span>
+                        <span class="remove-coupon" id="remove-coupon">✕ Remove</span>
+                    </div>
+                </div>
+
+                <div class="order-summary-line discount" id="discount-line" style="display:none;">
+                    <span>Discount</span>
+                    <span id="discount-amount">-₹0</span>
+                </div>
+
                 <div class="order-summary-total">
                     <span>Total</span>
                     <span id="total">₹0</span>
@@ -955,12 +985,74 @@
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const shipping = 200;
             const tax = Math.round(subtotal * 0.1); // 10% tax
-            const total = subtotal + shipping + tax;
+            const discount = window._appliedDiscount || 0;
+            const total = subtotal + shipping + tax - discount;
 
             if (subtotalEl) subtotalEl.textContent = `₹${subtotal.toLocaleString()}`;
             if (taxEl) taxEl.textContent = `₹${tax.toLocaleString()}`;
             if (totalEl) totalEl.textContent = `₹${total.toLocaleString()}`;
+            const discLine = document.getElementById('discount-line');
+            const discAmt = document.getElementById('discount-amount');
+            if (discount > 0) {
+                discLine.style.display = 'flex';
+                discAmt.textContent = `-₹${discount.toLocaleString()}`;
+            } else {
+                discLine.style.display = 'none';
+            }
         }
+
+        // ============ COUPON ============
+        let appliedCoupon = null;
+        window._appliedDiscount = 0;
+
+        document.getElementById('apply-coupon').addEventListener('click', async function() {
+            const input = document.getElementById('coupon-input');
+            const code = input.value.trim().toUpperCase();
+            if (!code) return;
+            const msgEl = document.getElementById('coupon-msg');
+            const btn = this;
+            btn.disabled = true;
+            btn.textContent = '...';
+            try {
+                const cart = getCartFromStorage ? getCartFromStorage() : JSON.parse(localStorage.getItem('hs_cart') || '[]');
+                const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+                const API = window.location.origin.includes('localhost') ? 'http://localhost:3000/api' : '/api';
+                const res = await fetch(API + '/coupons/validate', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code, cartTotal: subtotal })
+                });
+                const data = await res.json();
+                if (data.valid) {
+                    appliedCoupon = data.coupon;
+                    window._appliedDiscount = data.discountAmount;
+                    msgEl.className = 'coupon-msg success';
+                    msgEl.textContent = `Coupon applied! You save ₹${data.discountAmount}`;
+                    document.getElementById('coupon-applied-text').textContent = `✓ ${data.coupon.code} applied`;
+                    document.getElementById('coupon-applied').style.display = 'block';
+                    input.disabled = true;
+                    updateOrderSummary();
+                } else {
+                    msgEl.className = 'coupon-msg error';
+                    msgEl.textContent = data.msg || 'Invalid coupon';
+                }
+            } catch(e) {
+                msgEl.className = 'coupon-msg error';
+                msgEl.textContent = 'Could not validate coupon';
+            }
+            btn.disabled = false;
+            btn.textContent = 'Apply';
+        });
+
+        document.getElementById('remove-coupon').addEventListener('click', function() {
+            appliedCoupon = null;
+            window._appliedDiscount = 0;
+            document.getElementById('coupon-applied').style.display = 'none';
+            document.getElementById('coupon-msg').className = 'coupon-msg';
+            document.getElementById('coupon-msg').textContent = '';
+            document.getElementById('coupon-input').disabled = false;
+            document.getElementById('coupon-input').value = '';
+            updateOrderSummary();
+        });
 
         // ============ PLACE ORDER HANDLER ============
         // Stores the original placeOrder reference so the OTP flow can trigger a real backend submission
@@ -1269,7 +1361,11 @@
                 quantity: item.quantity,
                 price: item.price
             }));
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discount = window._appliedDiscount || 0;
+            const shipping = 200;
+            const tax = Math.round(subtotal * 0.1);
+            const total = subtotal + shipping + tax - discount;
             const firstName = document.getElementById('first-name')?.value || '';
             const lastName = document.getElementById('last-name')?.value || '';
             const shipping_address = {
@@ -1297,7 +1393,9 @@
                         items,
                         total,
                         shipping_address,
-                        payment_method: 'cod'
+                        payment_method: 'cod',
+                        coupon_code: appliedCoupon ? appliedCoupon.code : null,
+                        discount_amount: window._appliedDiscount || 0
                     })
                 });
 

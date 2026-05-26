@@ -11,6 +11,9 @@ const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const otpRoutes = require('./routes/otpRoutes');
+const couponRoutes = require('./routes/couponRoutes');
+const wishlistRoutes = require('./routes/wishlistRoutes');
+const passwordRoutes = require('./routes/passwordRoutes');
 
 const app = express();
 
@@ -38,6 +41,9 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/otp', otpRoutes);
+app.use('/api/coupons', couponRoutes);
+app.use('/api/wishlist', wishlistRoutes);
+app.use('/api/auth', passwordRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

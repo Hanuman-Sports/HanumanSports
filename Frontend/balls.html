@@ -696,20 +696,7 @@
         function handleWishlist(e) {
             e.stopPropagation();
             const btn = e.currentTarget;
-            const icon = btn.querySelector('i');
-            if (icon.classList.contains('far')) {
-                icon.classList.remove('far');
-                icon.classList.add('fas');
-                btn.style.color = '#ff0000';
-                btn.style.borderColor = '#ff0000';
-                showNotification('Added to wishlist ❤️');
-            } else {
-                icon.classList.remove('fas');
-                icon.classList.add('far');
-                btn.style.color = '';
-                btn.style.borderColor = '';
-                showNotification('Removed from wishlist 🤍');
-            }
+            toggleWishlistAPI(btn.dataset.id, btn);
         }
 
         function updateCartCount() {
@@ -840,16 +827,7 @@
         });
 
         document.getElementById('modal-wishlist-btn').addEventListener('click', function () {
-            const icon = this.querySelector('i');
-            if (icon.classList.contains('far')) {
-                icon.classList.remove('far'); icon.classList.add('fas');
-                this.style.color = '#ff0000'; this.style.borderColor = '#ff0000';
-                showNotification('Added to wishlist ❤️');
-            } else {
-                icon.classList.remove('fas'); icon.classList.add('far');
-                this.style.color = ''; this.style.borderColor = '';
-                showNotification('Removed from wishlist 🤍');
-            }
+            if (modalProductId) toggleWishlistAPI(modalProductId, this);
         });
 
         const filterBtns = document.querySelectorAll('.filter-btn');

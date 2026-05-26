@@ -369,6 +369,39 @@
                 </table>
             </div>
         </div>
+
+        <!-- Coupons List -->
+        <div class="products-section" style="margin-top: 2rem;">
+            <h2><i class="fas fa-tag"></i> Coupons</h2>
+            <div style="overflow-x:auto;">
+                <table id="coupons-table" style="width:100%;border-collapse:collapse;margin-top:1rem;">
+                    <thead>
+                        <tr style="border-bottom:1px solid var(--glass-border);">
+                            <th style="padding:0.7rem;text-align:left;color:var(--gray);font-size:0.8rem;">Code</th>
+                            <th style="padding:0.7rem;text-align:left;color:var(--gray);font-size:0.8rem;">Discount</th>
+                            <th style="padding:0.7rem;text-align:left;color:var(--gray);font-size:0.8rem;">Min Cart</th>
+                            <th style="padding:0.7rem;text-align:left;color:var(--gray);font-size:0.8rem;">Max Disc</th>
+                            <th style="padding:0.7rem;text-align:left;color:var(--gray);font-size:0.8rem;">Used</th>
+                            <th style="padding:0.7rem;text-align:left;color:var(--gray);font-size:0.8rem;">Valid Till</th>
+                            <th style="padding:0.7rem;text-align:left;color:var(--gray);font-size:0.8rem;">Active</th>
+                        </tr>
+                    </thead>
+                    <tbody id="coupons-tbody">
+                        <tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--gray);">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top:1rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+                <input type="text" id="new-coupon-code" placeholder="Code" style="padding:0.5rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:4px;color:var(--white);font-size:0.85rem;width:120px;">
+                <select id="new-coupon-type" style="padding:0.5rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:4px;color:var(--white);font-size:0.85rem;">
+                    <option value="percentage">%</option>
+                    <option value="flat">Flat ₹</option>
+                </select>
+                <input type="number" id="new-coupon-value" placeholder="Value" style="padding:0.5rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:4px;color:var(--white);font-size:0.85rem;width:80px;">
+                <input type="number" id="new-coupon-min" placeholder="Min cart" style="padding:0.5rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:4px;color:var(--white);font-size:0.85rem;width:90px;">
+                <button class="btn" id="add-coupon-btn" style="font-size:0.8rem;padding:0.5rem 1rem;">+ Add</button>
+            </div>
+        </div>
     </div>
 
     <!-- Edit Modal -->
@@ -645,6 +678,68 @@
             window.location.href = 'login.html';
         });
 
+        // ============ COUPON MANAGEMENT ============
+        async function loadCoupons() {
+            try {
+                const res = await fetch(`${API_URL}/coupons`, { headers: authHeaders() });
+                const data = await res.json();
+                const tbody = document.getElementById('coupons-tbody');
+                if (!data.success || !data.coupons || data.coupons.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--gray);">No coupons</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = data.coupons.map(c => `
+                    <tr style="border-bottom:1px solid var(--glass-border);">
+                        <td style="padding:0.7rem;color:var(--primary);font-weight:600;">${c.code}</td>
+                        <td style="padding:0.7rem;">${c.discount_type === 'percentage' ? c.discount_value + '%' : '₹' + c.discount_value}</td>
+                        <td style="padding:0.7rem;">₹${parseFloat(c.min_cart_value || 0)}</td>
+                        <td style="padding:0.7rem;">${c.max_discount ? '₹' + c.max_discount : '-'}</td>
+                        <td style="padding:0.7rem;">${c.used_count || 0}/${c.usage_limit || '∞'}</td>
+                        <td style="padding:0.7rem;font-size:0.8rem;">${c.valid_till ? new Date(c.valid_till).toLocaleDateString() : '-'}</td>
+                        <td style="padding:0.7rem;">
+                            <span style="cursor:pointer;color:${c.is_active ? '#4CAF50' : '#ff4444'}" onclick="toggleCoupon(${c.id}, ${c.is_active})">
+                                ${c.is_active ? '✓ Active' : '✕ Inactive'}
+                            </span>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch(e) {
+                document.getElementById('coupons-tbody').innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--gray);">Error loading</td></tr>';
+            }
+        }
+
+        async function toggleCoupon(id, current) {
+            try {
+                await fetch(`${API_URL}/coupons/${id}`, {
+                    method: 'PUT', headers: authHeaders(),
+                    body: JSON.stringify({ is_active: current ? 0 : 1 })
+                });
+                loadCoupons();
+            } catch(e) { showNotification('Error updating coupon', true); }
+        }
+
+        document.getElementById('add-coupon-btn').addEventListener('click', async function() {
+            const code = document.getElementById('new-coupon-code').value.trim().toUpperCase();
+            const discount_type = document.getElementById('new-coupon-type').value;
+            const discount_value = parseFloat(document.getElementById('new-coupon-value').value);
+            const min_cart_value = parseFloat(document.getElementById('new-coupon-min').value) || 0;
+            if (!code || !discount_value) { showNotification('Fill code and value', true); return; }
+            try {
+                const res = await fetch(`${API_URL}/coupons`, {
+                    method: 'POST', headers: authHeaders(),
+                    body: JSON.stringify({ code, discount_type, discount_value, min_cart_value, is_active: 1 })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showNotification('Coupon added!');
+                    document.getElementById('new-coupon-code').value = '';
+                    document.getElementById('new-coupon-value').value = '';
+                    document.getElementById('new-coupon-min').value = '';
+                    loadCoupons();
+                } else showNotification('Error adding coupon', true);
+            } catch(e) { showNotification('Server error', true); }
+        });
+
         // Calculate discount when MRP or Price changes
         document.getElementById('prod-mrp').addEventListener('input', updateDiscount);
         document.getElementById('prod-price').addEventListener('input', updateDiscount);
@@ -659,6 +754,7 @@
 
         // Initialize
         loadProducts();
+        loadCoupons();
     </script>
 <script src="hs-utils.js"></script>
 </body>

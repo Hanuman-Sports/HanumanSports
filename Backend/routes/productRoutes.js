@@ -24,7 +24,7 @@ function formatProduct(p) {
 
 router.get('/', async (req, res) => {
     try {
-        const { category, search } = req.query;
+        const { category, search, sort_by, min_price, max_price, page, limit } = req.query;
         const whereClause = {};
 
         if (category) {
@@ -39,10 +39,36 @@ router.get('/', async (req, res) => {
             ];
         }
 
-        const products = await Product.findAll({ where: whereClause });
+        if (min_price || max_price) {
+            whereClause.price = {};
+            if (min_price) whereClause.price[Op.gte] = parseFloat(min_price);
+            if (max_price) whereClause.price[Op.lte] = parseFloat(max_price);
+        }
+
+        let order = [['id', 'ASC']];
+        if (sort_by === 'price_asc') order = [['price', 'ASC']];
+        else if (sort_by === 'price_desc') order = [['price', 'DESC']];
+        else if (sort_by === 'name') order = [['name', 'ASC']];
+        else if (sort_by === 'rating') order = [['rating', 'DESC']];
+        else if (sort_by === 'newest') order = [['id', 'DESC']];
+
+        const pageNum = parseInt(page) || 1;
+        const limitNum = parseInt(limit) || 50;
+        const offset = (pageNum - 1) * limitNum;
+
+        const { count, rows } = await Product.findAndCountAll({
+            where: whereClause,
+            order,
+            offset,
+            limit: limitNum
+        });
+
         res.json({
             success: true,
-            products: products.map(formatProduct)
+            products: rows.map(formatProduct),
+            total: count,
+            totalPages: Math.ceil(count / limitNum),
+            currentPage: pageNum
         });
     } catch (err) {
         console.error(err);
