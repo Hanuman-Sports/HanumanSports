@@ -91,6 +91,10 @@
         .cod-box i { font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; }
         .cod-box h4 { color: var(--white); margin-bottom: 0.5rem; }
         .cod-box p { color: var(--gray); font-size: 0.9rem; }
+        .coming-soon-overlay { position: relative; margin-bottom: 1rem; }
+        .coming-soon-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,193,7,0.15); border: 1px solid #FFC107; color: #FFC107; padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .coming-soon-badge i { font-size: 0.9rem; }
+        .coming-soon-text { color: var(--gray); font-size: 0.85rem; background: rgba(255,193,7,0.05); padding: 0.6rem 1rem; border-radius: 8px; border: 1px dashed rgba(255,193,7,0.3); }
         .input-with-button { display: flex; gap: 0.5rem; }
         .form-check { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
         .form-check input { width: auto; }
@@ -352,34 +356,48 @@
 
                     <!-- Credit/Debit Card Form (visible by default) -->
                     <div id="card-payment" class="payment-form">
+                        <div class="coming-soon-overlay">
+                            <div class="coming-soon-badge">
+                                <i class="fas fa-clock"></i>
+                                <span>Coming Soon</span>
+                            </div>
+                            <p class="coming-soon-text">Card payments will be available shortly. Please use Cash on Delivery.</p>
+                        </div>
                         <div class="form-group">
                             <label for="card-number">Card Number</label>
-                            <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required>
+                            <input type="text" id="card-number" placeholder="1234 5678 9012 3456" disabled>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="expiry">Expiry Date</label>
-                                <input type="text" id="expiry" placeholder="MM/YY" required>
+                                <input type="text" id="expiry" placeholder="MM/YY" disabled>
                             </div>
 
                             <div class="form-group">
                                 <label for="cvv">CVV</label>
-                                <input type="text" id="cvv" placeholder="123" required>
+                                <input type="text" id="cvv" placeholder="123" disabled>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="card-name">Name on Card</label>
-                            <input type="text" id="card-name" placeholder="As shown on card" required>
+                            <input type="text" id="card-name" placeholder="As shown on card" disabled>
                         </div>
                     </div>
 
                     <!-- UPI Form (hidden by default) -->
                     <div id="upi-payment" class="payment-form" style="display: none;">
+                        <div class="coming-soon-overlay">
+                            <div class="coming-soon-badge">
+                                <i class="fas fa-clock"></i>
+                                <span>Coming Soon</span>
+                            </div>
+                            <p class="coming-soon-text">UPI payments will be available shortly. Please use Cash on Delivery.</p>
+                        </div>
                         <div class="form-group">
                             <label for="upi-id">UPI ID</label>
-                            <input type="text" id="upi-id" placeholder="yourname@upi" required>
+                            <input type="text" id="upi-id" placeholder="yourname@upi" disabled>
                         </div>
                         <small>Enter your UPI ID to complete payment</small>
 
@@ -746,8 +764,10 @@
 
                 if (methodType === 'card') {
                     cardPaymentForm.style.display = 'block';
+                    showNotification('💳 Card payments coming soon — use Cash on Delivery');
                 } else if (methodType === 'upi') {
                     upiPaymentForm.style.display = 'block';
+                    showNotification('📱 UPI payments coming soon — use Cash on Delivery');
                 } else if (methodType === 'cod') {
                     codPaymentForm.style.display = 'block';
                 }
@@ -1031,7 +1051,6 @@
         const otpVerifiedBadge = document.getElementById('otp-verified-badge');
         const timerDisplay = document.getElementById('timer');
 
-        let generatedOtp = null;
         let timerInterval = null;
         let timeLeft = 120; // 2 minutes in seconds
         let isOtpVerified = false;
@@ -1080,7 +1099,7 @@
         };
 
         // Send OTP
-        sendOtpBtn.addEventListener('click', function () {
+        sendOtpBtn.addEventListener('click', async function () {
             const phone = otpPhone.value.trim();
 
             if (!phone) {
@@ -1088,30 +1107,39 @@
                 return;
             }
 
-            // Validate phone number (simple validation for demo)
             if (phone.length < 10) {
                 if(window.HSToast)HSToast.warning('Please enter a valid phone number'); else toastInfo('Notice', 'Please enter a valid phone number');
                 return;
             }
 
-            // Generate random 6-digit OTP
-            generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
-            console.log('🔐 Order OTP:', generatedOtp); // For demo purposes
-
-            // Mask phone number for display
-            const masked = phone.replace(/(\d{3})\d{4}(\d{3})/, '$1****$2');
-            maskedPhone.textContent = masked;
-
-            // Show OTP input section
-            otpInputSection.style.display = 'block';
             sendOtpBtn.disabled = true;
-            sendOtpBtn.style.opacity = '0.5';
+            sendOtpBtn.textContent = 'Sending...';
 
-            // Start timer
-            startOtpTimer();
+            try {
+                const res = await fetch(`${API_BASE_URL}/otp/send`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone })
+                });
+                const data = await res.json();
 
-            // Show notification
-            showNotification(`OTP sent to ${phone}`);
+                if (data.success) {
+                    maskedPhone.textContent = data.masked;
+                    otpInputSection.style.display = 'block';
+                    sendOtpBtn.style.opacity = '0.5';
+                    startOtpTimer();
+                    showNotification(`OTP sent to ${data.masked}`);
+                } else {
+                    showNotification(data.message || 'Failed to send OTP');
+                    sendOtpBtn.disabled = false;
+                    sendOtpBtn.textContent = 'Send OTP';
+                }
+            } catch (err) {
+                console.error('Send OTP error:', err);
+                showNotification('Failed to send OTP. Please try again.');
+                sendOtpBtn.disabled = false;
+                sendOtpBtn.textContent = 'Send OTP';
+            }
         });
 
         // Start OTP timer
@@ -1144,65 +1172,93 @@
         }
 
         // Verify OTP
-        verifyOtpBtn.addEventListener('click', function () {
+        verifyOtpBtn.addEventListener('click', async function () {
             const enteredOtp = otpCode.value.trim();
+            const phone = otpPhone.value.trim();
 
             if (!enteredOtp) {
                 if(window.HSToast)HSToast.warning('Please enter OTP'); else toastInfo('Notice', 'Please enter OTP');
                 return;
             }
 
-            if (enteredOtp === generatedOtp) {
-                // OTP verified successfully
-                isOtpVerified = true;
+            verifyOtpBtn.disabled = true;
+            verifyOtpBtn.textContent = 'Verifying...';
 
-                // Clear timer
-                if (timerInterval) {
-                    clearInterval(timerInterval);
+            try {
+                const res = await fetch(`${API_BASE_URL}/otp/verify`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, otp: enteredOtp })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    isOtpVerified = true;
+
+                    if (timerInterval) {
+                        clearInterval(timerInterval);
+                    }
+
+                    otpInputSection.style.display = 'none';
+                    sendOtpBtn.style.display = 'none';
+                    otpVerifiedBadge.style.display = 'block';
+                    placeOrderBtn.textContent = 'Complete Order ✓';
+                    placeOrderBtn.style.background = '#4CAF50';
+
+                    showNotification('✅ Phone verified successfully!');
+
+                    setTimeout(() => {
+                        completeOrder();
+                    }, 1000);
+                } else {
+                    showNotification(data.message || '❌ Invalid OTP. Please try again.');
+                    otpCode.value = '';
+                    otpCode.focus();
+                    verifyOtpBtn.disabled = false;
+                    verifyOtpBtn.textContent = 'Verify OTP';
                 }
-
-                // Hide OTP input section
-                otpInputSection.style.display = 'none';
-                sendOtpBtn.style.display = 'none';
-
-                // Show verified badge
-                otpVerifiedBadge.style.display = 'block';
-
-                // Update place order button text
-                placeOrderBtn.textContent = 'Complete Order ✓';
-                placeOrderBtn.style.background = '#4CAF50';
-
-                showNotification('✅ Phone verified successfully!');
-
-                // Auto-click place order after verification
-                setTimeout(() => {
-                    completeOrder();
-                }, 1000);
-
-            } else {
-                if(window.HSToast)HSToast.error('❌ Invalid OTP. Please try again.'); else toastError('Notice', '❌ Invalid OTP. Please try again.');
-                otpCode.value = '';
-                otpCode.focus();
+            } catch (err) {
+                console.error('Verify OTP error:', err);
+                showNotification('Failed to verify OTP. Please try again.');
+                verifyOtpBtn.disabled = false;
+                verifyOtpBtn.textContent = 'Verify OTP';
             }
         });
 
         // Resend OTP
-        resendOtpBtn.addEventListener('click', function () {
-            // Generate new OTP
-            generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
-            console.log('🔐 New Order OTP:', generatedOtp);
+        resendOtpBtn.addEventListener('click', async function () {
+            const phone = otpPhone.value.trim();
 
-            // Reset timer
-            timeLeft = 120;
-            updateTimerDisplay();
-            startOtpTimer();
+            resendOtpBtn.disabled = true;
+            resendOtpBtn.textContent = 'Sending...';
 
-            // Enable verify button
-            verifyOtpBtn.disabled = false;
-            verifyOtpBtn.style.opacity = '1';
-            resendOtpBtn.style.display = 'none';
+            try {
+                const res = await fetch(`${API_BASE_URL}/otp/send`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone })
+                });
+                const data = await res.json();
 
-            showNotification('🔄 New OTP sent!');
+                if (data.success) {
+                    timeLeft = 120;
+                    updateTimerDisplay();
+                    startOtpTimer();
+                    verifyOtpBtn.disabled = false;
+                    verifyOtpBtn.style.opacity = '1';
+                    resendOtpBtn.style.display = 'none';
+                    showNotification('🔄 New OTP sent!');
+                } else {
+                    showNotification(data.message || 'Failed to resend OTP');
+                    resendOtpBtn.disabled = false;
+                    resendOtpBtn.textContent = 'Resend OTP';
+                }
+            } catch (err) {
+                console.error('Resend OTP error:', err);
+                showNotification('Failed to resend OTP');
+                resendOtpBtn.disabled = false;
+                resendOtpBtn.textContent = 'Resend OTP';
+            }
         });
 
 // Complete order function
@@ -1280,6 +1336,11 @@
             sendOtpBtn.style.display = 'block';
             sendOtpBtn.disabled = false;
             sendOtpBtn.style.opacity = '1';
+            sendOtpBtn.textContent = 'Send OTP';
+            verifyOtpBtn.disabled = false;
+            verifyOtpBtn.style.opacity = '1';
+            verifyOtpBtn.textContent = 'Verify OTP';
+            resendOtpBtn.style.display = 'none';
             placeOrderBtn.textContent = 'Place Order';
             placeOrderBtn.style.background = '';
 
