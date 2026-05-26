@@ -8,6 +8,7 @@ function formatProduct(p) {
     return {
         id: p.id,
         name: p.name,
+        description: p.description || '',
         category: p.category,
         sub_category: p.sub_category || null,
         price: parseFloat(p.price),
