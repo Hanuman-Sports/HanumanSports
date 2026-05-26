@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { connectDB } = require('./config/db');
-require('dotenv').config();
+require('dotenv').config({ path: __dirname + '/.env' });
 
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
@@ -10,6 +10,7 @@ const userRoutes = require('./routes/userRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const otpRoutes = require('./routes/otpRoutes');
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/otp', otpRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

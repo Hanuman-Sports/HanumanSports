@@ -170,6 +170,36 @@
         .footer-contact-info li { margin-bottom: 1rem; display: flex; gap: 1rem; color: rgba(255,255,255,0.7); }
         .footer-contact-info i { color: var(--primary); }
         .footer-bottom { text-align: center; padding-top: 3rem; margin-top: 3rem; border-top: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); font-size: 0.9rem; }
+
+        /* Product Quick View Modal */
+        .product-modal-content { background: var(--secondary); border: 1px solid var(--primary); border-radius: 16px; max-width: 700px; width: 95%; max-height: 90vh; overflow-y: auto; padding: 0; position: relative; }
+        .product-modal-close { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.6); color: var(--white); font-size: 1.1rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+        .product-modal-close:hover { background: var(--primary); color: #000; }
+        .product-modal-grid { display: flex; gap: 0; }
+        .product-modal-image { flex: 1; min-height: 300px; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; padding: 2rem; position: relative; }
+        .product-modal-image img { max-width: 100%; max-height: 280px; object-fit: contain; }
+        .product-modal-badge { position: absolute; top: 12px; left: 12px; background: var(--primary); color: #000; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .product-modal-info { flex: 1; padding: 2rem; display: flex; flex-direction: column; gap: 0.8rem; }
+        .product-modal-category { font-size: 0.8rem; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .product-modal-info h2 { font-size: 1.3rem; color: var(--white); line-height: 1.3; }
+        .product-modal-rating .stars { display: inline-flex; gap: 2px; color: #FFD700; font-size: 0.9rem; }
+        .product-modal-rating span { color: var(--gray); font-size: 0.8rem; margin-left: 6px; }
+        .product-modal-price { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; }
+        .product-modal-price .current-price { font-size: 1.6rem; font-weight: 700; color: var(--primary); }
+        .product-modal-price .original-price { font-size: 1rem; color: var(--gray); text-decoration: line-through; }
+        .product-modal-price .discount { background: rgba(255,0,0,0.15); color: #ff4444; padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+        .product-modal-stock { font-size: 0.85rem; color: #4CAF50; display: flex; align-items: center; gap: 0.4rem; }
+        .product-modal-stock.out-of-stock { color: #ff4444; }
+        .product-modal-description { font-size: 0.85rem; color: rgba(255,255,255,0.75); line-height: 1.7; margin-top: 0; padding: 0.6rem 0; border-top: 1px solid rgba(255,255,255,0.06); }
+        .product-modal-actions { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.5rem; }
+        .product-modal-actions .quantity-selector { display: flex; align-items: center; border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; }
+        .product-modal-actions .qty-btn { width: 36px; height: 36px; background: transparent; border: none; color: var(--white); font-size: 1.2rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
+        .product-modal-actions .qty-btn:hover { background: rgba(0,240,255,0.15); color: var(--primary); }
+        #modal-qty-value { min-width: 36px; text-align: center; color: var(--white); font-weight: 600; font-size: 1rem; }
+        .product-modal-actions .btn { flex: 1; min-width: 140px; padding: 0.7rem 1.2rem; font-size: 0.85rem; }
+        .product-modal-actions .wishlist-btn { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--glass-border); background: transparent; color: var(--gray); font-size: 1.1rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
+        .product-modal-actions .wishlist-btn:hover { border-color: #ff0000; color: #ff0000; }
+        @media (max-width: 576px) { .product-modal-grid { flex-direction: column; } .product-modal-image { min-height: 200px; padding: 1.5rem; } .product-modal-image img { max-height: 200px; } .product-modal-info { padding: 1.5rem; } .product-modal-info h2 { font-size: 1.1rem; } .product-modal-price .current-price { font-size: 1.3rem; } }
     
     /* ===== RESPONSIVE MEDIA QUERIES ===== */
     @media (max-width: 1024px) {
@@ -467,22 +497,7 @@
             <!-- Badminton -->
             <div class="category-item" data-category="badminton">
                 <div class="category-image">
-                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:linear-gradient(135deg,#0A0E17,#1a1a2e);">
-                        <circle cx="200" cy="150" r="120" fill="none" stroke="#00F0FF" stroke-width="2" opacity="0.15"/>
-                        <circle cx="200" cy="150" r="90" fill="none" stroke="#00F0FF" stroke-width="1" opacity="0.1"/>
-                        <ellipse cx="200" cy="90" rx="12" ry="18" fill="none" stroke="#00F0FF" stroke-width="3" transform="rotate(-30,200,90)"/>
-                        <line x1="200" y1="108" x2="200" y2="230" stroke="#00F0FF" stroke-width="3" stroke-linecap="round"/>
-                        <ellipse cx="248" cy="210" rx="50" ry="12" fill="none" stroke="#00F0FF" stroke-width="2.5" transform="rotate(-20,248,210)" opacity="0.9"/>
-                        <ellipse cx="248" cy="210" rx="35" ry="8" fill="none" stroke="#00F0FF" stroke-width="1.5" transform="rotate(-20,248,210)" opacity="0.5"/>
-                        <circle cx="155" cy="120" r="8" fill="#00F0FF" opacity="0.8">
-                            <animate attributeName="r" values="8;10;8" dur="2s" repeatCount="indefinite"/>
-                            <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle cx="165" cy="108" r="5" fill="#00F0FF" opacity="0.4">
-                            <animate attributeName="opacity" values="0.4;0.8;0.4" dur="1.5s" repeatCount="indefinite"/>
-                        </circle>
-                        <text x="200" y="275" text-anchor="middle" fill="#00F0FF" font-family="Orbitron,sans-serif" font-size="14" font-weight="700" letter-spacing="4">BADMINTON</text>
-                    </svg>
+                    <img src="images/badminton.svg" alt="Badminton" style="width:100%;height:100%;object-fit:cover;" onerror="this.src='logo.png'">
                 </div>
                 <div class="category-content">
                     <h3>Badminton</h3>
@@ -494,17 +509,7 @@
             <!-- Cricket -->
             <div class="category-item" data-category="cricket">
                 <div class="category-image">
-                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:linear-gradient(135deg,#0A0E17,#1a1a2e);">
-                        <circle cx="200" cy="150" r="120" fill="none" stroke="#00c864" stroke-width="2" opacity="0.15"/>
-                        <circle cx="200" cy="150" r="90" fill="none" stroke="#00c864" stroke-width="1" opacity="0.1"/>
-                        <rect x="175" y="60" width="22" height="170" rx="4" fill="none" stroke="#00c864" stroke-width="3" stroke-linecap="round"/>
-                        <rect x="175" y="80" width="22" height="100" rx="2" fill="#00c864" opacity="0.15" stroke="none"/>
-                        <ellipse cx="186" cy="60" rx="16" ry="8" fill="none" stroke="#00c864" stroke-width="2.5"/>
-                        <line x1="197" y1="70" x2="230" y2="50" stroke="#00c864" stroke-width="2.5" stroke-linecap="round"/>
-                        <circle cx="240" cy="44" r="12" fill="none" stroke="#00c864" stroke-width="2.5"/>
-                        <path d="M240 34v4M240 50v4M230 44h4M246 44h4" stroke="#00c864" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
-                        <text x="200" y="275" text-anchor="middle" fill="#00c864" font-family="Orbitron,sans-serif" font-size="14" font-weight="700" letter-spacing="4">CRICKET</text>
-                    </svg>
+                    <img src="images/cricket.svg" alt="Cricket" style="width:100%;height:100%;object-fit:cover;" onerror="this.src='logo.png'">
                 </div>
                 <div class="category-content">
                     <h3>Cricket</h3>
@@ -516,21 +521,7 @@
             <!-- Ball Badminton -->
             <div class="category-item" data-category="ball-badminton">
                 <div class="category-image">
-                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:linear-gradient(135deg,#0A0E17,#1a1a2e);">
-                        <circle cx="200" cy="150" r="120" fill="none" stroke="#a064ff" stroke-width="2" opacity="0.15"/>
-                        <circle cx="200" cy="150" r="90" fill="none" stroke="#a064ff" stroke-width="1" opacity="0.1"/>
-                        <ellipse cx="160" cy="100" rx="10" ry="16" fill="none" stroke="#a064ff" stroke-width="3" transform="rotate(30,160,100)"/>
-                        <line x1="164" y1="116" x2="180" y2="200" stroke="#a064ff" stroke-width="2.5" stroke-linecap="round"/>
-                        <circle cx="180" cy="200" r="22" fill="none" stroke="#a064ff" stroke-width="2.5"/>
-                        <circle cx="180" cy="200" r="10" fill="none" stroke="#a064ff" stroke-width="1.5" opacity="0.6"/>
-                        <line x1="180" y1="178" x2="180" y2="222" stroke="#a064ff" stroke-width="1.5" opacity="0.4"/>
-                        <line x1="158" y1="200" x2="202" y2="200" stroke="#a064ff" stroke-width="1.5" opacity="0.4"/>
-                        <path d="M230 70 Q250 80 240 100" fill="none" stroke="#a064ff" stroke-width="2" opacity="0.6"/>
-                        <circle cx="245" cy="65" r="4" fill="#a064ff" opacity="0.8">
-                            <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.8s" repeatCount="indefinite"/>
-                        </circle>
-                        <text x="200" y="275" text-anchor="middle" fill="#a064ff" font-family="Orbitron,sans-serif" font-size="12" font-weight="700" letter-spacing="3">BALL BADMINTON</text>
-                    </svg>
+                    <img src="images/ball-badminton.svg" alt="Ball Badminton" style="width:100%;height:100%;object-fit:cover;" onerror="this.src='logo.png'">
                 </div>
                 <div class="category-content">
                     <h3>Ball Badminton</h3>
@@ -542,24 +533,7 @@
             <!-- Balls -->
             <div class="category-item" data-category="balls">
                 <div class="category-image">
-                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:linear-gradient(135deg,#0A0E17,#1a1a2e);">
-                        <circle cx="200" cy="150" r="120" fill="none" stroke="#00a0ff" stroke-width="2" opacity="0.15"/>
-                        <circle cx="200" cy="150" r="90" fill="none" stroke="#00a0ff" stroke-width="1" opacity="0.1"/>
-                        <circle cx="200" cy="130" r="60" fill="none" stroke="#00a0ff" stroke-width="2.5"/>
-                        <circle cx="200" cy="130" r="40" fill="none" stroke="#00a0ff" stroke-width="1.5" opacity="0.6"/>
-                        <circle cx="200" cy="130" r="20" fill="none" stroke="#00a0ff" stroke-width="1" opacity="0.3"/>
-                        <path d="M200 70 Q220 100 260 110" fill="none" stroke="#00a0ff" stroke-width="2" opacity="0.7"/>
-                        <path d="M200 190 Q180 160 140 150" fill="none" stroke="#00a0ff" stroke-width="2" opacity="0.7"/>
-                        <path d="M140 130 Q160 100 200 90" fill="none" stroke="#00a0ff" stroke-width="2" opacity="0.5"/>
-                        <path d="M260 150 Q240 180 200 170" fill="none" stroke="#00a0ff" stroke-width="2" opacity="0.5"/>
-                        <circle cx="150" cy="95" r="5" fill="#00a0ff" opacity="0.6">
-                            <animate attributeName="r" values="5;7;5" dur="2.5s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle cx="250" cy="165" r="4" fill="#00a0ff" opacity="0.4">
-                            <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" repeatCount="indefinite"/>
-                        </circle>
-                        <text x="200" y="275" text-anchor="middle" fill="#00a0ff" font-family="Orbitron,sans-serif" font-size="14" font-weight="700" letter-spacing="4">BALLS</text>
-                    </svg>
+                    <img src="images/balls.svg" alt="Balls" style="width:100%;height:100%;object-fit:cover;" onerror="this.src='logo.png'">
                 </div>
                 <div class="category-content">
                     <h3>Balls</h3>
@@ -571,22 +545,7 @@
             <!-- Accessories -->
             <div class="category-item" data-category="accessories">
                 <div class="category-image">
-                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:linear-gradient(135deg,#0A0E17,#1a1a2e);">
-                        <circle cx="200" cy="150" r="120" fill="none" stroke="#ff6b35" stroke-width="2" opacity="0.15"/>
-                        <circle cx="200" cy="150" r="90" fill="none" stroke="#ff6b35" stroke-width="1" opacity="0.1"/>
-                        <circle cx="190" cy="150" r="50" fill="none" stroke="#ff6b35" stroke-width="2.5"/>
-                        <circle cx="190" cy="150" r="35" fill="none" stroke="#ff6b35" stroke-width="1.5" opacity="0.5"/>
-                        <circle cx="190" cy="150" r="20" fill="none" stroke="#ff6b35" stroke-width="1" opacity="0.3"/>
-                        <line x1="190" y1="100" x2="190" y2="200" stroke="#ff6b35" stroke-width="1.5" opacity="0.4"/>
-                        <line x1="140" y1="150" x2="240" y2="150" stroke="#ff6b35" stroke-width="1.5" opacity="0.4"/>
-                        <rect x="270" y="110" width="30" height="20" rx="3" fill="none" stroke="#ff6b35" stroke-width="2"/>
-                        <rect x="275" y="80" width="20" height="30" rx="10" fill="none" stroke="#ff6b35" stroke-width="2"/>
-                        <circle cx="285" cy="75" r="6" fill="#ff6b35" opacity="0.6"/>
-                        <rect x="100" y="170" width="25" height="18" rx="2" fill="none" stroke="#ff6b35" stroke-width="2"/>
-                        <line x1="112" y1="170" x2="112" y2="155" stroke="#ff6b35" stroke-width="2" stroke-linecap="round"/>
-                        <circle cx="112" cy="152" r="4" fill="#ff6b35" opacity="0.5"/>
-                        <text x="200" y="275" text-anchor="middle" fill="#ff6b35" font-family="Orbitron,sans-serif" font-size="12" font-weight="700" letter-spacing="3">ACCESSORIES</text>
-                    </svg>
+                    <img src="images/accessories.svg" alt="Accessories" style="width:100%;height:100%;object-fit:cover;" onerror="this.src='logo.png'">
                 </div>
                 <div class="category-content">
                     <h3>Accessories</h3>
@@ -753,7 +712,43 @@
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
+    <!-- Product Quick View Modal -->
+    <div class="popup-overlay" id="product-modal">
+        <div class="product-modal-content">
+            <button class="product-modal-close" id="product-modal-close"><i class="fas fa-times"></i></button>
+            <div class="product-modal-grid">
+                <div class="product-modal-image">
+                    <img id="product-modal-img" src="logo.png" alt="">
+                    <span class="product-modal-badge" id="product-modal-badge"></span>
+                </div>
+                <div class="product-modal-info">
+                    <p class="product-modal-category" id="product-modal-category"></p>
+                    <h2 id="product-modal-name"></h2>
+                    <div class="product-modal-rating" id="product-modal-rating"></div>
+                    <div class="product-modal-price">
+                        <span class="current-price" id="product-modal-price"></span>
+                        <span class="original-price" id="product-modal-original-price"></span>
+                        <span class="discount" id="product-modal-discount"></span>
+                    </div>
+                    <p class="product-modal-stock" id="product-modal-stock"></p>
+                    <p class="product-modal-description" id="product-modal-description"></p>
+                    <div class="product-modal-actions">
+                        <div class="quantity-selector">
+                            <button class="qty-btn" id="modal-qty-dec">−</button>
+                            <span id="modal-qty-value">1</span>
+                            <button class="qty-btn" id="modal-qty-inc">+</button>
+                        </div>
+                        <button class="btn" id="modal-add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        <button class="wishlist-btn" id="modal-wishlist-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        let allProducts = [];
+
         // Mobile Menu Toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mainNav = document.getElementById('main-nav');
@@ -1070,8 +1065,9 @@
                     const products = Array.isArray(data) ? data : (data.success ? data.products : []);
 
                     if (products.length > 0) {
+                        window.allProducts = products;
                         searchResults.innerHTML = products.map(p => `
-                            <div class="search-result-item" onclick="window.location.href='product detail.html?id=${p.id}'">
+                            <div class="search-result-item" onclick="openProductModal('${p.id}')">
                                 <img src="${p.main_image || p.image || 'logo.png'}" alt="${p.name}" onerror="this.src='logo.png'">
                                 <div>
                                     <h4>${p.name}</h4>
@@ -1099,6 +1095,128 @@
                 }
             });
         }
+
+        /* === Product Modal Functions === */
+        function showNotification(message) {
+            const n = document.createElement('div');
+            n.className = 'add-to-cart-notification';
+            n.innerHTML = `<i class="fas fa-check-circle"></i><span>${message}</span>`;
+            document.body.appendChild(n);
+            setTimeout(() => n.classList.add('show'), 10);
+            setTimeout(() => { n.classList.remove('show'); setTimeout(() => n.remove(), 300); }, 3000);
+        }
+
+        let modalProductId = null;
+
+        function openProductModal(id) {
+            const products = window.allProducts || allProducts;
+            const product = products.find(p => String(p.id) === String(id));
+            if (!product) return;
+            modalProductId = product.id;
+
+            const img = document.getElementById('product-modal-img');
+            img.src = product.image || product.main_image || 'logo.png';
+            img.onerror = function () { this.src = 'logo.png'; };
+
+            const badgeEl = document.getElementById('product-modal-badge');
+            if (product.badge) { badgeEl.textContent = product.badge; badgeEl.style.display = 'block'; }
+            else { badgeEl.style.display = 'none'; }
+
+            document.getElementById('product-modal-category').textContent = product.sub_category || product.category || '';
+            document.getElementById('product-modal-name').textContent = product.name;
+
+            const rating = product.rating || 4.5;
+            let starsHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) starsHtml += '<i class="fas fa-star"></i>';
+                else if (i - 0.5 <= rating) starsHtml += '<i class="fas fa-star-half-alt"></i>';
+                else starsHtml += '<i class="far fa-star"></i>';
+            }
+            document.getElementById('product-modal-rating').innerHTML = `<div class="stars">${starsHtml}</div><span>(${product.reviews_count || 0} reviews)</span>`;
+
+            document.getElementById('product-modal-price').textContent = `₹${product.price}`;
+
+            const origPriceEl = document.getElementById('product-modal-original-price');
+            const discEl = document.getElementById('product-modal-discount');
+            if (product.original_price && parseFloat(product.original_price) > parseFloat(product.price)) {
+                origPriceEl.textContent = `₹${product.original_price}`;
+                origPriceEl.style.display = 'inline';
+                const dp = Math.round(((product.original_price - product.price) / product.original_price) * 100);
+                discEl.textContent = `${dp}% OFF`;
+                discEl.style.display = 'inline';
+            } else {
+                origPriceEl.style.display = 'none';
+                discEl.style.display = 'none';
+            }
+
+            const stockEl = document.getElementById('product-modal-stock');
+            if (product.stock !== undefined && product.stock !== null && product.stock <= 0) {
+                stockEl.innerHTML = '<i class="fas fa-times-circle"></i> Out of Stock';
+                stockEl.className = 'product-modal-stock out-of-stock';
+            } else {
+                stockEl.innerHTML = '<i class="fas fa-check-circle"></i> In Stock';
+                stockEl.className = 'product-modal-stock';
+            }
+
+            document.getElementById('product-modal-description').textContent = product.description || '';
+
+            document.getElementById('modal-qty-value').textContent = '1';
+
+            const wlBtn = document.getElementById('modal-wishlist-btn');
+            wlBtn.querySelector('i').className = 'far fa-heart';
+            wlBtn.style.color = '';
+            wlBtn.style.borderColor = '';
+
+            document.getElementById('product-modal').classList.add('active');
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.remove('active');
+            modalProductId = null;
+        }
+
+        document.getElementById('product-modal-close').addEventListener('click', closeProductModal);
+        document.getElementById('product-modal').addEventListener('click', function (e) {
+            if (e.target === this) closeProductModal();
+        });
+
+        document.getElementById('modal-add-to-cart').addEventListener('click', function () {
+            if (!modalProductId) return;
+            const products = window.allProducts || allProducts;
+            const product = products.find(p => String(p.id) === String(modalProductId));
+            if (!product) return;
+            const qty = parseInt(document.getElementById('modal-qty-value').textContent) || 1;
+            const productImg = product.image || product.main_image || 'logo.png';
+            let cart = JSON.parse(localStorage.getItem('hs_cart')) || [];
+            const existingItem = cart.find(item => String(item.id) === String(modalProductId));
+            if (existingItem) existingItem.quantity += qty;
+            else cart.push({ id: String(modalProductId), name: product.name, price: product.price, image: productImg, quantity: qty });
+            localStorage.setItem('hs_cart', JSON.stringify(cart));
+            updateCartCount();
+            showNotification(`${product.name} added to cart!`);
+        });
+
+        document.getElementById('modal-qty-dec').addEventListener('click', function () {
+            let val = parseInt(document.getElementById('modal-qty-value').textContent) || 1;
+            if (val > 1) document.getElementById('modal-qty-value').textContent = val - 1;
+        });
+        document.getElementById('modal-qty-inc').addEventListener('click', function () {
+            let val = parseInt(document.getElementById('modal-qty-value').textContent) || 1;
+            document.getElementById('modal-qty-value').textContent = val + 1;
+        });
+
+        document.getElementById('modal-wishlist-btn').addEventListener('click', function () {
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far'); icon.classList.add('fas');
+                this.style.color = '#ff0000'; this.style.borderColor = '#ff0000';
+                showNotification('Added to wishlist ❤️');
+            } else {
+                icon.classList.remove('fas'); icon.classList.add('far');
+                this.style.color = ''; this.style.borderColor = '';
+                showNotification('Removed from wishlist 🤍');
+            }
+        });
     </script>
     <script>
         if ('serviceWorker' in navigator) {
