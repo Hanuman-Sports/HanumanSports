@@ -439,7 +439,7 @@
     <script>
         // 1. Initial Authentication Check
         const token = localStorage.getItem('token');
-        const API_BASE = window.location.origin.includes('localhost') ? 'http://localhost:3000/api' : '/api';
+        const API_BASE = '/api';
         if (!token) {
             console.error("No token found, redirecting to login...");
             window.location.href = 'login.html';
@@ -531,7 +531,7 @@
                 const phone = document.getElementById("phone").value;
 
                 try {
-                    const API_BASE = window.location.origin.includes('localhost') ? 'http://localhost:3000/api' : '/api';
+                    const API_BASE = '/api';
                     const res = await fetch(`${API_BASE}/users/profile/update`, {
                         method: "PUT",
                         headers: {
@@ -590,6 +590,34 @@
                 }
             });
         }
+
+            // ============ PROFILE PICTURE UPLOAD ============
+        const avatarUpload = document.getElementById('avatar-upload');
+        const profileImage = document.getElementById('profile-image');
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = 'image/*';
+        fileInput.style.display = 'none';
+        fileInput.id = 'profile-image-input';
+        avatarUpload.after(fileInput);
+
+        // Load saved profile picture
+        const savedPic = localStorage.getItem('profile_pic');
+        if (savedPic) profileImage.src = savedPic;
+
+        avatarUpload.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataUrl = e.target.result;
+                profileImage.src = dataUrl;
+                localStorage.setItem('profile_pic', dataUrl);
+                showNotification('Profile picture updated!', 'success');
+            };
+            reader.readAsDataURL(file);
+        });
 
         // ============ ORDERS ============
         async function loadOrders() {
@@ -665,5 +693,6 @@
         document.querySelector('[data-section="orders"]').addEventListener('click', () => setTimeout(loadOrders, 100));
         document.querySelector('[data-section="wishlist"]').addEventListener('click', () => setTimeout(loadWishlist, 100));
     </script>
+<script src="hs-utils.js"></script>
 </body>
 </html>

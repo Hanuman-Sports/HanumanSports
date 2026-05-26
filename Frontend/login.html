@@ -104,7 +104,7 @@
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 10px rgba(255, 107, 0, 0.3);
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
         }
 
         .logo p {
@@ -408,7 +408,8 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const API_BASE = window.location.origin.includes('localhost') ? 'http://localhost:3000/api' : '/api';
+            const API_BASE = '/api';
+            if (window.location.protocol === 'file:') { alert('Please access via http://localhost:3000 — file:// does not support API calls'); return; }
             const form = document.getElementById("loginForm");
             const popup = document.getElementById("loginPopup");
 

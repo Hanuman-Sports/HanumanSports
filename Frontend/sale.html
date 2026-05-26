@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <script>
- // Redirect to loading page with sessionStorage guard
- if (!sessionStorage.getItem('hasSeenLoading')) {
-   localStorage.setItem("loadingTarget", "sale.html");
-   window.location.href = "loading_page.html";
+ // Only redirect to loading page if we haven't just come from it
+ if (sessionStorage.getItem('hasSeenLoading') !== 'true') {
+     localStorage.setItem("loadingTarget", "sale.html");
+     window.location.href = "loading_page.html";
  }
 </script>
 
@@ -413,7 +413,7 @@
         <div class="main-header">
             <div class="header-container">
                 <div class="logo">
-                    <img src="https://pngfre.com/wp-content/uploads/hanuman-36-281x300.png" alt="Hanuman Sports Logo">
+                    <img src="logo.png" alt="Hanuman Sports Logo">
                     <div class="logo-text">
                         <h1>Hanuman Sports</h1>
                         <p>Mysore's Premier Sports Destination</p>
@@ -989,5 +989,6 @@
             updateCountdown();
         });
     </script>
+<script src="hs-utils.js"></script>
 </body>
 </html>

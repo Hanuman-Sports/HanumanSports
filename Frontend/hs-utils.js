@@ -3,9 +3,7 @@
  * API products, cart (hs_cart), toasts, and offline fallbacks
  */
 
-const API_BASE_URL = window.location.origin.includes('localhost')
-    ? 'http://localhost:3000/api'
-    : '/api';
+const API_BASE_URL = '/api';
 
 const CATEGORY_FALLBACKS = {
     Badminton: [
@@ -205,6 +203,67 @@ async function toggleWishlistAPI(productId, btn) {
     return false;
 }
 
+function updateCartCount() {
+    const cart = getCartFromStorage();
+    const total = cart.reduce((s, i) => s + (i.quantity || 1), 0);
+    document.querySelectorAll('#cart-count, .cart-count').forEach(el => el.textContent = total);
+}
+
+function loadProfileAvatar() {
+    const pic = localStorage.getItem('profile_pic');
+    const user = localStorage.getItem('user');
+    const profileBtn = document.getElementById('profile-btn');
+    const profileMenu = document.getElementById('profile-menu');
+    if (!profileBtn && !profileMenu) return;
+    const firstName = user ? (JSON.parse(user).firstname || 'User') : 'User';
+    if (profileMenu) {
+        const existing = profileMenu.querySelector('.dropdown-avatar');
+        if (!existing && pic) {
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'dropdown-avatar';
+            avatarDiv.style.cssText = 'display:flex;align-items:center;gap:10px;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,0.1);';
+            avatarDiv.innerHTML = `<img src="${pic}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid #00F0FF;"><span style="color:#fff;font-size:0.85rem;">${firstName}</span>`;
+            profileMenu.insertBefore(avatarDiv, profileMenu.firstChild);
+        }
+    }
+    if (profileBtn && pic) {
+        const icon = profileBtn.querySelector('i');
+        if (icon) {
+            icon.style.display = 'none';
+            const existingImg = profileBtn.querySelector('.avatar-thumb');
+            if (!existingImg) {
+                const img = document.createElement('img');
+                img.className = 'avatar-thumb';
+                img.src = pic;
+                img.style.cssText = 'width:28px;height:28px;border-radius:50%;object-fit:cover;border:2px solid #00F0FF;';
+                profileBtn.prepend(img);
+            }
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateCartCount();
+    loadProfileAvatar();
+    const token = localStorage.getItem('token');
+    if (token) {
+        const els = document.querySelectorAll('#logout-btn');
+        els.forEach(el => {
+            if (!el._listener) {
+                el._listener = true;
+                el.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to logout?')) {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                        window.location.href = 'login.html';
+                    }
+                });
+            }
+        });
+    }
+});
+
 window.HanumanSports = {
     API_BASE_URL,
     getProducts,
@@ -213,5 +272,7 @@ window.HanumanSports = {
     getCartFromStorage,
     showToast,
     showNotification: window.showNotification,
-    migrateLegacyCart
+    migrateLegacyCart,
+    updateCartCount,
+    loadProfileAvatar
 };

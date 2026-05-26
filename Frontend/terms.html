@@ -2,6 +2,14 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions - Hanuman Sports</title>
+    <meta name="description" content="Terms and conditions for using Hanuman Sports website and services.">
+    <meta name="theme-color" content="#00F0FF">
+    <link rel="icon" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script>
  // Only redirect to loading page if we haven't just come from it
  if (sessionStorage.getItem('hasSeenLoading') !== 'true') {
@@ -9,7 +17,123 @@
      window.location.href = "loading_page.html";
  }
 </script>
+<style>
+:root {
+    --primary: #00F0FF;
+    --secondary: #0A0E17;
+    --accent: #00F0FF;
+    --light: #F8F9FA;
+    --white: #FFFFFF;
+    --gray: #6C757D;
+    --glass: rgba(255,255,255,0.1);
+    --glass-border: rgba(255,255,255,0.2);
+    --neon-shadow: 0 0 12px rgba(0,240,255,0.8);
+    --success: #4CAF50;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Poppins', sans-serif; background: #0A0E17; color: #F8F9FA; overflow-x: hidden; }
+h1,h2,h3,h4,h5,h6 { font-family: 'Orbitron', sans-serif; color: var(--white); }
+a { text-decoration: none; color: inherit; }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #0A0E17; }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
+.floating-elements { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.floating-element { position: absolute; border-radius: 50%; background: rgba(0,240,255,0.05); filter: blur(40px); animation: float 15s infinite linear; }
+.floating-element:nth-child(1) { width: 300px; height: 300px; top: -100px; left: -100px; }
+.floating-element:nth-child(2) { width: 200px; height: 200px; bottom: -50px; right: -50px; animation-delay: -5s; }
+.floating-element:nth-child(3) { width: 250px; height: 250px; top: 50%; left: 50%; animation-delay: -10s; }
+@keyframes float { 0% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(10vw,10vh) rotate(180deg); } 100% { transform: translate(0,0) rotate(360deg); } }
+
+.top-bar { background: rgba(0,240,255,0.08); border-bottom: 1px solid rgba(0,240,255,0.15); padding: 0.5rem 0; font-size: 0.85rem; position: relative; z-index: 1001; }
+.top-bar-container { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; }
+.contact-info { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.contact-info a { color: rgba(255,255,255,0.7); transition: color 0.3s; }
+.contact-info a:hover { color: var(--primary); }
+.social-icons { display: flex; gap: 1rem; }
+.social-icons a { color: rgba(255,255,255,0.6); transition: all 0.3s; font-size: 1rem; }
+.social-icons a:hover { color: var(--primary); transform: translateY(-2px); }
+
+header { position: relative; z-index: 1000; }
+.main-header { background: rgba(10,14,23,0.95); border-bottom: 1px solid rgba(0,240,255,0.1); }
+.header-container { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 2rem; }
+.logo { display: flex; align-items: center; gap: 0.8rem; }
+.logo img { width: 50px; height: 50px; border-radius: 50%; }
+.logo-text h1 { font-size: 1.4rem; background: linear-gradient(135deg,var(--primary),#0099CC); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.logo-text p { font-size: 0.7rem; color: rgba(255,255,255,0.5); }
+.nav-links { display: flex; gap: 1.5rem; }
+.nav-links a { color: rgba(255,255,255,0.8); font-size: 0.95rem; transition: all 0.3s; display: flex; align-items: center; gap: 0.5rem; }
+.nav-links a:hover { color: var(--primary); text-shadow: 0 0 8px rgba(0,240,255,0.5); }
+
+.policy-hero { position: relative; z-index: 1; background: linear-gradient(135deg,rgba(0,240,255,0.08),transparent); padding: 5rem 2rem; text-align: center; border-bottom: 1px solid rgba(0,240,255,0.1); }
+.policy-hero-content h2 { font-size: 2.2rem; background: linear-gradient(135deg,var(--primary),#0099CC); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+.policy-hero-content p { color: rgba(255,255,255,0.7); font-size: 1.05rem; max-width: 700px; margin: 0 auto; line-height: 1.7; }
+
+.section { padding: 4rem 1rem; position: relative; z-index: 1; }
+.last-updated { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 0.5rem; }
+.policy-container { max-width: 900px; margin: 0 auto; }
+.section-title { text-align: center; margin-bottom: 3rem; }
+.section-title h2 { font-size: 2rem; }
+.section-title h2::after { content: ''; display: block; width: 80px; height: 3px; background: var(--primary); margin: 1rem auto 0; border-radius: 2px; box-shadow: var(--neon-shadow); }
+.toc-container { background: rgba(255,255,255,0.03); border: 1px solid rgba(0,240,255,0.15); border-radius: 12px; padding: 2rem; }
+.toc-container h3 { color: var(--primary); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+.toc-list { display: grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap: 0.8rem; }
+.toc-item a { color: rgba(255,255,255,0.8); transition: all 0.3s; display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border-radius: 8px; }
+.toc-item a:hover { color: var(--primary); background: rgba(0,240,255,0.05); }
+
+.policy-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(0,240,255,0.1); border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem; transition: border-color 0.3s; }
+.policy-card:hover { border-color: rgba(0,240,255,0.3); }
+.policy-card h3 { color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem; }
+.policy-content p { color: rgba(255,255,255,0.8); line-height: 1.8; margin-bottom: 1rem; }
+.policy-content h4 { color: var(--white); margin: 1.5rem 0 0.8rem; font-family: 'Poppins', sans-serif; font-size: 1rem; }
+.policy-content ul { margin: 0.5rem 0 1rem 1.5rem; }
+.policy-content ul li { color: rgba(255,255,255,0.75); line-height: 1.8; }
+.policy-note { background: rgba(0,240,255,0.06); border-left: 3px solid var(--primary); padding: 1rem 1.5rem; border-radius: 0 8px 8px 0; margin: 1.5rem 0; }
+.policy-note h4 { color: var(--primary); font-family: 'Orbitron', sans-serif; font-size: 0.85rem; margin-bottom: 0.5rem; }
+.policy-note h4 i { margin-right: 0.5rem; }
+.policy-note p { color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 0; }
+
+.faq-item { border-bottom: 1px solid rgba(0,240,255,0.08); }
+.faq-question { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 0; cursor: pointer; transition: color 0.3s; }
+.faq-question:hover { color: var(--primary); }
+.faq-question span { font-weight: 500; }
+.faq-question i { transition: transform 0.3s; color: var(--primary); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
+.faq-answer.active { max-height: 300px; padding: 0 0 1.2rem; }
+.faq-answer p { color: rgba(255,255,255,0.6); line-height: 1.7; }
+
+.section-divider { border: none; height: 1px; background: linear-gradient(90deg,transparent,var(--primary),transparent); margin: 0 0 2rem; }
+.section-heading-left { font-size: 1.8rem; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; }
+.heading-bar { color: var(--primary); }
+
+.contact-box { background: linear-gradient(135deg,rgba(0,240,255,0.06),rgba(0,240,255,0.02)); border: 1px solid rgba(0,240,255,0.15); border-radius: 12px; padding: 2rem; text-align: center; }
+.contact-box h3 { color: var(--primary); margin-bottom: 1rem; }
+.contact-box p { color: rgba(255,255,255,0.7); margin-bottom: 1.5rem; }
+.contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+.contact-links a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 2rem; background: var(--primary); color: var(--secondary); border-radius: 30px; font-weight: 600; transition: all 0.3s; }
+.contact-links a:hover { transform: translateY(-3px); box-shadow: var(--neon-shadow); }
+
+footer { position: relative; z-index: 1; background: rgba(255,255,255,0.02); border-top: 1px solid rgba(0,240,255,0.1); padding: 3rem 2rem 0; }
+.footer-container { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap: 3rem; }
+.footer-col h3 { color: var(--primary); margin-bottom: 1.2rem; font-size: 1.1rem; }
+.footer-col p { color: rgba(255,255,255,0.6); line-height: 1.7; }
+.footer-col .social-icons { margin-top: 1rem; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+.footer-links li a { color: rgba(255,255,255,0.6); transition: all 0.3s; display: flex; align-items: center; gap: 0.5rem; }
+.footer-links li a:hover { color: var(--primary); transform: translateX(5px); }
+.footer-contact-info { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+.footer-contact-info li { display: flex; align-items: center; gap: 0.8rem; color: rgba(255,255,255,0.6); }
+.footer-contact-info li i { color: var(--primary); width: 16px; }
+.footer-bottom { text-align: center; padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 3rem; }
+.footer-bottom p { color: rgba(255,255,255,0.4); font-size: 0.85rem; }
+
+.back-to-top { position: fixed; bottom: 2rem; right: 2rem; width: 45px; height: 45px; background: var(--primary); color: var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 999; font-size: 1.1rem; }
+.back-to-top.active { opacity: 1; visibility: visible; }
+.back-to-top:hover { transform: translateY(-3px); box-shadow: var(--neon-shadow); }
+
+.overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 998; display: none; }
+.overlay.active { display: block; }
+</style>
 </head>
 <body>
     <!-- Floating Background Elements -->
@@ -403,11 +527,10 @@
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
+    <script src="hs-utils.js"></script>
     <script>
-        // Mobile Menu Toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mainNav = document.getElementById('main-nav');
-
         if (mobileMenuBtn && mainNav) {
             mobileMenuBtn.addEventListener('click', () => {
                 mainNav.classList.toggle('active');
@@ -416,82 +539,32 @@
             });
         }
 
-        // Back to Top Button
         const backToTopButton = document.getElementById('back-to-top');
-
         window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.add('active');
-            } else {
-                backToTopButton.classList.remove('active');
-            }
+            backToTopButton.classList.toggle('active', window.pageYOffset > 300);
         });
+        backToTopButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-        backToTopButton.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const a = q.nextElementSibling;
+                a.classList.toggle('active');
+                q.querySelector('i').style.transform = a.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
             });
         });
 
-        // FAQ Accordion
-        const faqQuestions = document.querySelectorAll('.faq-question');
-        faqQuestions.forEach(question => {
-            question.addEventListener('click', () => {
-                const answer = question.nextElementSibling;
-                const icon = question.querySelector('i');
-
-                // Toggle active class on answer
-                answer.classList.toggle('active');
-
-                // Rotate icon
-                if (answer.classList.contains('active')) {
-                    icon.style.transform = 'rotate(180deg)';
-                } else {
-                    icon.style.transform = 'rotate(0deg)';
-                }
-            });
-        });
-
-        // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-
-                    // Close mobile menu if open
-                    if (mainNav.classList.contains('active')) {
-                        mainNav.classList.remove('active');
-                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                    }
+                const id = this.getAttribute('href');
+                if (id === '#') return;
+                const el = document.querySelector(id);
+                if (el) window.scrollTo({ top: el.offsetTop - 100, behavior: 'smooth' });
+                if (mainNav && mainNav.classList.contains('active')) {
+                    mainNav.classList.remove('active');
+                    if (mobileMenuBtn) mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                 }
             });
-        });
-
-        // Logout Functionality
-        const logoutBtn = document.getElementById("logout-btn");
-        if (logoutBtn) {
-            logoutBtn.addEventListener("click", function (e) {
-                e.preventDefault();
-                if (confirm("Are you sure you want to logout?")) {
-                    localStorage.clear();
-                    window.location.href = "login.html";
-                }
-            });
-        }
-
-        // Initialize on load
-        window.addEventListener('load', () => {
-            updateCartCount();
         });
     </script>
 </body>

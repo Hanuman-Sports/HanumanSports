@@ -257,7 +257,7 @@
                     <!-- PROFILE DROPDOWN END -->
 
                     <a href="#" id="cart-btn" aria-label="Shopping cart"><i
-                            class="fas fa-shopping-cart"></i><span>0</span></a>
+                            class="fas fa-shopping-cart"></i><span id="cart-count">0</span></a>
                 </div>
 
                 <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle mobile menu">
@@ -736,9 +736,7 @@
 
 <script>
          // API Configuration
-         const API_BASE_URL = window.location.origin.includes('localhost')
-             ? 'http://localhost:3000/api'
-             : '/api';
+         const API_BASE_URL = '/api';
 
          // Mobile Menu Toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -1016,7 +1014,7 @@
             try {
                 const cart = getCartFromStorage ? getCartFromStorage() : JSON.parse(localStorage.getItem('hs_cart') || '[]');
                 const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-                const API = window.location.origin.includes('localhost') ? 'http://localhost:3000/api' : '/api';
+                const API = '/api';
                 const res = await fetch(API + '/coupons/validate', {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ code, cartTotal: subtotal })

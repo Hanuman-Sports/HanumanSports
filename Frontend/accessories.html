@@ -409,6 +409,7 @@
         body { background: #fff !important; color: #000 !important; }
     }
 </style>
+@media(max-width:400px){.product-modal-content{max-width:100%!important;border-radius:0;width:100%;}.product-modal-image{min-height:150px;padding:1rem;}.product-modal-image img{max-height:150px;}.product-modal-info{padding:1rem;gap:0.5rem;}.product-modal-info h2{font-size:1rem;}.product-modal-price .current-price{font-size:1.1rem;}.product-modal-actions{flex-direction:column;}.product-modal-actions .btn{width:100%;min-width:unset;}.product-modal-description{font-size:0.8rem;}}
 </head>
 <body>
     <div class="floating-elements">
@@ -456,6 +457,7 @@
                         <a href="#" id="profile-btn"><i class="fas fa-user"></i></a>
                         <div class="dropdown-content" id="profile-menu">
                              <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
+                             <a href="#" onclick="event.preventDefault(); window.location.href='profile.html#wishlist'"><i class="fas fa-heart"></i> Wishlist</a>
                              <a href="profile.html#orders"><i class="fas fa-box"></i> Orders</a>
                              <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
                          </div>
@@ -559,7 +561,6 @@
                     <li><a href="profile.html">My Account</a></li>
                     <li><a href="order.html">Order Tracking</a></li>
                     <li><a href="privacy.html">Privacy Policy</a></li>
-                    <li><a href="shipping.html">Shipping Policy</a></li>
                     <li><a href="shipping.html">Shipping Policy</a></li>
                     <li><a href="terms.html">Terms & Conditions</a></li>
                 </ul>
