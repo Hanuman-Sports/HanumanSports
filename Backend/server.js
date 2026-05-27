@@ -45,6 +45,12 @@ app.use('/api/coupons', couponRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/auth', passwordRoutes);
 
+// SPA fallback — serve index.html for any non-file, non-API route
+app.get('*', (req, res) => {
+    if (req.path.startsWith('/api')) return res.status(404).json({ msg: 'Not found' });
+    res.sendFile(path.join(__dirname, '../Frontend/index.html'));
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Hanuman Sports Server running on http://localhost:${PORT}`);
