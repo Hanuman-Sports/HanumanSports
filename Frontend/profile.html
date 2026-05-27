@@ -439,7 +439,7 @@
     <script>
         // 1. Initial Authentication Check
         const token = localStorage.getItem('token');
-        const API_BASE = '/api';
+        const API_BASE = window.API_BASE_URL;
         if (!token) {
             console.error("No token found, redirecting to login...");
             window.location.href = 'login.html';
@@ -531,7 +531,7 @@
                 const phone = document.getElementById("phone").value;
 
                 try {
-                    const API_BASE = '/api';
+                    const API_BASE = window.API_BASE_URL;
                     const res = await fetch(`${API_BASE}/users/profile/update`, {
                         method: "PUT",
                         headers: {

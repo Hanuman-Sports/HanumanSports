@@ -1051,7 +1051,7 @@
         async function loadFeaturedProducts() {
             const container = document.getElementById('featured-products');
             
-            const API_BASE_URL = '/api';
+            const API_BASE_URL = window.API_BASE_URL;
             
             try {
                 const response = await fetch(`${API_BASE_URL}/products`);
@@ -1336,7 +1336,7 @@
         }
 
         if (searchForm && searchInput && searchResults) {
-            const API_BASE_URL = '/api';
+            const API_BASE_URL = window.API_BASE_URL;
                 
             searchForm.addEventListener('submit', async (e) => {
                 e.preventDefault();

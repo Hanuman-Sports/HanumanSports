@@ -408,7 +408,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const API_BASE = '/api';
+            const API_BASE = window.API_BASE_URL;
             if (window.location.protocol === 'file:') { alert('Please access via http://localhost:3000 — file:// does not support API calls'); return; }
             const form = document.getElementById("loginForm");
             const popup = document.getElementById("loginPopup");

@@ -396,7 +396,7 @@
         document.addEventListener("DOMContentLoaded", function () {
             const registerForm = document.getElementById("registerForm");
             const successMsg = document.getElementById("successMessage");
-            const API_BASE = '/api';
+            const API_BASE = window.API_BASE_URL;
             if (window.location.protocol === 'file:') { alert('Please access via http://localhost:3000 — file:// does not support API calls'); return; }
 
             // 1. Password Toggle (Works for both password and confirm password)

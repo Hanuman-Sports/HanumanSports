@@ -736,7 +736,7 @@
 
 <script>
          // API Configuration
-         const API_BASE_URL = '/api';
+         const API_BASE_URL = window.API_BASE_URL;
 
          // Mobile Menu Toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -1014,7 +1014,7 @@
             try {
                 const cart = getCartFromStorage ? getCartFromStorage() : JSON.parse(localStorage.getItem('hs_cart') || '[]');
                 const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-                const API = '/api';
+                const API = window.API_BASE_URL;
                 const res = await fetch(API + '/coupons/validate', {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ code, cartTotal: subtotal })

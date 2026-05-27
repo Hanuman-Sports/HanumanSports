@@ -611,7 +611,7 @@
                 return;
             }
             try {
-                const API_BASE = '/api';
+                const API_BASE = window.API_BASE_URL;
                 const res = await fetch(`${API_BASE}/orders/my-orders`, {
                     headers: { 'Authorization': 'Bearer ' + token }
                 });
@@ -923,7 +923,7 @@
 <script src="hs-utils.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const API_BASE = '/api';
+            const API_BASE = window.API_BASE_URL;
             const trackOrderBtn = document.getElementById("track-order-btn");
             const orderDetailsSection = document.getElementById("order-details");
 

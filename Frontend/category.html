@@ -1025,7 +1025,7 @@
         const searchForm = document.getElementById('search-form');
         const searchInput = document.getElementById('search-input');
         const searchResults = document.getElementById('search-results');
-        const API_BASE_URL = '/api';
+        const API_BASE_URL = window.API_BASE_URL;
 
         if (searchBtn && searchModal && overlay) {
             searchBtn.addEventListener('click', (e) => {
