@@ -3,9 +3,7 @@
  * API products, cart (hs_cart), toasts, and offline fallbacks
  */
 
-const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-  ? '/api'
-  : (window.__API_BASE__ || 'https://hanuman-sports-api.onrender.com/api');
+const API_BASE_URL = '/api';
 window.API_BASE_URL = API_BASE_URL;
 const PAGINATION_STATE = { total: 0, totalPages: 0, currentPage: 1 };
 
