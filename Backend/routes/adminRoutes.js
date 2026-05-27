@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const { sequelize } = require('../config/db');
-const { verifyToken } = require('../middleware/auth');
+const adminAuth = require('../middleware/adminAuth');
 const User = require('../models/User');
 const Product = require('../models/Product');
 
 // Admin stats route
-router.get('/stats', verifyToken, async (req, res) => {
+router.get('/stats', adminAuth, async (req, res) => {
     try {
         const userCount = await User.count();
         const productCount = await Product.count();
@@ -35,7 +35,7 @@ router.get('/stats', verifyToken, async (req, res) => {
 });
 
 // Add product
-router.post('/products', verifyToken, async (req, res) => {
+router.post('/products', adminAuth, async (req, res) => {
     try {
         const product = await Product.create(req.body);
         res.status(201).json({ success: true, message: 'Product added successfully', product });
@@ -46,7 +46,7 @@ router.post('/products', verifyToken, async (req, res) => {
 });
 
 // Update product
-router.put('/products/:id', verifyToken, async (req, res) => {
+router.put('/products/:id', adminAuth, async (req, res) => {
     try {
         const product = await Product.findByPk(req.params.id);
         if (!product) {
@@ -61,7 +61,7 @@ router.put('/products/:id', verifyToken, async (req, res) => {
 });
 
 // Delete product
-router.delete('/products/:id', verifyToken, async (req, res) => {
+router.delete('/products/:id', adminAuth, async (req, res) => {
     try {
         const product = await Product.findByPk(req.params.id);
         if (!product) {

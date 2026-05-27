@@ -47,9 +47,9 @@ exports.checkout = async (req, res) => {
 exports.getUserOrders = async (req, res) => {
     try {
         const orders = await Order.findAll({ where: { userId: req.userId }, order: [['createdAt', 'DESC']] });
-        res.json(orders);
+        res.json({ success: true, orders });
     } catch (err) {
-        res.status(500).json({ message: 'Server Error', error: err.message });
+        res.status(500).json({ success: false, message: 'Server Error', error: err.message });
     }
 };
 
@@ -66,8 +66,11 @@ exports.lookupOrder = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Find order by ID and userId
-        const order = await Order.findOne({ where: { id: orderId, userId: user.id } });
+        // Find order by orderNumber (string like HS123456) or ID and userId
+        const where = /^HS\d+$/i.test(orderId)
+            ? { orderNumber: orderId, userId: user.id }
+            : { id: orderId, userId: user.id };
+        const order = await Order.findOne({ where });
         if (!order) {
             return res.status(404).json({ message: 'Order not found' });
         }

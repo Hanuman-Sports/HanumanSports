@@ -50,6 +50,10 @@ router.post('/create', verifyToken, async (req, res) => {
 // Get user orders
 router.get('/', verifyToken, orderController.getUserOrders);
 
+// Alias routes for frontend compatibility
+router.get('/my-orders', verifyToken, orderController.getUserOrders);
+router.get('/my', verifyToken, orderController.getUserOrders);
+
 // Lookup order by ID and email (public endpoint)
 router.get('/lookup', orderController.lookupOrder);
 

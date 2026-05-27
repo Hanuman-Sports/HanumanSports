@@ -53,5 +53,16 @@ exports.login = async (req, res) => {
 };
 
 exports.updateProfile = async (req, res) => {
-    res.status(200).json({ message: "Profile updated successfully" });
+    try {
+        const { firstname, lastname, phone } = req.body;
+        const user = await User.findByPk(req.userId);
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        if (firstname) user.firstname = firstname;
+        if (lastname) user.lastname = lastname;
+        if (phone) user.phone = phone;
+        await user.save();
+        res.status(200).json({ success: true, message: "Profile updated successfully", user });
+    } catch (err) {
+        res.status(500).json({ success: false, message: "Update failed", error: err.message });
+    }
 };

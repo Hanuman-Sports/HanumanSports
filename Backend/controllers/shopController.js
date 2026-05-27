@@ -16,19 +16,19 @@ exports.getProducts = async (req, res) => {
 
 exports.addToCart = async (req, res) => {
     const { productId, quantity } = req.body;
-    let item = await Cart.findOne({ where: { userId: req.user.id, productId } });
+    let item = await Cart.findOne({ where: { userId: req.userId, productId } });
     if (item) {
         item.quantity += quantity;
         await item.save();
     } else {
-        await Cart.create({ userId: req.user.id, productId, quantity });
+        await Cart.create({ userId: req.userId, productId, quantity });
     }
     res.json({ msg: "Added to cart" });
 };
 
 exports.checkout = async (req, res) => {
     // Basic checkout logic for Hanuman Sports
-    await Order.create({ userId: req.user.id, totalAmount: req.body.total });
-    await Cart.destroy({ where: { userId: req.user.id } });
+    await Order.create({ userId: req.userId, totalAmount: req.body.total });
+    await Cart.destroy({ where: { userId: req.userId } });
     res.json({ msg: "Order placed successfully" });
 };

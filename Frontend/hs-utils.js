@@ -282,6 +282,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// Alias toast functions for backward compatibility across all pages
+window.toastInfo = (title, message) => showToast('success', title, message);
+window.toastError = (title, message) => showToast('error', title, message);
+window.HSToast = {
+    success: (msg) => showToast('success', 'Success', msg),
+    error: (msg) => showToast('error', 'Error', msg),
+    warning: (msg) => showToast('warning', 'Warning', msg),
+    info: (msg) => showToast('info', 'Info', msg)
+};
+
 window.HanumanSports = {
     API_BASE_URL,
     getProducts,

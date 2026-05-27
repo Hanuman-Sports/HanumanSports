@@ -6,8 +6,7 @@ const urlsToCache = [
   'loading_page.html',
   'hs-utils.js',
   'logo.png',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-  'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap'
+  // Cross-origin URLs removed — service worker install would fail on these in some browsers
 ];
 
 self.addEventListener('install', event => {

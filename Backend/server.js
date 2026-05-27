@@ -14,6 +14,8 @@ const otpRoutes = require('./routes/otpRoutes');
 const couponRoutes = require('./routes/couponRoutes');
 const wishlistRoutes = require('./routes/wishlistRoutes');
 const passwordRoutes = require('./routes/passwordRoutes');
+const shopRoutes = require('./routes/shopRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 
 const app = express();
 
@@ -44,6 +46,8 @@ app.use('/api/otp', otpRoutes);
 app.use('/api/coupons', couponRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/auth', passwordRoutes);
+app.use('/api/shop', shopRoutes);
+app.use('/api/payment', paymentRoutes);
 
 // SPA fallback — serve index.html for any non-file, non-API route
 app.get('*', (req, res) => {

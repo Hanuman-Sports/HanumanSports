@@ -619,7 +619,8 @@
                 const container = document.getElementById('order-details');
                 if (!container) return;
 
-                if (!data.success || data.orders.length === 0) {
+                const orders = data.orders || data;
+                if (!data.success || !orders || orders.length === 0) {
                     container.innerHTML = `
                         <div style="text-align:center; padding: 3rem; color: #aaa;">
                             <i class="fas fa-box-open" style="font-size:3rem; margin-bottom:1rem; color:#00F0FF;"></i>
@@ -630,29 +631,29 @@
                     return;
                 }
 
-                container.innerHTML = data.orders.map(order => `
+                container.innerHTML = orders.map(order => `
                     <div style="background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:1.5rem; margin-bottom:1.5rem;">
                         <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:1rem;">
                             <div>
-                                <div style="font-family:'Orbitron',sans-serif; color:#00F0FF; font-size:0.9rem;">ORDER #${order.order_number}</div>
-                                <div style="color:#aaa; font-size:0.85rem; margin-top:0.3rem;">${new Date(order.created_at).toLocaleDateString('en-IN', {day:'numeric',month:'long',year:'numeric'})}</div>
+                                <div style="font-family:'Orbitron',sans-serif; color:#00F0FF; font-size:0.9rem;">ORDER #${order.orderNumber || order.order_number || order.id}</div>
+                                <div style="color:#aaa; font-size:0.85rem; margin-top:0.3rem;">${new Date(order.createdAt || order.created_at).toLocaleDateString('en-IN', {day:'numeric',month:'long',year:'numeric'})}</div>
                             </div>
                             <div style="text-align:right;">
-                                <span style="background:${order.status==='delivered'?'rgba(0,200,100,0.2)': order.status==='cancelled'?'rgba(255,0,0,0.2)':'rgba(0,240,255,0.2)'}; color:${order.status==='delivered'?'#00c864':order.status==='cancelled'?'#ff4444':'#00F0FF'}; padding:0.3rem 1rem; border-radius:20px; font-size:0.85rem; text-transform:capitalize;">${order.status}</span>
-                                <div style="color:#fff; font-size:1.1rem; font-weight:600; margin-top:0.5rem;">₹${Number(order.total_amount).toLocaleString()}</div>
+                                <span style="background:${order.status==='delivered'||order.status==='Delivered'?'rgba(0,200,100,0.2)': order.status==='cancelled'||order.status==='Cancelled'?'rgba(255,0,0,0.2)':'rgba(0,240,255,0.2)'}; color:${order.status==='delivered'||order.status==='Delivered'?'#00c864':order.status==='cancelled'||order.status==='Cancelled'?'#ff4444':'#00F0FF'}; padding:0.3rem 1rem; border-radius:20px; font-size:0.85rem; text-transform:capitalize;">${order.status}</span>
+                                <div style="color:#fff; font-size:1.1rem; font-weight:600; margin-top:0.5rem;">₹${Number(order.totalAmount || order.total_amount).toLocaleString()}</div>
                             </div>
                         </div>
                         <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:1rem;">
                             ${(order.items||[]).map(item => `
                                 <div style="display:flex; justify-content:space-between; padding:0.4rem 0; color:#ccc; font-size:0.9rem;">
-                                    <span>${item.product_name} × ${item.quantity}</span>
-                                    <span>₹${Number(item.price * item.quantity).toLocaleString()}</span>
+                                    <span>${item.name || item.product_name} × ${item.quantity}</span>
+                                    <span>₹${Number((item.price || item.priceAtPurchase || 0) * item.quantity).toLocaleString()}</span>
                                 </div>`).join('')}
                         </div>
                         <div style="margin-top:0.8rem; font-size:0.85rem; color:#aaa;">
-                            <i class="fas fa-map-marker-alt" style="color:#00F0FF;"></i> ${order.shipping_address || 'N/A'}
+                            <i class="fas fa-map-marker-alt" style="color:#00F0FF;"></i> ${order.shippingAddress || order.shipping_address || 'N/A'}
                             &nbsp;&nbsp;
-                            <i class="fas fa-credit-card" style="color:#00F0FF;"></i> ${order.payment_method || 'COD'}
+                            <i class="fas fa-credit-card" style="color:#00F0FF;"></i> ${order.paymentMethod || order.payment_method || 'COD'}
                         </div>
                     </div>`).join('');
             } catch(e) {
@@ -950,20 +951,14 @@
                         // Show the order details section
                         orderDetailsSection.style.display = 'block';
                         
-                        if (typeof toastInfo === 'function') {
-                            toastInfo('Success', 'Order found!');
-                        }
+                        showNotification('Order found!');
                     } else {
                         alert("Error: " + data.message);
                         orderDetailsSection.style.display = 'none';
                     }
                 } catch (err) {
                     console.error("Connection Failed:", err);
-                    if (typeof toastInfo === 'function') {
-                        toastInfo('Notice', 'Server is not responding. Is node server.js running?');
-                    } else {
-                        alert('Server is not responding. Ensure your backend is running.');
-                    }
+                    showNotification('Server is not responding. Ensure your backend is running.', 'error');
                     orderDetailsSection.style.display = 'none';
                 }
             });

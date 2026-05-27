@@ -59,7 +59,7 @@ router.post('/validate', async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-        const coupons = await Coupon.findAll({ order: [['createdAt', 'DESC']] });
+        const coupons = await Coupon.findAll({ order: [['id', 'DESC']] });
         res.json({ success: true, coupons });
     } catch (err) {
         res.status(500).json({ success: false, msg: 'Server error' });
