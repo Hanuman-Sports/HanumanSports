@@ -26,11 +26,19 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Warn at startup if critical env vars are missing
+if (!process.env.JWT_SECRET) {
+    console.error('⚠️  CRITICAL: JWT_SECRET environment variable is not set. Authentication will fail.');
+}
+if (!process.env.DB_HOST) {
+    console.warn('⚠️  DB_HOST not set — database features will be unavailable.');
+}
+
 // Connect to Database & Sync Tables (server keeps running if DB is down)
 connectDB();
 
 // Serve uploaded images to frontend
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Serve static frontend files (always — works for both dev and production)
 app.use(express.static(path.join(__dirname, '../Frontend')));

@@ -10,25 +10,36 @@ exports.addProduct = async (req, res) => {
 };
 
 exports.getProducts = async (req, res) => {
-    const products = await Product.findAll();
-    res.json(products);
+    try {
+        const products = await Product.findAll();
+        res.json(products);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
 
 exports.addToCart = async (req, res) => {
-    const { productId, quantity } = req.body;
-    let item = await Cart.findOne({ where: { userId: req.userId, productId } });
-    if (item) {
-        item.quantity += quantity;
-        await item.save();
-    } else {
-        await Cart.create({ userId: req.userId, productId, quantity });
+    try {
+        const { productId, quantity } = req.body;
+        let item = await Cart.findOne({ where: { userId: req.userId, productId } });
+        if (item) {
+            item.quantity += quantity;
+            await item.save();
+        } else {
+            await Cart.create({ userId: req.userId, productId, quantity });
+        }
+        res.json({ msg: "Added to cart" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
-    res.json({ msg: "Added to cart" });
 };
 
 exports.checkout = async (req, res) => {
-    // Basic checkout logic for Hanuman Sports
-    await Order.create({ userId: req.userId, totalAmount: req.body.total });
-    await Cart.destroy({ where: { userId: req.userId } });
-    res.json({ msg: "Order placed successfully" });
+    try {
+        await Order.create({ userId: req.userId, totalAmount: req.body.total });
+        await Cart.destroy({ where: { userId: req.userId } });
+        res.json({ msg: "Order placed successfully" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };

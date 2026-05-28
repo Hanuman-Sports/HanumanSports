@@ -4,6 +4,7 @@ const orderController = require('../controllers/orderController');
 const { verifyToken } = require('../middleware/auth');
 const Order = require('../models/Order');
 const Cart = require('../models/Cart');
+const Coupon = require('../models/Coupon');
 
 // Checkout: Process the order and clear the cart
 router.post('/checkout', verifyToken, orderController.checkout);
@@ -20,7 +21,6 @@ router.post('/create', verifyToken, async (req, res) => {
         // Increment coupon usage if a valid coupon was applied
         if (coupon_code && discount_amount > 0) {
             try {
-                const Coupon = require('../models/Coupon');
                 await Coupon.increment('used_count', { where: { code: coupon_code } });
             } catch(e) { console.error('Coupon increment error:', e); }
         }
