@@ -55,7 +55,12 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/index.html'));
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`🚀 Hanuman Sports Server running on http://localhost:${PORT}`);
-});
+// Export for Vercel serverless; only listen directly when running standalone
+if (process.env.VERCEL !== '1') {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`🚀 Hanuman Sports Server running on http://localhost:${PORT}`);
+    });
+}
+
+module.exports = app;
