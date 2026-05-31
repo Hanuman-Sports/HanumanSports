@@ -535,6 +535,57 @@
         }
         .add-to-cart:hover { background: var(--primary); color: #000; box-shadow: 0 0 12px rgba(0, 240, 255, 0.4); }
 
+        /* Compact cards (Recently Viewed) */
+        .product-card.compact {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0.8rem;
+            cursor: pointer;
+            min-width: 240px;
+            flex-shrink: 0;
+            border-radius: 10px;
+        }
+        .product-card.compact .compact-img {
+            width: 55px;
+            height: 55px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .product-card.compact .compact-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-card.compact .compact-info { flex: 1; min-width: 0; }
+        .product-card.compact .compact-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--white);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .product-card.compact .compact-price {
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+        .recently-scroll {
+            display: flex;
+            gap: 0.75rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 4px;
+        }
+        .recently-scroll::-webkit-scrollbar { height: 4px; }
+        .recently-scroll::-webkit-scrollbar-track { background: transparent; }
+        .recently-scroll::-webkit-scrollbar-thumb { background: rgba(0,240,255,0.3); border-radius: 4px; }
+        .product-card.compact:hover { transform: translateY(-2px); }
+
         /* Cart Sidebar */
         .cart-sidebar {
             position: fixed;
@@ -974,9 +1025,9 @@
 
     <section class="section" id="recently-viewed" style="display:none;">
         <div class="section-title">
-            <h2>Recently Viewed</h2>
+            <h2 style="font-size:1.1rem;">Recently Viewed</h2>
         </div>
-        <div class="products" id="recently-viewed-grid"></div>
+        <div class="recently-scroll" id="recently-viewed-grid"></div>
     </section>
 
     <section class="section about" id="about">

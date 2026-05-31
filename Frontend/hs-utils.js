@@ -307,7 +307,7 @@ function loadProfileAvatar() {
 
 // — Recently Viewed — 
 const RECENT_KEY = 'hs_recent';
-const RECENT_MAX = 8;
+const RECENT_MAX = 4;
 function trackRecentlyViewed(product) {
     if (!product || !product.id) return;
     let recent = [];
@@ -330,12 +330,11 @@ function renderRecentlyViewed() {
     grid.innerHTML = items.map(p => {
         const img = p.image || 'logo.png';
         const price = parseFloat(p.price) || 0;
-        return `<div class="product-card" data-id="${p.id}" style="cursor:pointer;" onclick="openProductModal('${p.id}')">
-            <div class="product-image"><img src="${img}" alt="${p.name}" onerror="this.src='logo.png'"></div>
-            <div class="product-info">
-                <div class="product-category">${p.category || ''}</div>
-                <h3 class="product-title">${p.name}</h3>
-                <div class="product-price"><span class="current-price">₹${price.toLocaleString('en-IN')}</span></div>
+        return `<div class="product-card compact" data-id="${p.id}" onclick="openProductModal('${p.id}')">
+            <div class="compact-img"><img src="${img}" alt="${p.name}" onerror="this.src='logo.png'"></div>
+            <div class="compact-info">
+                <div class="compact-name">${p.name}</div>
+                <div class="compact-price">₹${price.toLocaleString('en-IN')}</div>
             </div>
         </div>`;
     }).join('');
