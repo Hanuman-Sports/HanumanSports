@@ -38,8 +38,7 @@ const Product = sequelize.define('Product', {
     },
     image: {
         type: DataTypes.STRING,
-        allowNull: true,
-        field: 'main_image'
+        allowNull: true
     },
     rating: {
         type: DataTypes.DECIMAL(2, 1),

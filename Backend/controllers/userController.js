@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const bcrypt = require('bcryptjs');
 
 // Update user profile
 exports.updateProfile = async (req, res) => {
@@ -27,8 +28,6 @@ exports.changePassword = async (req, res) => {
     try {
         const { currentPassword, newPassword } = req.body;
         const userId = req.userId;
-        const bcrypt = require('bcryptjs');
-
         const user = await User.findByPk(userId);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });

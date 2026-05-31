@@ -32,6 +32,46 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; background: #0A0E17; color: #F8F9FA; }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .skeleton-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+        }
+        .skeleton-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+        .skeleton-card .s-block {
+            background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.06) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 6px;
+        }
+        .skeleton-img { height: 220px; margin: 0; border-radius: 0; }
+        .skeleton-line { height: 14px; margin: 14px 16px; }
+        .skeleton-line.short { width: 50%; }
+        .skeleton-line.medium { width: 75%; }
+        .skeleton-line.long { width: 90%; }
+        .skeleton-action { height: 40px; margin: 10px 16px 16px; }
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1rem;
+            color: var(--gray);
+            text-align: center;
+        }
+        .empty-state i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; }
+        .empty-state h3 { font-size: 1.1rem; margin-bottom: 0.3rem; color: rgba(255,255,255,0.5); }
+        .empty-state p { font-size: 0.85rem; margin-bottom: 1rem; }
         h1, h2, h3, h4, h5, h6 { font-family: 'Orbitron', sans-serif; }
         a { text-decoration: none; color: inherit; }
         
@@ -150,6 +190,25 @@
         .page-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
         .page-btn:disabled { opacity: 0.3; cursor: default; }
         .page-info { color: var(--gray); font-size: 0.8rem; margin: 0 0.5rem; }
+        #products.list-view {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .product-card.list-view {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
+        }
+        .product-card.list-view img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+        .product-card.list-view .product-info {
+            flex: 1;
+        }
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
         .product-card { background: var(--glass); border-radius: 12px; overflow: hidden; backdrop-filter: blur(10px); border: 1px solid var(--glass-border); transition: all 0.4s; }
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.3); border-color: rgba(0,240,255,0.3); }
@@ -217,10 +276,10 @@
                     <a href="mailto:info@hanumansports.com"><i class="fas fa-envelope"></i> info@hanumansports.com</a>
                 </div>
                 <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="https://facebook.com/hanumansports"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com/hanumansports"><i class="fab fa-instagram"></i></a>
+                    <a href="https://twitter.com/hanumansports"><i class="fab fa-twitter"></i></a>
+                    <a href="https://youtube.com/@hanumansports"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
         </div>
@@ -301,9 +360,13 @@
             </div>
         </div>
         <div class="products-grid" id="products">
-            <div style="text-align: center; padding: 50px; color: var(--gray); grid-column: 1 / -1;">
-                <i class="fas fa-spinner fa-spin fa-3x"></i>
-                <p style="margin-top: 15px;">Loading amazing products...</p>
+            <div class="skeleton-grid" id="product-skeleton">
+                <div class="skeleton-card"><div class="s-block skeleton-img"></div><div class="s-block skeleton-line long"></div><div class="s-block skeleton-line short"></div><div class="s-block skeleton-line medium"></div><div class="s-block skeleton-action"></div></div>
+                <div class="skeleton-card"><div class="s-block skeleton-img"></div><div class="s-block skeleton-line long"></div><div class="s-block skeleton-line short"></div><div class="s-block skeleton-line medium"></div><div class="s-block skeleton-action"></div></div>
+                <div class="skeleton-card"><div class="s-block skeleton-img"></div><div class="s-block skeleton-line long"></div><div class="s-block skeleton-line short"></div><div class="s-block skeleton-line medium"></div><div class="s-block skeleton-action"></div></div>
+                <div class="skeleton-card"><div class="s-block skeleton-img"></div><div class="s-block skeleton-line long"></div><div class="s-block skeleton-line short"></div><div class="s-block skeleton-line medium"></div><div class="s-block skeleton-action"></div></div>
+                <div class="skeleton-card"><div class="s-block skeleton-img"></div><div class="s-block skeleton-line long"></div><div class="s-block skeleton-line short"></div><div class="s-block skeleton-line medium"></div><div class="s-block skeleton-action"></div></div>
+                <div class="skeleton-card"><div class="s-block skeleton-img"></div><div class="s-block skeleton-line long"></div><div class="s-block skeleton-line short"></div><div class="s-block skeleton-line medium"></div><div class="s-block skeleton-action"></div></div>
             </div>
         </div>
         <div class="pagination" id="pagination"></div>
@@ -332,10 +395,10 @@
                 </div>
                 <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 1.5rem;">Mysore's premier destination for high-quality sports equipment, apparel, and accessories. Elevate your game with us.</p>
                 <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="https://facebook.com/hanumansports"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com/hanumansports"><i class="fab fa-instagram"></i></a>
+                    <a href="https://twitter.com/hanumansports"><i class="fab fa-twitter"></i></a>
+                    <a href="https://youtube.com/@hanumansports"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
             <div class="footer-col">
@@ -343,9 +406,9 @@
                 <ul class="footer-links">
                     <li><a href="profile.html">My Account</a></li>
                     <li><a href="order.html">Order Tracking</a></li>
-                    <li><a href="privacy.html">Privacy Policy</a></li>
-                    <li><a href="shipping.html">Shipping Policy</a></li>
-                    <li><a href="terms.html">Terms & Conditions</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -371,7 +434,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2024 Hanuman Sports. All Rights Reserved. Designed with <i class="fas fa-heart" style="color: var(--primary);"></i> in Mysore.</p>
+            <p>&copy; 2025 Hanuman Sports. All Rights Reserved. Designed with <i class="fas fa-heart" style="color: var(--primary);"></i> in Mysore.</p>
         </div>
     </footer>
 
@@ -448,24 +511,9 @@ async function loadProducts(sort_by, page) {
     const productGrid = document.getElementById('products');
     if (!productGrid) return;
 
-    productGrid.innerHTML = `
-        <div style="
-            grid-column: 1 / -1; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            min-height: 350px; 
-            width: 100%; 
-            color: var(--primary); 
-            font-family: 'Orbitron', sans-serif; 
-            letter-spacing: 2px;
-            text-shadow: var(--neon-shadow);
-        ">
-            <i class="fas fa-sync fa-spin fa-3x" style="margin-bottom: 20px; color: var(--primary);"></i>
-            <div style="font-size: 1.2rem; font-weight: bold;">ACCESSING PRODUCT MASTER DATABASE...</div>
-        </div>
-    `;
+    productGrid.innerHTML = '<div class="skeleton-grid" id="product-skeleton">' +
+        Array(6).fill('<div class="skeleton-card"><div class="s-block skeleton-img"></div><div class="s-block skeleton-line long"></div><div class="s-block skeleton-line short"></div><div class="s-block skeleton-line medium"></div><div class="s-block skeleton-action"></div></div>').join('') +
+    '</div>';
 
     try {
         const opts = {category: 'Badminton', page: page || 1, limit: 12};
@@ -475,17 +523,16 @@ async function loadProducts(sort_by, page) {
         allProducts = data;
         
         if (!data || data.length === 0) {
-            productGrid.innerHTML = `
-                <div style="grid-column: 1/-1; text-align: center; color: var(--gray); padding: 3rem; font-family: 'Poppins';">
-                    No active stock inventory found for this category right now.
-                </div>
-            `;
+            productGrid.innerHTML = '<div class="empty-state"><i class="fas fa-box-open"></i><h3>No products found</h3><p>Check back later for new arrivals.</p></div>';
             document.getElementById('pagination').innerHTML = '';
             return;
         }
 
+        const skel = document.getElementById('product-skeleton');
+        if (skel) skel.style.display = 'none';
+
         productGrid.innerHTML = data.map(product => {
-            const productImg = product.image || product.main_image || 'logo.png';
+            const productImg = product.image || 'logo.png';
             const productPrice = parseFloat(product.price) || 0;
 
             // Rating Stars Engine
@@ -522,7 +569,7 @@ async function loadProducts(sort_by, page) {
                         <h3 class="product-title" onclick="openProductModal('${product.id}')" style="cursor: pointer;">${product.name}</h3>
                         <div class="product-rating">
                             ${starsHtml}
-                            <span>(45)</span>
+                            <span>(${product.reviews_count || 0})</span>
                         </div>
                         <div class="product-price">
                             <span class="current-price">₹${productPrice.toLocaleString('en-IN')}</span>
@@ -545,6 +592,8 @@ async function loadProducts(sort_by, page) {
         renderPagination();
 
     } catch (error) {
+        const skel = document.getElementById('product-skeleton');
+        if (skel) skel.style.display = 'none';
         console.error("Failed to load products:", error);
         
         productGrid.innerHTML = `
@@ -565,7 +614,7 @@ async function loadProducts(sort_by, page) {
             if (!productGrid) return;
             
             if (!products || products.length === 0) {
-                productGrid.innerHTML = '<div style="text-align: center; padding: 50px; color: var(--gray); grid-column: 1/-1;">No matching database products found for this section.</div>';
+                productGrid.innerHTML = '<div class="empty-state"><i class="fas fa-box-open"></i><h3>No products found</h3><p>Check back later for new arrivals.</p></div>';
                 return;
             }
 
@@ -586,7 +635,7 @@ async function loadProducts(sort_by, page) {
                 }
 
                 // Handle both backend image path mappings cleanly (Sequelize code models vs real db names)
-                const targetImg = product.image || product.main_image || 'logo.png';
+                const targetImg = product.image || 'logo.png';
                 const currentPrice = parseFloat(product.price) || 0;
 
                 let discountHtml = '';
@@ -769,7 +818,7 @@ async function loadProducts(sort_by, page) {
             modalProductId = product.id;
 
             const img = document.getElementById('product-modal-img');
-            img.src = product.image || product.main_image || 'logo.png';
+            img.src = product.image || 'logo.png';
             img.onerror = function () { this.src = 'logo.png'; };
 
             const badgeEl = document.getElementById('product-modal-badge');
@@ -820,8 +869,10 @@ async function loadProducts(sort_by, page) {
             wlBtn.querySelector('i').className = 'far fa-heart';
             wlBtn.style.color = '';
             wlBtn.style.borderColor = '';
+            if (window.HanumanSports) window.HanumanSports.applyWishlistState(wlBtn, modalProductId || product.id);
 
             document.getElementById('product-modal').classList.add('active');
+            if (window.HanumanSports) window.HanumanSports.trackRecentlyViewed(product);
         }
 
         function closeProductModal() {
@@ -839,7 +890,7 @@ async function loadProducts(sort_by, page) {
             const product = allProducts.find(p => String(p.id) === String(modalProductId));
             if (!product) return;
             const qty = parseInt(document.getElementById('modal-qty-value').textContent) || 1;
-            const productImg = product.image || product.main_image || 'logo.png';
+            const productImg = product.image || 'logo.png';
             let cart = JSON.parse(localStorage.getItem('hs_cart')) || [];
             const existingItem = cart.find(item => String(item.id) === String(modalProductId));
             if (existingItem) existingItem.quantity += qty;
@@ -1020,7 +1071,7 @@ async function loadProducts(sort_by, page) {
                 }
                 
                 searchResults.innerHTML = matches.map(product => {
-                    const imgPath = product.image || product.main_image || 'logo.png';
+                    const imgPath = product.image || 'logo.png';
                     return `
                         <div class="search-result-item" onclick="openProductModal('${product.id}')">
                             <img src="${imgPath}" alt="${product.name}" onerror="this.src='logo.png'">
@@ -1045,10 +1096,27 @@ async function loadProducts(sort_by, page) {
             if(mobileBtn && mainNav) {
                 mobileBtn.addEventListener('click', () => {
                     mainNav.classList.toggle('active');
+                    document.body.classList.toggle('nav-open');
                     mobileBtn.innerHTML = mainNav.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
                 });
             }
         });
+
+        const gridViewBtn = document.getElementById('grid-view');
+        const listViewBtn = document.getElementById('list-view');
+        const productsGrid = document.getElementById('products');
+        if (gridViewBtn && listViewBtn && productsGrid) {
+            gridViewBtn.addEventListener('click', () => {
+                productsGrid.classList.remove('list-view');
+                gridViewBtn.classList.add('active');
+                listViewBtn.classList.remove('active');
+            });
+            listViewBtn.addEventListener('click', () => {
+                productsGrid.classList.add('list-view');
+                listViewBtn.classList.add('active');
+                gridViewBtn.classList.remove('active');
+            });
+        }
     </script>
 
 <style>
@@ -1066,11 +1134,21 @@ async function loadProducts(sort_by, page) {
         .top-bar-container { flex-direction: column; gap: 0.5rem; text-align: center; }
         .contact-info { justify-content: center; flex-wrap: wrap; }
         .mobile-menu-btn { display: block !important; }
-        nav#main-nav { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(10, 14, 23, 0.98); z-index: 1000; border-bottom: 2px solid var(--primary); }
-        nav#main-nav.active { display: block; }
-        nav#main-nav ul { flex-direction: column; padding: 1rem; }
-        nav#main-nav ul li { width: 100%; text-align: center; }
-        nav#main-nav ul li a { display: block; padding: 0.8rem 1rem; }
+        body.nav-open::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10;
+            backdrop-filter: blur(2px);
+        }
+        nav#main-nav { position: fixed; top: 0; left: -100%; width: 80%; max-width: 320px; height: 100vh; background: rgba(10,14,23,0.98); z-index: 3000; padding: 2rem; transition: left 0.3s ease; border-right: 1px solid var(--glass-border); }
+        nav#main-nav.active { left: 0; }
+        nav#main-nav ul { flex-direction: column; gap: 1rem; margin-top: 3rem; }
+        nav#main-nav ul li a { font-size: 1.1rem; }
         .header-icons .profile-dropdown .dropdown-content { right: 0; left: auto; }
         .hero { min-height: 40vh; }
         .hero h2 { font-size: 1.5rem; }
@@ -1131,14 +1209,7 @@ async function loadProducts(sort_by, page) {
 @media(max-width:400px){.product-modal-content{max-width:100%!important;border-radius:0;width:100%;}.product-modal-image{min-height:150px;padding:1rem;}.product-modal-image img{max-height:150px;}.product-modal-info{padding:1rem;gap:0.5rem;}.product-modal-info h2{font-size:1rem;}.product-modal-price .current-price{font-size:1.1rem;}.product-modal-actions{flex-direction:column;}.product-modal-actions .btn{width:100%;min-width:unset;}.product-modal-description{font-size:0.8rem;}}
 </style>
     <script>
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mainNav = document.getElementById('main-nav');
-        if (mobileMenuBtn && mainNav) {
-            mobileMenuBtn.addEventListener('click', () => {
-                mainNav.classList.toggle('active');
-                mobileMenuBtn.innerHTML = mainNav.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-            });
-        }
+
         const profileBtn = document.getElementById('profile-btn');
         const profileMenu = document.getElementById('profile-menu');
         if (profileBtn && profileMenu) {

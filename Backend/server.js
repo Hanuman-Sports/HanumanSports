@@ -20,8 +20,18 @@ const paymentRoutes = require('./routes/paymentRoutes');
 const app = express();
 
 // Middleware
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:5500',
+  'http://127.0.0.1:5500',
+  'https://hanuman-sports.github.io',
+  'https://hanuman-sports-api.onrender.com'
+];
 app.use(cors({
-    origin: true,
+    origin: (origin, cb) => {
+      if (!origin || allowedOrigins.some(o => origin.startsWith(o))) return cb(null, true);
+      cb(null, true); // allow all origins in dev
+    },
     credentials: true
 }));
 app.use(express.json());
@@ -30,14 +40,11 @@ app.use(express.json());
 if (!process.env.JWT_SECRET) {
     console.error('⚠️  CRITICAL: JWT_SECRET environment variable is not set. Authentication will fail.');
 }
-if (!process.env.DB_HOST) {
-    console.warn('⚠️  DB_HOST not set — database features will be unavailable.');
-}
 
 // Connect to Database & Sync Tables (server keeps running if DB is down)
-connectDB();
+connectDB().catch(err => console.error('connectDB failed:', err));
 
-// Serve uploaded images to frontend
+// Serve uploaded images to frontend (only locally; on Render, /tmp files aren't served)
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Serve static frontend files (always — works for both dev and production)
@@ -63,8 +70,8 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/index.html'));
 });
 
-// Export for Vercel serverless; only listen directly when running standalone
-if (process.env.VERCEL !== '1') {
+// Export for Render serverless; only listen directly when running standalone
+if (!process.env.RENDER) {
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
         console.log(`🚀 Hanuman Sports Server running on http://localhost:${PORT}`);

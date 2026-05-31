@@ -30,7 +30,10 @@ router.post('/create', verifyToken, async (req, res) => {
             totalAmount: total,
             status: payment_method === 'cod' ? 'Confirmed' : 'Pending',
             discountAmount: discount_amount || 0,
-            couponCode: coupon_code || null
+            couponCode: coupon_code || null,
+            items: items || null,
+            shippingAddress: shipping_address || null,
+            paymentMethod: payment_method || null
         });
 
         // Clear user's cart after order

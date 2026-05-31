@@ -4,7 +4,7 @@ const router = express.Router();
 const Product = require('../models/Product');
 
 function formatProduct(p) {
-    const image = p.image || p.main_image || 'logo.png';
+    const image = p.image || 'logo.png';
     return {
         id: p.id,
         name: p.name,
@@ -14,7 +14,7 @@ function formatProduct(p) {
         price: parseFloat(p.price),
         original_price: p.original_price ? parseFloat(p.original_price) : null,
         image,
-        main_image: image,
+        image: image,
         rating: p.rating ? parseFloat(p.rating) : 4.5,
         reviews_count: p.reviews_count || 0,
         badge: p.badge || null,

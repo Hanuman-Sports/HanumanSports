@@ -549,7 +549,7 @@
             const sku = document.getElementById('prod-sku').value;
             const rating = parseFloat(document.getElementById('prod-rating').value) || 0;
             const badge = document.getElementById('prod-badge').value || null;
-            const main_image = document.getElementById('prod-image').value || null;
+            const image_url = document.getElementById('prod-image').value || null;
             const description = document.getElementById('prod-description').value || '';
             
             let discount_percent = 0;
@@ -557,7 +557,7 @@
                 discount_percent = Math.round(((original_price - price) / original_price) * 100);
             }
             
-            const productData = { name, category, sub_category, price, original_price, discount_percent, stock, sku, rating, reviews_count: 0, description, main_image, badge };
+            const productData = { name, category, sub_category, price, original_price, discount_percent, stock, sku, rating, reviews_count: 0, description, image: image_url, badge };
             
             try {
                 const response = await fetch(`${API_URL}/admin/products`, {

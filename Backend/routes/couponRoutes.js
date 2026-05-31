@@ -2,6 +2,8 @@ const express = require('express');
 const { Op } = require('sequelize');
 const router = express.Router();
 const Coupon = require('../models/Coupon');
+const { verifyToken } = require('../middleware/auth');
+const adminAuth = require('../middleware/adminAuth');
 
 router.post('/validate', async (req, res) => {
     try {
@@ -10,10 +12,12 @@ router.post('/validate', async (req, res) => {
 
         const coupon = await Coupon.findOne({
             where: {
-                code: { [Op.like]: code },
+                code: code,
                 is_active: 1,
-                valid_from: { [Op.lte]: new Date() },
-                valid_till: { [Op.gte]: new Date() }
+                [Op.and]: [
+                    { [Op.or]: [{ valid_from: { [Op.lte]: new Date() } }, { valid_from: null }] },
+                    { [Op.or]: [{ valid_till: { [Op.gte]: new Date() } }, { valid_till: null }] }
+                ]
             }
         });
 
@@ -57,7 +61,8 @@ router.post('/validate', async (req, res) => {
     }
 });
 
-router.get('/', async (req, res) => {
+// Admin-only coupon management
+router.get('/', adminAuth, async (req, res) => {
     try {
         const coupons = await Coupon.findAll({ order: [['id', 'DESC']] });
         res.json({ success: true, coupons });
@@ -66,7 +71,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', adminAuth, async (req, res) => {
     try {
         const coupon = await Coupon.create(req.body);
         res.json({ success: true, coupon });
@@ -75,7 +80,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', adminAuth, async (req, res) => {
     try {
         await Coupon.update(req.body, { where: { id: req.params.id } });
         res.json({ success: true });
@@ -84,7 +89,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', adminAuth, async (req, res) => {
     try {
         await Coupon.destroy({ where: { id: req.params.id } });
         res.json({ success: true });

@@ -5,7 +5,7 @@ const Product = require('../models/Product');
 const { verifyToken } = require('../middleware/auth');
 
 function formatProduct(p) {
-    const image = p.image || p.main_image || 'logo.png';
+    const image = p.image || 'logo.png';
     return {
         id: p.id, name: p.name, category: p.category,
         price: parseFloat(p.price),
@@ -19,7 +19,7 @@ router.get('/', verifyToken, async (req, res) => {
     try {
         const items = await Wishlist.findAll({
             where: { user_id: req.userId },
-            include: [{ model: Product, as: 'product', attributes: ['id', 'name', 'price', 'original_price', 'image', 'main_image', 'rating', 'reviews_count', 'badge', 'stock', 'category'] }]
+            include: [{ model: Product, as: 'product', attributes: ['id', 'name', 'price', 'original_price', 'image', 'rating', 'reviews_count', 'badge', 'stock', 'category'] }]
         });
         // If include doesn't work (alias mismatch), fallback to manual fetch
         let products = [];

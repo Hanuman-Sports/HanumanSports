@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: hanuman-sports-api
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: npm install
+    startCommand: node Backend/server.js
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: 10000
+      - key: NODE_VERSION
+        value: "20"

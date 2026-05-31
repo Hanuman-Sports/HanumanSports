@@ -3,39 +3,46 @@
  * API products, cart (hs_cart), toasts, and offline fallbacks
  */
 
-const API_BASE_URL = '/api';
+// API base URL: /api for local dev, Render URL for GitHub/GitLab Pages.
+// Set localStorage key 'hs_api_url' to override (e.g. for custom domains).
+const API_BASE_URL = (() => {
+  const stored = localStorage.getItem('hs_api_url');
+  if (stored) return stored;
+  const host = window.location.hostname;
+  if (host.includes('github.io') || host.includes('gitlab.io') || host === 'hanuman-sports-api.onrender.com')
+    return 'https://hanuman-sports-api.onrender.com/api';
+  return '/api';
+})();
 window.API_BASE_URL = API_BASE_URL;
 const PAGINATION_STATE = { total: 0, totalPages: 0, currentPage: 1 };
 
 const CATEGORY_FALLBACKS = {
     Badminton: [
-        { id: 101, name: 'Yonex GR 303 Aluminium Blend Badminton Racquet', category: 'Badminton', sub_category: 'racket', price: 700, original_price: 965, rating: 4.5, main_image: 'https://images.unsplash.com/photo-1587280501635-a19de238a81e?w=400', badge: 'New' },
-        { id: 102, name: 'Yonex Astrox Attack 9 G4 Badminton Racquet', category: 'Badminton', sub_category: 'racket', price: 1400, original_price: 2475, rating: 4.5, main_image: 'https://images.unsplash.com/photo-1516043827470-d52d5435a122?w=400', badge: 'Best Seller' }
+        { id: 101, name: 'Yonex GR 303 Aluminium Blend Badminton Racquet', category: 'Badminton', sub_category: 'racket', price: 700, original_price: 965, rating: 4.5, image: 'https://images.unsplash.com/photo-1587280501635-a19de238a81e?w=400', badge: 'New' },
+        { id: 102, name: 'Yonex Astrox Attack 9 G4 Badminton Racquet', category: 'Badminton', sub_category: 'racket', price: 1400, original_price: 2475, rating: 4.5, image: 'https://images.unsplash.com/photo-1516043827470-d52d5435a122?w=400', badge: 'Best Seller' }
     ],
     Cricket: [
-        { id: 201, name: 'SF True Test Leather Cricket Ball', category: 'Cricket', sub_category: 'balls', price: 480, original_price: 550, rating: 4.5, main_image: 'https://images.unsplash.com/photo-1614624532983-1fe21c1d1c41?w=400', badge: 'Best Seller' },
-        { id: 202, name: 'TON Max Power Kashmir Willow Bat', category: 'Cricket', sub_category: 'bats', price: 2600, original_price: 3140, rating: 4.3, main_image: 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=400', badge: 'Sale' }
+        { id: 201, name: 'SF True Test Leather Cricket Ball', category: 'Cricket', sub_category: 'balls', price: 480, original_price: 550, rating: 4.5, image: 'https://images.unsplash.com/photo-1614624532983-1fe21c1d1c41?w=400', badge: 'Best Seller' },
+        { id: 202, name: 'TON Max Power Kashmir Willow Bat', category: 'Cricket', sub_category: 'bats', price: 2600, original_price: 3140, rating: 4.3, image: 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=400', badge: 'Sale' }
     ],
     Balls: [
-        { id: 301, name: 'Nivia SpotVolley Volleyball', category: 'Balls', sub_category: 'volleyball', price: 1300, original_price: 1580, rating: 4.5, main_image: 'https://images.unsplash.com/photo-1592656094267-764a60323e4c?w=400', badge: null },
-        { id: 302, name: 'Cosco Super Volleyball', category: 'Balls', sub_category: 'volleyball', price: 1350, original_price: 1680, rating: 4.7, main_image: 'https://images.unsplash.com/photo-1592656094267-764a60323e4c?w=400', badge: null }
+        { id: 301, name: 'Nivia SpotVolley Volleyball', category: 'Balls', sub_category: 'volleyball', price: 1300, original_price: 1580, rating: 4.5, image: 'https://images.unsplash.com/photo-1592656094267-764a60323e4c?w=400', badge: null },
+        { id: 302, name: 'Cosco Super Volleyball', category: 'Balls', sub_category: 'volleyball', price: 1350, original_price: 1680, rating: 4.7, image: 'https://images.unsplash.com/photo-1592656094267-764a60323e4c?w=400', badge: null }
     ],
     Accessories: [
-        { id: 401, name: 'Tynor Knee Cap Air', category: 'Accessories', sub_category: 'Knee Support', price: 180, original_price: 205, rating: 4.4, main_image: 'logo.png', badge: 'Sale' },
-        { id: 402, name: 'Tynor UV Protection Arm Sleeve', category: 'Accessories', sub_category: 'Arm Sleeve', price: 450, original_price: 512, rating: 4.2, main_image: 'logo.png', badge: null }
+        { id: 401, name: 'Tynor Knee Cap Air', category: 'Accessories', sub_category: 'Knee Support', price: 180, original_price: 205, rating: 4.4, image: 'logo.png', badge: 'Sale' },
+        { id: 402, name: 'Tynor UV Protection Arm Sleeve', category: 'Accessories', sub_category: 'Arm Sleeve', price: 450, original_price: 512, rating: 4.2, image: 'logo.png', badge: null }
     ],
     'Ball Badminton': [
-        { id: 501, name: 'Professional Ball Badminton Racket', category: 'Ball Badminton', sub_category: 'rackets', price: 1499, original_price: 2299, rating: 4.5, main_image: 'logo.png', badge: 'Best Seller' },
-        { id: 502, name: 'Tournament Grade Balls', category: 'Ball Badminton', sub_category: 'balls', price: 599, original_price: 899, rating: 5, main_image: 'logo.png', badge: 'New' }
+        { id: 501, name: 'Professional Ball Badminton Racket', category: 'Ball Badminton', sub_category: 'rackets', price: 1499, original_price: 2299, rating: 4.5, image: 'logo.png', badge: 'Best Seller' },
+        { id: 502, name: 'Tournament Grade Balls', category: 'Ball Badminton', sub_category: 'balls', price: 599, original_price: 899, rating: 5, image: 'logo.png', badge: 'New' }
     ]
 };
 
 function normalizeProduct(product) {
-    const image = product.main_image || product.image || 'logo.png';
     return {
         ...product,
-        image,
-        main_image: image,
+        image: product.image || 'logo.png',
         price: parseFloat(product.price) || 0,
         original_price: product.original_price != null ? parseFloat(product.original_price) : null,
         rating: parseFloat(product.rating) || 4.5
@@ -188,6 +195,35 @@ function createToastContainer() {
 
 window.showNotification = (message) => showToast('success', 'Notice', message);
 
+// — Wishlist State — 
+let WISHLIST_SET = new Set();
+async function loadWishlistSet() {
+    const token = localStorage.getItem('token');
+    if (!token) { WISHLIST_SET = new Set(); return; }
+    try {
+        const res = await fetch(`${API_BASE_URL}/wishlist`, {
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await res.json();
+        if (data.success && data.products) {
+            WISHLIST_SET = new Set(data.products.map(p => String(p.id)));
+        }
+    } catch {}
+}
+function isWishlisted(id) { return WISHLIST_SET.has(String(id)); }
+function applyWishlistState(btn, id) {
+    if (!btn) return;
+    const icon = btn.querySelector('i');
+    if (!icon) return;
+    if (isWishlisted(id)) {
+        icon.classList.remove('far'); icon.classList.add('fas');
+        btn.style.color = '#ff0000'; btn.style.borderColor = '#ff0000';
+    } else {
+        icon.classList.remove('fas'); icon.classList.add('far');
+        btn.style.color = ''; btn.style.borderColor = '';
+    }
+}
+
 async function toggleWishlistAPI(productId, btn) {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -202,6 +238,12 @@ async function toggleWishlistAPI(productId, btn) {
         });
         const data = await res.json();
         if (data.success) {
+            const id = String(productId);
+            if (data.added) {
+                WISHLIST_SET.add(id);
+            } else {
+                WISHLIST_SET.delete(id);
+            }
             const icon = btn.querySelector('i');
             if (data.added) {
                 icon.classList.remove('far'); icon.classList.add('fas');
@@ -233,7 +275,10 @@ function loadProfileAvatar() {
     const profileBtn = document.getElementById('profile-btn');
     const profileMenu = document.getElementById('profile-menu');
     if (!profileBtn && !profileMenu) return;
-    const firstName = user ? (JSON.parse(user).firstname || 'User') : 'User';
+    let firstName = 'User';
+    if (user) {
+        try { firstName = JSON.parse(user).firstname || 'User'; } catch { firstName = 'User'; }
+    }
     if (profileMenu) {
         const existing = profileMenu.querySelector('.dropdown-avatar');
         if (!existing && pic) {
@@ -260,9 +305,47 @@ function loadProfileAvatar() {
     }
 }
 
+// — Recently Viewed — 
+const RECENT_KEY = 'hs_recent';
+const RECENT_MAX = 8;
+function trackRecentlyViewed(product) {
+    if (!product || !product.id) return;
+    let recent = [];
+    try { recent = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]'); } catch { recent = []; }
+    recent = recent.filter(r => String(r.id) !== String(product.id));
+    recent.unshift({ id: product.id, name: product.name, price: product.price, image: product.image || 'logo.png', category: product.category });
+    if (recent.length > RECENT_MAX) recent = recent.slice(0, RECENT_MAX);
+    localStorage.setItem(RECENT_KEY, JSON.stringify(recent));
+}
+function getRecentlyViewed() {
+    try { return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]'); } catch { return []; }
+}
+function renderRecentlyViewed() {
+    const section = document.getElementById('recently-viewed');
+    const grid = document.getElementById('recently-viewed-grid');
+    if (!section || !grid) return;
+    const items = getRecentlyViewed();
+    if (items.length === 0) { section.style.display = 'none'; return; }
+    section.style.display = 'block';
+    grid.innerHTML = items.map(p => {
+        const img = p.image || 'logo.png';
+        const price = parseFloat(p.price) || 0;
+        return `<div class="product-card" data-id="${p.id}" style="cursor:pointer;" onclick="openProductModal('${p.id}')">
+            <div class="product-image"><img src="${img}" alt="${p.name}" onerror="this.src='logo.png'"></div>
+            <div class="product-info">
+                <div class="product-category">${p.category || ''}</div>
+                <h3 class="product-title">${p.name}</h3>
+                <div class="product-price"><span class="current-price">₹${price.toLocaleString('en-IN')}</span></div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     updateCartCount();
     loadProfileAvatar();
+    loadWishlistSet();
+    renderRecentlyViewed();
     const token = localStorage.getItem('token');
     if (token) {
         const els = document.querySelectorAll('#logout-btn');
@@ -303,5 +386,11 @@ window.HanumanSports = {
     migrateLegacyCart,
     updateCartCount,
     loadProfileAvatar,
-    PAGINATION_STATE
+    PAGINATION_STATE,
+    WISHLIST_SET,
+    isWishlisted,
+    applyWishlistState,
+    loadWishlistSet,
+    trackRecentlyViewed,
+    getRecentlyViewed
 };

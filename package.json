@@ -1,9 +1,13 @@
 {
   "private": true,
+  "scripts": {
+    "start": "node Backend/server.js",
+    "start:dev": "nodemon Backend/server.js"
+  },
   "dependencies": {
     "express": "^4.22.2",
     "cors": "^2.8.6",
-    "mysql2": "^3.22.4",
+    "sqlite3": "^5.1.7",
     "sequelize": "^6.37.8",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.3",

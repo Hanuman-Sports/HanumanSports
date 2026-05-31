@@ -37,7 +37,14 @@ router.get('/stats', adminAuth, async (req, res) => {
 // Add product
 router.post('/products', adminAuth, async (req, res) => {
     try {
-        const product = await Product.create(req.body);
+        const { name, category, sub_category, price, original_price, stock, image, rating, badge, description } = req.body;
+        const product = await Product.create({
+            name, category, sub_category: sub_category || null,
+            price, original_price: original_price || null,
+            stock: stock || 0, image: image || 'logo.png',
+            rating: rating || 4.5, badge: badge || null,
+            description: description || ''
+        });
         res.status(201).json({ success: true, message: 'Product added successfully', product });
     } catch (error) {
         console.error('Add product error:', error);
@@ -52,7 +59,8 @@ router.put('/products/:id', adminAuth, async (req, res) => {
         if (!product) {
             return res.status(404).json({ success: false, message: 'Product not found' });
         }
-        await product.update(req.body);
+        const { name, price, stock, original_price } = req.body;
+        await product.update({ name, price, stock, original_price: original_price || null });
         res.json({ success: true, message: 'Product updated successfully', product });
     } catch (error) {
         console.error('Update product error:', error);

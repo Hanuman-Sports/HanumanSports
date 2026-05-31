@@ -5,11 +5,13 @@ const path = require('path');
 const authController = require('../controllers/authController'); 
 const { verifyToken } = require('../middleware/auth'); 
 
-const profileUploadDir = process.env.VERCEL === '1' ? '/tmp/profiles' : './uploads/profiles/';
+const profileUploadDir = process.env.RENDER ? '/tmp/profiles' : path.join(__dirname, '../../uploads/profiles/');
+const fs = require('fs');
+if (!fs.existsSync(profileUploadDir)) {
+    fs.mkdirSync(profileUploadDir, { recursive: true });
+}
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, profileUploadDir);
-    },
+    destination: (req, file, cb) => { cb(null, profileUploadDir); },
     filename: (req, file, cb) => {
         cb(null, 'profile-' + Date.now() + path.extname(file.originalname));
     }

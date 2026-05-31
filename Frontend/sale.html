@@ -400,10 +400,10 @@
                 <a href="mailto:info@hanumansports.com"><i class="fas fa-envelope"></i> info@hanumansports.com</a>
             </div>
             <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="https://facebook.com/hanumansports"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com/hanumansports"><i class="fab fa-instagram"></i></a>
+                <a href="https://twitter.com/hanumansports"><i class="fab fa-twitter"></i></a>
+                <a href="https://youtube.com/@hanumansports"><i class="fab fa-youtube"></i></a>
             </div>
         </div>
     </div>
@@ -650,10 +650,10 @@
                 <h3>Hanuman Sports</h3>
                 <p>Mysore's premier destination for quality sports equipment. We provide the best gear for athletes and sports enthusiasts.</p>
                 <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="https://facebook.com/hanumansports"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com/hanumansports"><i class="fab fa-instagram"></i></a>
+                    <a href="https://twitter.com/hanumansports"><i class="fab fa-twitter"></i></a>
+                    <a href="https://youtube.com/@hanumansports"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
             <div class="footer-col">
@@ -687,7 +687,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2023 Hanuman Sports. All Rights Reserved.</p>
+            <p>&copy; 2025 Hanuman Sports. All Rights Reserved.</p>
         </div>
     </footer>
 
@@ -772,13 +772,7 @@
 
         // Back to Top Button
         const backToTopButton = document.getElementById('back-to-top');
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.add('active');
-            } else {
-                backToTopButton.classList.remove('active');
-            }
-        });
+        window.addEventListener('scroll', () => backToTopButton.classList.toggle('active', window.pageYOffset > 300));
         backToTopButton.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
