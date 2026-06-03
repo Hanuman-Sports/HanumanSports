@@ -24,8 +24,8 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5500',
   'http://127.0.0.1:5500',
-  'https://hanuman-sports.github.io',
-  'https://hanuman-sports-api.onrender.com'
+  'http://127.0.0.1:3000',
+  'https://hanuman-sports.github.io'
 ];
 app.use(cors({
     origin: (origin, cb) => {
@@ -49,13 +49,13 @@ if (!process.env.JWT_SECRET) {
     console.error('⚠️  CRITICAL: JWT_SECRET environment variable is not set. Authentication will fail.');
 }
 
-// Connect to Database & Sync Tables (server keeps running if DB is down)
+// Connect to Database & Sync Tables
 connectDB().catch(err => console.error('connectDB failed:', err));
 
-// Serve uploaded images to frontend (only locally; on Render, /tmp files aren't served)
+// Serve uploaded images
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// Serve static frontend files (always — works for both dev and production)
+// Serve static frontend files
 app.use(express.static(path.join(__dirname, '../Frontend')));
 
 // Routes
@@ -78,12 +78,10 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/index.html'));
 });
 
-// Export for Render serverless; only listen directly when running standalone
-if (!process.env.RENDER) {
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-        console.log(`🚀 Hanuman Sports Server running on http://localhost:${PORT}`);
-    });
-}
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`🚀 Hanuman Sports Server running on http://localhost:${PORT}`);
+});
 
 module.exports = app;

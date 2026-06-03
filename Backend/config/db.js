@@ -1,10 +1,14 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config({ path: __dirname + '/../.env' });
 
-const storagePath = process.env.RENDER
-    ? '/tmp/hanuman_sports.sqlite'
-    : path.join(__dirname, '../data/hanuman_sports.sqlite');
+const dataDir = path.join(__dirname, '../data');
+if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
+}
+
+const storagePath = path.join(dataDir, 'hanuman_sports.sqlite');
 
 let _realSequelize;
 let sequelize;

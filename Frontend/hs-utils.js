@@ -3,14 +3,11 @@
  * API products, cart (hs_cart), toasts, and offline fallbacks
  */
 
-// API base URL: /api for local dev, Render URL for GitHub/GitLab Pages.
+// API base URL: /api for local dev.
 // Set localStorage key 'hs_api_url' to override (e.g. for custom domains).
 const API_BASE_URL = (() => {
   const stored = localStorage.getItem('hs_api_url');
   if (stored) return stored;
-  const host = window.location.hostname;
-  if (host.includes('github.io') || host.includes('gitlab.io') || host === 'hanuman-sports-api.onrender.com')
-    return 'https://hanuman-sports-api.onrender.com/api';
   return '/api';
 })();
 window.API_BASE_URL = API_BASE_URL;
