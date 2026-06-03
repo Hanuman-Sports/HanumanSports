@@ -14,12 +14,15 @@ function formatProduct(p) {
         price: parseFloat(p.price),
         original_price: p.original_price ? parseFloat(p.original_price) : null,
         image,
-        image: image,
         rating: p.rating ? parseFloat(p.rating) : 4.5,
         reviews_count: p.reviews_count || 0,
         badge: p.badge || null,
         stock: p.stock
     };
+}
+
+function escapeLike(str) {
+    return str.replace(/[%_]/g, m => '\\' + m);
 }
 
 router.get('/', async (req, res) => {
@@ -32,7 +35,7 @@ router.get('/', async (req, res) => {
         }
 
         if (search) {
-            const term = `%${search}%`;
+            const term = `%${escapeLike(search)}%`;
             whereClause[Op.or] = [
                 { name: { [Op.like]: term } },
                 { category: { [Op.like]: term } }

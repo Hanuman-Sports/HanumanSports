@@ -3,6 +3,17 @@ const Cart = require('../models/Cart');
 const Product = require('../models/Product');
 const User = require('../models/User');
 
+async function generateUniqueOrderNumber() {
+    for (let attempt = 0; attempt < 10; attempt++) {
+        const ts = Date.now().toString().slice(-6);
+        const rand = Math.floor(100 + Math.random() * 900).toString();
+        const orderNumber = `HS${ts}${rand}`;
+        const existing = await Order.findOne({ where: { orderNumber } });
+        if (!existing) return orderNumber;
+    }
+    return `HS${Date.now()}${Math.floor(1000 + Math.random() * 9000)}`;
+}
+
 exports.checkout = async (req, res) => {
     try {
         const cartItems = await Cart.findAll({ where: { userId: req.userId } });
@@ -16,31 +27,29 @@ exports.checkout = async (req, res) => {
         for (const cartItem of cartItems) {
             const product = await Product.findByPk(cartItem.productId);
             if (product) {
-                totalAmount += product.price * cartItem.quantity;
+                totalAmount += parseFloat(product.price) * cartItem.quantity;
                 orderItems.push({
                     productId: product.id,
                     name: product.name,
                     quantity: cartItem.quantity,
-                    priceAtPurchase: product.price
+                    priceAtPurchase: parseFloat(product.price)
                 });
             }
         }
 
-        // Generate order number: HS + timestamp + random 3 digits
-        const timestamp = Date.now().toString().slice(-6);
-        const random = Math.floor(100 + Math.random() * 900).toString();
-        const orderNumber = `HS${timestamp}${random}`;
+        const orderNumber = await generateUniqueOrderNumber();
 
         const newOrder = await Order.create({
             userId: req.userId,
-            totalAmount: totalAmount,
-            orderNumber: orderNumber
+            totalAmount,
+            orderNumber,
+            items: orderItems
         });
 
         await Cart.destroy({ where: { userId: req.userId } });
         res.status(201).json({ message: 'Order placed successfully', order: newOrder });
     } catch (err) {
-        res.status(500).json({ message: 'Server Error', error: err.message });
+        res.status(500).json({ message: 'Failed to place order' });
     }
 };
 
@@ -49,7 +58,7 @@ exports.getUserOrders = async (req, res) => {
         const orders = await Order.findAll({ where: { userId: req.userId }, order: [['createdAt', 'DESC']] });
         res.json({ success: true, orders });
     } catch (err) {
-        res.status(500).json({ success: false, message: 'Server Error', error: err.message });
+        res.status(500).json({ success: false, message: 'Failed to load orders' });
     }
 };
 
@@ -77,6 +86,6 @@ exports.lookupOrder = async (req, res) => {
 
         res.json({ order });
     } catch (err) {
-        res.status(500).json({ message: 'Server Error', error: err.message });
+        res.status(500).json({ message: 'Failed to look up order' });
     }
 };

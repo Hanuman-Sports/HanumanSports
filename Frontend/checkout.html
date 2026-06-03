@@ -734,6 +734,7 @@
         </div>
     </div>
 
+<script src="hs-utils.js"></script>
 <script>
          // API Configuration
          const API_BASE_URL = window.API_BASE_URL;
@@ -975,8 +976,8 @@
 
             // Calculate subtotal
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const shipping = 200;
-            const tax = Math.round(subtotal * 0.1); // 10% tax
+            const shipping = subtotal >= 2999 ? 0 : 99;
+            const tax = Math.round(subtotal * 0.1);
             const discount = window._appliedDiscount || 0;
             const total = subtotal + shipping + tax - discount;
 
@@ -1519,12 +1520,19 @@
             document.head.appendChild(notifStyle);
         }
         const sameAddressCheckbox = document.getElementById('same-as-shipping');
-        if (sameAddressCheckbox && sameAddressCheckbox.checked) {
-            document.getElementById('billing-address').value = document.getElementById('address').value;
-            document.getElementById('billing-city').value = document.getElementById('city').value;
+        if (sameAddressCheckbox) {
+            sameAddressCheckbox.addEventListener('change', () => {
+                if (sameAddressCheckbox.checked) {
+                    document.getElementById('billing-address').value = document.getElementById('address').value;
+                    document.getElementById('billing-city').value = document.getElementById('city').value;
+                }
+            });
+            if (sameAddressCheckbox.checked) {
+                document.getElementById('billing-address').value = document.getElementById('address').value;
+                document.getElementById('billing-city').value = document.getElementById('city').value;
+            }
         }
     </script>
-<script src="hs-utils.js"></script>
 
 <style>
     /* ===== RESPONSIVE MEDIA QUERIES ===== */

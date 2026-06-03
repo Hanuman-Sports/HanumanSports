@@ -1155,10 +1155,12 @@
         // Mobile Menu Toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mainNav = document.getElementById('main-nav');
-        mobileMenuBtn.addEventListener('click', () => {
-            mainNav.classList.toggle('active');
-            mobileMenuBtn.innerHTML = mainNav.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-        });
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                mobileMenuBtn.innerHTML = mainNav.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
+        }
 
         // Back to Top
         const backToTopBtn = document.getElementById('back-to-top');
@@ -1410,11 +1412,9 @@
         }
 
         function showNotification(message) {
-            if (typeof showToast === 'function') {
-                showToast('success', 'Cart', message);
-            } else {
-                alert(message);
-            }
+            if (window.HSToast) { HSToast.success('Cart', message); }
+            else if (typeof showToast === 'function') { showToast('success', 'Cart', message); }
+            else { console.log('Cart:', message); }
         }
 
         // Cart Sidebar Toggle

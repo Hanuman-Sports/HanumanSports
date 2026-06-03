@@ -30,10 +30,18 @@ const allowedOrigins = [
 app.use(cors({
     origin: (origin, cb) => {
       if (!origin || allowedOrigins.some(o => origin.startsWith(o))) return cb(null, true);
-      cb(null, true); // allow all origins in dev
+      cb(new Error('Not allowed by CORS'));
     },
     credentials: true
 }));
+
+// Handle CORS errors gracefully
+app.use((err, req, res, next) => {
+    if (err.message === 'Not allowed by CORS') {
+        return res.status(403).json({ message: 'Origin not allowed by CORS policy' });
+    }
+    next(err);
+});
 app.use(express.json());
 
 // Warn at startup if critical env vars are missing

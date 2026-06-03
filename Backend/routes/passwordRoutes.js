@@ -18,9 +18,12 @@ router.post('/forgot-password', async (req, res) => {
 
         await PasswordReset.create({ email, code, expiresAt });
 
-        console.log(`\n=== PASSWORD RESET CODE for ${email}: ${code} ===\n`);
+        // In production, send via email service — never log to console in production
+        if (process.env.NODE_ENV !== 'production') {
+            console.log(`[DEV] Password reset code for ${email}: ${code}`);
+        }
 
-        res.json({ success: true, msg: 'Reset code sent to your email (check server console)' });
+        res.json({ success: true, msg: 'Reset code sent to your email' });
     } catch (err) {
         console.error('Forgot password error:', err);
         res.status(500).json({ success: false, msg: 'Server error' });
@@ -32,6 +35,10 @@ router.post('/reset-password', async (req, res) => {
         const { email, code, newPassword } = req.body;
         if (!email || !code || !newPassword) {
             return res.status(400).json({ success: false, msg: 'Email, code, and new password are required' });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({ success: false, msg: 'Password must be at least 6 characters' });
         }
 
         const reset = await PasswordReset.findOne({

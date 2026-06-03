@@ -48,7 +48,7 @@ router.post('/products', adminAuth, async (req, res) => {
         res.status(201).json({ success: true, message: 'Product added successfully', product });
     } catch (error) {
         console.error('Add product error:', error);
-        res.status(500).json({ success: false, message: "Database insertion failed", error: error.message });
+        res.status(500).json({ success: false, message: 'Failed to add product' });
     }
 });
 
@@ -59,12 +59,23 @@ router.put('/products/:id', adminAuth, async (req, res) => {
         if (!product) {
             return res.status(404).json({ success: false, message: 'Product not found' });
         }
-        const { name, price, stock, original_price } = req.body;
-        await product.update({ name, price, stock, original_price: original_price || null });
+        const { name, category, sub_category, price, original_price, stock, image, rating, badge, description } = req.body;
+        const updates = {};
+        if (name !== undefined) updates.name = name;
+        if (category !== undefined) updates.category = category;
+        if (sub_category !== undefined) updates.sub_category = sub_category;
+        if (price !== undefined) updates.price = price;
+        if (original_price !== undefined) updates.original_price = original_price;
+        if (stock !== undefined) updates.stock = stock;
+        if (image !== undefined) updates.image = image;
+        if (rating !== undefined) updates.rating = rating;
+        if (badge !== undefined) updates.badge = badge;
+        if (description !== undefined) updates.description = description;
+        await product.update(updates);
         res.json({ success: true, message: 'Product updated successfully', product });
     } catch (error) {
         console.error('Update product error:', error);
-        res.status(500).json({ success: false, message: "Update failed", error: error.message });
+        res.status(500).json({ success: false, message: 'Failed to update product' });
     }
 });
 
@@ -79,7 +90,7 @@ router.delete('/products/:id', adminAuth, async (req, res) => {
         res.json({ success: true, message: 'Product deleted successfully' });
     } catch (error) {
         console.error('Delete product error:', error);
-        res.status(500).json({ success: false, message: "Delete failed", error: error.message });
+        res.status(500).json({ success: false, message: 'Failed to delete product' });
     }
 });
 

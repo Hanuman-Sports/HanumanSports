@@ -12,7 +12,7 @@ exports.addProduct = async (req, res) => {
             rating: rating || 4.5, badge: badge || null
         });
         res.status(201).json(product);
-    } catch (err) { res.status(500).json({ error: err.message }); }
+    } catch (err) { res.status(500).json({ message: 'Failed to add product' }); }
 };
 
 exports.getProducts = async (req, res) => {
@@ -20,7 +20,7 @@ exports.getProducts = async (req, res) => {
         const products = await Product.findAll();
         res.json(products);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ message: 'Failed to load products' });
     }
 };
 
@@ -36,19 +36,49 @@ exports.addToCart = async (req, res) => {
         }
         res.json({ msg: "Added to cart" });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ message: 'Failed to add to cart' });
     }
 };
 
 exports.checkout = async (req, res) => {
     try {
-        const timestamp = Date.now().toString().slice(-6);
-        const random = Math.floor(100 + Math.random() * 900).toString();
-        const orderNumber = `HS${timestamp}${random}`;
-        await Order.create({ userId: req.userId, totalAmount: req.body.total, orderNumber });
+        const cartItems = await Cart.findAll({ where: { userId: req.userId } });
+        if (!cartItems || cartItems.length === 0) {
+            return res.status(400).json({ message: 'Cart is empty' });
+        }
+
+        let totalAmount = 0;
+        const orderItems = [];
+        for (const cartItem of cartItems) {
+            const product = await Product.findByPk(cartItem.productId);
+            if (product) {
+                totalAmount += parseFloat(product.price) * cartItem.quantity;
+                orderItems.push({
+                    productId: product.id,
+                    name: product.name,
+                    quantity: cartItem.quantity,
+                    priceAtPurchase: parseFloat(product.price)
+                });
+            }
+        }
+
+        // Generate unique order number
+        let orderNumber;
+        for (let attempt = 0; attempt < 5; attempt++) {
+            const ts = Date.now().toString().slice(-6);
+            const rand = Math.floor(100 + Math.random() * 900).toString();
+            orderNumber = `HS${ts}${rand}`;
+            const existing = await Order.findOne({ where: { orderNumber } });
+            if (!existing) break;
+            if (attempt === 4) {
+                orderNumber = `HS${Date.now()}${Math.floor(1000 + Math.random() * 9000)}`;
+            }
+        }
+
+        const order = await Order.create({ userId: req.userId, totalAmount, orderNumber, items: orderItems });
         await Cart.destroy({ where: { userId: req.userId } });
-        res.json({ msg: "Order placed successfully", orderNumber });
+        res.json({ msg: "Order placed successfully", orderNumber, order });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ message: 'Failed to place order' });
     }
 };

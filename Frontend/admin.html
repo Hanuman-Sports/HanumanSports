@@ -230,6 +230,14 @@
         .search-modal, .floating-elements, .profile-dropdown, .order-actions { display: none !important; }
         body { background: #fff !important; color: #000 !important; }
     }
+    .notification {
+        position: fixed; top: 20px; right: 20px; z-index: 10000;
+        padding: 12px 24px; border-radius: 10px; font-weight: 500;
+        color: #fff; background: #00F0FF; color: #000;
+        transform: translateX(120%); transition: transform 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,240,255,0.3);
+    }
+    .notification.show { transform: translateX(0); }
 </style>
 </head>
 <body>
@@ -440,6 +448,7 @@
 
     <div class="notification" id="notification">Success!</div>
 
+<script src="hs-utils.js"></script>
     <script>
         const API_URL = window.API_BASE_URL;
         let allProducts = [];
@@ -756,6 +765,5 @@
         loadProducts();
         loadCoupons();
     </script>
-<script src="hs-utils.js"></script>
 </body>
 </html>

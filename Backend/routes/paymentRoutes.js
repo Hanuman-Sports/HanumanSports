@@ -4,15 +4,22 @@ const Razorpay = require('razorpay');
 const crypto = require('crypto');
 const { verifyToken } = require('../middleware/auth');
 
-// Initialize Razorpay
-const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID || 'rzp_test_placeholder',
-    key_secret: process.env.RAZORPAY_KEY_SECRET || 'test_secret_placeholder'
-});
+// Initialize Razorpay — skip if keys not configured
+let razorpay = null;
+if (process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET) {
+    razorpay = new Razorpay({
+        key_id: process.env.RAZORPAY_KEY_ID,
+        key_secret: process.env.RAZORPAY_KEY_SECRET
+    });
+}
 
 // Create Razorpay order
 router.post('/create-order', verifyToken, async (req, res) => {
     try {
+        if (!razorpay) {
+            return res.status(503).json({ success: false, message: 'Payment service not configured' });
+        }
+
         const { amount } = req.body;
 
         if (!amount || amount <= 0) {
@@ -29,7 +36,7 @@ router.post('/create-order', verifyToken, async (req, res) => {
 
         res.json({
             success: true,
-            keyId: process.env.RAZORPAY_KEY_ID || 'rzp_test_placeholder',
+            keyId: process.env.RAZORPAY_KEY_ID,
             amount: order.amount,
             currency: order.currency,
             razorpayOrderId: order.id
@@ -43,6 +50,10 @@ router.post('/create-order', verifyToken, async (req, res) => {
 // Verify Razorpay payment
 router.post('/verify', verifyToken, async (req, res) => {
     try {
+        if (!process.env.RAZORPAY_KEY_SECRET) {
+            return res.status(503).json({ success: false, message: 'Payment verification not configured' });
+        }
+
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
         if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
@@ -51,7 +62,7 @@ router.post('/verify', verifyToken, async (req, res) => {
 
         const body = razorpay_order_id + '|' + razorpay_payment_id;
         const expectedSignature = crypto
-            .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || 'test_secret_placeholder')
+            .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
             .update(body.toString())
             .digest('hex');
 

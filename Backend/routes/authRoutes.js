@@ -16,7 +16,18 @@ const storage = multer.diskStorage({
         cb(null, 'profile-' + Date.now() + path.extname(file.originalname));
     }
 });
-const upload = multer({ storage: storage });
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB max
+    fileFilter: (req, file, cb) => {
+        const allowed = /\.(jpg|jpeg|png|gif|webp)$/i;
+        if (allowed.test(path.extname(file.originalname)) && file.mimetype.startsWith('image/')) {
+            cb(null, true);
+        } else {
+            cb(new Error('Only image files (jpg, png, gif, webp) are allowed'));
+        }
+    }
+});
 
 router.post('/register', authController.register); 
 router.post('/login', authController.login); 

@@ -766,9 +766,7 @@ async function loadProducts(sort_by, page) {
                 
                 document.getElementById('logout-btn').addEventListener('click', (e) => {
                     e.preventDefault();
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                    localStorage.removeItem('role');
+                    localStorage.clear();
                     window.location.reload();
                 });
             } else {
