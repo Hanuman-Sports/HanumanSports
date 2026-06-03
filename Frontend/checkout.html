@@ -54,6 +54,7 @@
         .header-icons { display: flex; gap: 1.5rem; font-size: 1.2rem; align-items: center; }
         .header-icons a { color: var(--light); position: relative; transition: all 0.3s; }
         .header-icons a:hover { color: var(--primary); transform: translateY(-3px); }
+.header-icons a span { position: absolute; top: -10px; right: -10px; background-color: var(--primary); color: #000; border-radius: 50%; width: 20px; height: 20px; display: flex; justify-content: center; align-items: center; font-size: 0.7rem; font-weight: bold; }
         .profile-dropdown { position: relative; display: inline-block; }
         .dropdown-content { display: none; position: absolute; right: 0; background: var(--secondary); min-width: 220px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1001; border-radius: 10px; overflow: hidden; border: 1px solid var(--glass-border); backdrop-filter: blur(10px); }
         .dropdown-content a { color: var(--white); padding: 12px 20px; text-decoration: none; display: block; font-size: 0.9rem; border-bottom: 1px solid var(--glass-border); transition: all 0.3s; }
@@ -123,7 +124,7 @@
         .coupon-applied .remove-coupon { color: #ff4444; cursor: pointer; margin-left: 0.5rem; font-size: 0.8rem; }
         .order-summary-line.discount { color: #4CAF50; }
         .order-summary-line.discount span:last-child { color: #4CAF50; }
-        .order-summary .btn { width: 100%; padding: 1rem; margin-top: 1rem; border-radius: 30px; border: 1px solid var(--primary); background: rgba(0,240,255,0.15); color: var(--primary); font-family: 'Orbitron', sans-serif; letter-spacing: 1px; cursor: pointer; transition: all 0.3s; }
+        .order-summary .btn { width: 100%; padding: 1rem; margin-top: 1rem; border-radius: 30px; border: 1px solid var(--primary); background: rgba(0,240,255,0.15); color: var(--primary); font-family: 'Orbitron', sans-serif; font-weight: 600; letter-spacing: 1px; cursor: pointer; transition: all 0.3s; }
         .order-summary .btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px rgba(0,240,255,0.8); transform: translateY(-3px); }
         .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
         .btn-outline:hover { background: var(--primary); color: #000; }
@@ -189,6 +190,7 @@
         .popup-box p { color: var(--gray); margin-bottom: 1rem; }
         .success-icon { font-size: 60px; color: #4CAF50; margin-bottom: 15px; }
         .popup-box .btn { display: inline-block; width: auto; padding: 0.8rem 2rem; margin-top: 1rem; }
+::selection { background: var(--primary); color: #000; }
 </style>
 <script>
  // Only redirect to loading page if we haven't just come from it
@@ -1542,6 +1544,7 @@
         .section-title h2 { font-size: 1.8rem; }
         .footer-container { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
         .checkout-container { flex-direction: column; }
+        .order-summary { width: 100%; position: static; }
         .products-grid, .product-grid, .categories, .category-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
         .features-grid { grid-template-columns: repeat(2, 1fr); }
     }
