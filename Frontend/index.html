@@ -7,8 +7,8 @@
     <meta name="description" content="Hanuman Sports - Your destination for premium sports equipment. Badminton, Cricket, Ball Badminton, accessories and more. Quality gear for every athlete.">
     <meta name="keywords" content="sports, badminton, cricket, sports equipment, hanuman sports, sports gear">
     <meta name="theme-color" content="#00F0FF">
-    <link rel="icon" href="logo.png" type="image/png">
-    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="./logo.png" type="image/png">
+    <link rel="manifest" href="./manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script>
@@ -923,7 +923,7 @@
         <div class="main-header">
             <div class="header-container">
                 <div class="logo">
-                    <img src="logo.png" alt="Hanuman Sports Logo">
+                    <img src="./logo.png" alt="Hanuman Sports Logo">
                     <div class="logo-text">
                         <h1>Hanuman Sports</h1>
                         <p>Mysore's Premier Sports Destination</p>
@@ -931,8 +931,8 @@
                 </div>
                 <nav id="main-nav">
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="category.html">Categories</a></li>
+                        <li><a href="./index.html">Home</a></li>
+                        <li><a href="./category.html">Categories</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
@@ -942,8 +942,8 @@
                     <div class="profile-dropdown">
                         <a href="#" id="profile-btn"><i class="fas fa-user"></i></a>
                         <div class="dropdown-content" id="profile-menu">
-                            <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
-                            <a href="profile.html#orders"><i class="fas fa-box"></i> Orders</a>
+                            <a href="./profile.html"><i class="fas fa-user"></i> My Profile</a>
+                            <a href="./profile.html#orders"><i class="fas fa-box"></i> Orders</a>
                             <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
                         </div>
                     </div>
@@ -965,7 +965,7 @@
                 <div class="hero-stat"><span>10k+</span><p>Happy Athletes</p></div>
             </div>
             <div class="hero-buttons">
-                <a href="category.html" class="btn"><i class="fas fa-shopping-bag"></i> Explore Collection</a>
+                <a href="./category.html" class="btn"><i class="fas fa-shopping-bag"></i> Explore Collection</a>
                 <a href="#" class="btn btn-outline" id="hero-search-trigger"><i class="fas fa-search"></i> Search Gear</a>
             </div>
         </div>
@@ -986,25 +986,25 @@
                 <div class="category-icon"><i class="fas fa-table-tennis"></i></div>
                 <h3>Badminton</h3>
                 <p>High-performance rackets, precision shuttlecocks, and tournament-grade nets.</p>
-                <a href="badminton.html" class="btn">Shop Now</a>
+                <a href="./badminton.html" class="btn">Shop Now</a>
             </div>
             <div class="category-card">
                 <div class="category-icon"><i class="fas fa-baseball-ball"></i></div>
                 <h3>Cricket</h3>
                 <p>Professional bats, premium balls, and advanced protective gear.</p>
-                <a href="cricket.html" class="btn">Shop Now</a>
+                <a href="./cricket.html" class="btn">Shop Now</a>
             </div>
             <div class="category-card">
                 <div class="category-icon"><i class="fas fa-shoe-prints"></i></div>
                 <h3>Accessories</h3>
                 <p>Gear up with premium sports accessories for every need.</p>
-                <a href="accessories.html" class="btn">Shop Now</a>
+                <a href="./accessories.html" class="btn">Shop Now</a>
             </div>
             <div class="category-card">
                 <div class="category-icon"><i class="fas fa-basketball-ball"></i></div>
                 <h3>Sports Balls</h3>
                 <p>Premium balls for basketball, volleyball, football and more.</p>
-                <a href="balls.html" class="btn">Shop Now</a>
+                <a href="./balls.html" class="btn">Shop Now</a>
             </div>
         </div>
     </section>
@@ -1055,8 +1055,8 @@
             <div class="footer-col">
                 <h3>Customer Service</h3>
                 <ul class="footer-links">
-                    <li><a href="profile.html">My Account</a></li>
-                    <li><a href="order.html">Order Tracking</a></li>
+                    <li><a href="./profile.html">My Account</a></li>
+                    <li><a href="./order.html">Order Tracking</a></li>
                     <li><a href="#">Privacy Policy</a></li>
                     <li><a href="#">Shipping Policy</a></li>
                     <li><a href="#">Terms & Conditions</a></li>
@@ -1093,7 +1093,7 @@
         </div>
         <div class="cart-footer">
             <div class="cart-total"><span>Total:</span><span id="cart-total-price">₹0</span></div>
-            <a href="checkout.html" class="btn">Proceed to Checkout</a>
+            <a href="./checkout.html" class="btn">Proceed to Checkout</a>
         </div>
     </div>
 
@@ -1121,7 +1121,7 @@
             <button class="product-modal-close" id="product-modal-close"><i class="fas fa-times"></i></button>
             <div class="product-modal-grid">
                 <div class="product-modal-image">
-                    <img id="product-modal-img" src="logo.png" alt="">
+                    <img id="product-modal-img" src="./logo.png" alt="">
                     <span class="product-modal-badge" id="product-modal-badge"></span>
                 </div>
                 <div class="product-modal-info">
@@ -1562,7 +1562,7 @@
                 e.preventDefault();
                 if (confirm('Are you sure you want to logout?')) {
                     localStorage.clear();
-                    window.location.href = 'login.html';
+                    window.location.href = './login.html';
                 }
             });
         }
@@ -1704,6 +1704,6 @@
             });
         }
     </script>
-    <script src="hs-utils.js"></script>
+    <script src="./hs-utils.js"></script>
 </body>
 </html>

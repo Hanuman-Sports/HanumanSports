@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hanuman Sports</title>
     <meta name="theme-color" content="#00F0FF">
-    <link rel="icon" href="logo.png">
+    <link rel="icon" href="./logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -298,7 +298,7 @@
         <div class="main-header">
             <div class="header-container">
                 <div class="logo">
-                    <img src="logo.png" alt="Hanuman Sports Logo">
+                    <img src="./logo.png" alt="Hanuman Sports Logo">
                     <div class="logo-text">
                         <h1>Hanuman Sports</h1>
                         <p>Mysore's Premier Sports Destination</p>
@@ -306,8 +306,8 @@
                 </div>
                 <nav id="main-nav">
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="category.html">Categories</a></li>
+                        <li><a href="./index.html">Home</a></li>
+                        <li><a href="./category.html">Categories</a></li>
                     </ul>
                 </nav>
             </div>
@@ -442,7 +442,7 @@
         const API_BASE = window.API_BASE_URL;
         if (!token) {
             console.error("No token found, redirecting to login...");
-            window.location.href = 'login.html';
+            window.location.href = './login.html';
         }
 
         // Notification System
@@ -508,7 +508,7 @@
                 if (targetSection === 'logout') {
                     if (confirm('Are you sure you want to logout?')) {
                         localStorage.clear();
-                        window.location.href = 'login.html';
+                        window.location.href = './login.html';
                     }
                     return;
                 }
@@ -628,7 +628,7 @@
                 });
                 const data = await res.json();
                 if (!data.success || !data.orders || data.orders.length === 0) {
-                    container.innerHTML = '<div style="text-align:center;padding:3rem 0;"><i class="fas fa-shopping-bag" style="font-size:3rem;color:var(--gray);margin-bottom:1rem;"></i><p style="color:var(--gray);">No orders yet</p><a href="category.html" class="btn" style="margin-top:1rem;display:inline-block;">Start Shopping</a></div>';
+                    container.innerHTML = '<div style="text-align:center;padding:3rem 0;"><i class="fas fa-shopping-bag" style="font-size:3rem;color:var(--gray);margin-bottom:1rem;"></i><p style="color:var(--gray);">No orders yet</p><a href="./category.html" class="btn" style="margin-top:1rem;display:inline-block;">Start Shopping</a></div>';
                     return;
                 }
                 container.innerHTML = '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr style="border-bottom:1px solid var(--glass-border);"><th style="padding:0.8rem;text-align:left;color:var(--gray);font-size:0.8rem;">Order</th><th style="padding:0.8rem;text-align:left;color:var(--gray);font-size:0.8rem;">Date</th><th style="padding:0.8rem;text-align:left;color:var(--gray);font-size:0.8rem;">Items</th><th style="padding:0.8rem;text-align:left;color:var(--gray);font-size:0.8rem;">Total</th><th style="padding:0.8rem;text-align:left;color:var(--gray);font-size:0.8rem;">Status</th></tr></thead><tbody>' +
@@ -654,7 +654,7 @@
                 });
                 const data = await res.json();
                 if (!data.success || !data.products || data.products.length === 0) {
-                    container.innerHTML = '<div style="text-align:center;padding:3rem 0;"><i class="fas fa-heart" style="font-size:3rem;color:var(--gray);margin-bottom:1rem;"></i><p style="color:var(--gray);">Your wishlist is empty</p><a href="category.html" class="btn" style="margin-top:1rem;display:inline-block;">Browse Products</a></div>';
+                    container.innerHTML = '<div style="text-align:center;padding:3rem 0;"><i class="fas fa-heart" style="font-size:3rem;color:var(--gray);margin-bottom:1rem;"></i><p style="color:var(--gray);">Your wishlist is empty</p><a href="./category.html" class="btn" style="margin-top:1rem;display:inline-block;">Browse Products</a></div>';
                     return;
                 }
                 container.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;">' +
@@ -693,6 +693,6 @@
         document.querySelector('[data-section="orders"]').addEventListener('click', () => setTimeout(loadOrders, 100));
         document.querySelector('[data-section="wishlist"]').addEventListener('click', () => setTimeout(loadWishlist, 100));
     </script>
-<script src="hs-utils.js"></script>
+<script src="./hs-utils.js"></script>
 </body>
 </html>

@@ -1,12 +1,11 @@
 const CACHE_NAME = 'hanuman-sports-v1';
 const urlsToCache = [
-  '/',
-  'index.html',
-  'category.html',
-  'loading_page.html',
-  'hs-utils.js',
-  'logo.png',
-  // Cross-origin URLs removed — service worker install would fail on these in some browsers
+  './',
+  './index.html',
+  './category.html',
+  './loading_page.html',
+  './hs-utils.js',
+  './logo.png',
 ];
 
 self.addEventListener('install', event => {
@@ -31,7 +30,7 @@ self.addEventListener('fetch', event => {
         });
         return networkResponse;
       }).catch(() => {
-        return caches.match('index.html');
+        return caches.match('./index.html');
       });
     })
   );

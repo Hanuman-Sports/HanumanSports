@@ -13,8 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Hanuman Sports</title>
     <meta name="theme-color" content="#00F0FF">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="logo.png" sizes="192x192">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" href="./logo.png" sizes="192x192">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -350,7 +350,7 @@
 <body>
     <div class="login-container">
         <div class="logo">
-            <img src="logo.png" alt="Hanuman Sports Logo">
+            <img src="./logo.png" alt="Hanuman Sports Logo">
             <h1>Hanuman Sports</h1>
             <p>Mysore's Premier Sports Destination</p>
         </div>
@@ -377,14 +377,14 @@
                     <label for="remember">Remember me</label>
                 </div>
                 <div class="forgot-password">
-<a href="forgot-password.html" title="Recover your password">Forgot password?</a>
+<a href="./forgot-password.html" title="Recover your password">Forgot password?</a>
                 </div>
             </div>
 
             <button type="submit" class="btn">Login</button>
 
             <div class="register-link">
-                Don't have an account? <a href="register.html">Register here</a>
+                Don't have an account? <a href="./register.html">Register here</a>
             </div>
         </form>
 
@@ -442,7 +442,7 @@
                         popup.classList.add("active");
 
                         setTimeout(() => {
-                            window.location.href = (userRole === 'admin') ? 'admin.html' : 'profile.html';
+                            window.location.href = (userRole === 'admin') ? './admin.html' : './profile.html';
                         }, 2000);
                     } else {
                         alert("Error: " + data.message);
@@ -479,7 +479,7 @@
             window.toastInfo = function(title, msg) { console.log(title + ": " + msg); };
         }
     </script>
-    <script src="hs-utils.js"></script>
+    <script src="./hs-utils.js"></script>
 </body>
 
 </html>

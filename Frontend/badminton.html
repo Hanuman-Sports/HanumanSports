@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hanuman Sports</title>
     <meta name="theme-color" content="#00F0FF">
-    <link rel="icon" href="logo.png">
+    <link rel="icon" href="./logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -286,7 +286,7 @@
         <div class="main-header">
             <div class="header-container">
                 <div class="logo">
-                    <img src="logo.png" alt="Hanuman Sports Logo">
+                    <img src="./logo.png" alt="Hanuman Sports Logo">
                     <div class="logo-text">
                         <h1>Hanuman Sports</h1>
                         <p>Mysore's Premier Sports Destination</p>
@@ -294,10 +294,10 @@
                 </div>
                 <nav id="main-nav">
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="category.html" style="color: var(--primary);">Categories</a></li>
-                        <li><a href="index.html#about">About</a></li>
-                        <li><a href="index.html#contact">Contact</a></li>
+                        <li><a href="./index.html">Home</a></li>
+                        <li><a href="./category.html" style="color: var(--primary);">Categories</a></li>
+                        <li><a href="./index.html#about">About</a></li>
+                        <li><a href="./index.html#contact">Contact</a></li>
                     </ul>
                 </nav>
                 <div class="header-icons">
@@ -306,8 +306,8 @@
                     <div class="profile-dropdown">
                         <a href="#" id="profile-btn"><i class="fas fa-user"></i></a>
                         <div class="dropdown-content" id="profile-menu">
-                            <a href="profile.html"><i class="fas fa-user"></i> My Profile</a>
-                            <a href="profile.html#orders"><i class="fas fa-box"></i> Orders</a>
+                            <a href="./profile.html"><i class="fas fa-user"></i> My Profile</a>
+                            <a href="./profile.html#orders"><i class="fas fa-box"></i> Orders</a>
                             <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
                         </div>
                     </div>
@@ -388,7 +388,7 @@
         <div class="footer-container">
             <div class="footer-col">
                 <div class="logo" style="margin-bottom: 1.5rem;">
-                    <img src="logo.png" alt="Hanuman Sports Logo">
+                    <img src="./logo.png" alt="Hanuman Sports Logo">
                     <div class="logo-text">
                         <h1 style="font-size: 1.5rem;">Hanuman Sports</h1>
                     </div>
@@ -404,8 +404,8 @@
             <div class="footer-col">
                 <h3>Customer Service</h3>
                 <ul class="footer-links">
-                    <li><a href="profile.html">My Account</a></li>
-                    <li><a href="order.html">Order Tracking</a></li>
+                    <li><a href="./profile.html">My Account</a></li>
+                    <li><a href="./order.html">Order Tracking</a></li>
                     <li><a href="#">Privacy Policy</a></li>
                     <li><a href="#">Shipping Policy</a></li>
                     <li><a href="#">Terms & Conditions</a></li>
@@ -449,7 +449,7 @@
                 <span>Total:</span>
                 <span id="cart-total-price">₹0.00</span>
             </div>
-            <a href="checkout.html" class="btn">Proceed to Checkout</a>
+            <a href="./checkout.html" class="btn">Proceed to Checkout</a>
         </div>
     </div>
 
@@ -473,7 +473,7 @@
             <button class="product-modal-close" id="product-modal-close"><i class="fas fa-times"></i></button>
             <div class="product-modal-grid">
                 <div class="product-modal-image">
-                    <img id="product-modal-img" src="logo.png" alt="">
+                    <img id="product-modal-img" src="./logo.png" alt="">
                     <span class="product-modal-badge" id="product-modal-badge"></span>
                 </div>
                 <div class="product-modal-info">
@@ -501,7 +501,7 @@
         </div>
     </div>
 
-    <script src="hs-utils.js"></script>
+    <script src="./hs-utils.js"></script>
 
     <script>
         let allProducts = [];
@@ -758,21 +758,21 @@ async function loadProducts(sort_by, page) {
                         <img src="https://ui-avatars.com/api/?name=${firstName}&background=00F0FF&color=0A0E17" alt="Profile">
                         <h4>${firstName}</h4>
                     </div>
-                    <a href="profile.html"><i class="fas fa-user-circle"></i> My Profile</a>
-                    <a href="profile.html#orders"><i class="fas fa-box"></i> Orders</a>
-                    <a href="profile.html#wishlist"><i class="fas fa-heart"></i> Wishlist</a>
+                    <a href="./profile.html"><i class="fas fa-user-circle"></i> My Profile</a>
+                    <a href="./profile.html#orders"><i class="fas fa-box"></i> Orders</a>
+                    <a href="./profile.html#wishlist"><i class="fas fa-heart"></i> Wishlist</a>
                     <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 `;
                 
                 document.getElementById('logout-btn').addEventListener('click', (e) => {
                     e.preventDefault();
                     localStorage.clear();
-                    window.location.href = 'login.html';
+                    window.location.href = './login.html';
                 });
             } else {
                 profileDropdown.innerHTML = `
-                    <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
-                    <a href="register.html"><i class="fas fa-user-plus"></i> Register</a>
+                    <a href="./login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    <a href="./register.html"><i class="fas fa-user-plus"></i> Register</a>
                 `;
             }
 
@@ -954,7 +954,7 @@ async function loadProducts(sort_by, page) {
                     <div class="empty-cart">
                         <i class="fas fa-shopping-basket"></i>
                         <p>Your cart is empty</p>
-                        <a href="category.html" class="btn">Browse Categories</a>
+                        <a href="./category.html" class="btn">Browse Categories</a>
                     </div>
                 `;
                 cartTotalPrice.textContent = '₹0.00';

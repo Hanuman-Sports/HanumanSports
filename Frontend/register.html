@@ -13,8 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | Hanuman Sports</title>
     <meta name="theme-color" content="#00F0FF">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="logo.png" sizes="192x192">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" href="./logo.png" sizes="192x192">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -302,7 +302,7 @@
 <body>
     <div class="register-container">
         <div class="logo">
-            <img src="logo.png" alt="Hanuman Sports Logo">
+            <img src="./logo.png" alt="Hanuman Sports Logo">
             <h1>Hanuman Sports</h1>
             <p>Mysore's Premier Sports Destination</p>
         </div>
@@ -381,13 +381,13 @@
 
             <div class="terms">
                 <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
-                <label for="agreeTerms">I agree to the <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a></label>
+                <label for="agreeTerms">I agree to the <a href="./terms.html">Terms of Service</a> and <a href="./privacy.html">Privacy Policy</a></label>
             </div>
 
             <button type="submit" class="btn">Create a New Account</button>
 
             <div class="login-link">
-                Already have an account? <a href="login.html">Login here</a>
+                Already have an account? <a href="./login.html">Login here</a>
             </div>
         </form>
     </div>
@@ -454,7 +454,7 @@
                             toastInfo('Success', 'Registration successful! Redirecting...');
                         }
                         
-                        setTimeout(() => { window.location.href = "login.html"; }, 2500);
+                        setTimeout(() => { window.location.href = "./login.html"; }, 2500);
                     } else {
                         // Error handling from backend (e.g. Email in use)
                         if (typeof toastError === 'function') {
@@ -529,7 +529,7 @@
             });
         });
     </script>
-    <script src="hs-utils.js"></script>
+    <script src="./hs-utils.js"></script>
 </body>
 
 </html>
