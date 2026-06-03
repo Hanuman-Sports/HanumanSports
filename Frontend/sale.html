@@ -735,10 +735,15 @@
     <div class="overlay" id="overlay"></div>
 
     <script>
-        // Countdown Timer
-        function updateCountdown() {
-            const countdownDate = new Date();
-            countdownDate.setDate(countdownDate.getDate() + 7);
+        // Countdown Timer — persists across page loads
+        (function() {
+            const SALE_END_KEY = 'hs_sale_end';
+            let endDate = localStorage.getItem(SALE_END_KEY);
+            if (!endDate || new Date(endDate) < new Date()) {
+                endDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+                localStorage.setItem(SALE_END_KEY, endDate);
+            }
+            const countdownDate = new Date(endDate).getTime();
 
             const interval = setInterval(() => {
                 const now = new Date().getTime();
@@ -749,17 +754,22 @@
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                document.getElementById("days").innerText = days.toString().padStart(2, '0');
-                document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
-                document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
-                document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+                const d = document.getElementById("days");
+                const h = document.getElementById("hours");
+                const m = document.getElementById("minutes");
+                const s = document.getElementById("seconds");
+                if (d) d.innerText = days.toString().padStart(2, '0');
+                if (h) h.innerText = hours.toString().padStart(2, '0');
+                if (m) m.innerText = minutes.toString().padStart(2, '0');
+                if (s) s.innerText = seconds.toString().padStart(2, '0');
 
                 if (distance < 0) {
                     clearInterval(interval);
-                    document.getElementById("countdown-timer").innerHTML = "<h3>Sale Ended!</h3>";
+                    const el = document.getElementById("countdown-timer");
+                    if (el) el.innerHTML = "<h3>Sale Ended!</h3>";
                 }
             }, 1000);
-        }
+        })();
 
         // Mobile Menu Toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -905,13 +915,7 @@
         const searchInput = document.getElementById('search-input');
         const searchResults = document.getElementById('search-results');
 
-        const saleProducts = [
-            { id: 1, name: "NIVIA G-2020 VOLLEYBALL", category: "VOLLEYBALL", price: 1160, image: "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-            { id: 2, name: "COSCO SUPER VOLLEYBALL", category: "VOLLEYBALL", price: 1099, image: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-            { id: 3, name: "NIVIA STORM FOOTBALL", category: "FOOTBALL", price: 1199, image: "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-            { id: 4, name: "Badminton Racket", category: "Badminton", price: 4499, image: "https://images.unsplash.com/photo-1587280501635-a19de238a81e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-            { id: 5, name: "Cricket Bat", category: "Cricket", price: 3999, image: "https://images.unsplash.com/photo-1516478177764-9fe5bd7e9717?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-        ];
+        let acTimeout = null;
 
         if (searchBtn && searchModal && overlay) {
             searchBtn.addEventListener('click', (e) => {
@@ -927,26 +931,28 @@
         if (overlay && searchModal) {
             overlay.addEventListener('click', () => { searchModal.style.display = 'none'; overlay.style.display = 'none'; });
         }
-        if (searchForm && searchInput && searchResults) {
-            searchForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const query = searchInput.value.toLowerCase();
-                if (!query.trim()) { searchResults.innerHTML = '<p class="no-results">Please enter a search term</p>'; return; }
-                const results = saleProducts.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
-                if (results.length === 0) { searchResults.innerHTML = '<p class="no-results">No products found. Try a different search term.</p>'; return; }
-                searchResults.innerHTML = results.map(p => `
-                    <div class="search-result-item" data-id="${p.id}">
-                        <img src="${p.image}" alt="${p.name}">
-                        <div><h4>${p.name}</h4><p>₹${p.price.toLocaleString()}</p><small>${p.category}</small></div>
-                    </div>
-                `).join('');
-                document.querySelectorAll('.search-result-item').forEach(item => {
-                    item.addEventListener('click', () => {
-                        alert('Redirecting to product page...');
-                        searchModal.style.display = 'none';
-                        overlay.style.display = 'none';
-                    });
-                });
+        if (searchInput && searchResults) {
+            searchInput.addEventListener('input', function() {
+                clearTimeout(acTimeout);
+                const q = this.value.trim();
+                if (q.length < 2) { searchResults.innerHTML = ''; return; }
+                acTimeout = setTimeout(async () => {
+                    try {
+                        const res = await fetch(`${window.API_BASE_URL}/products?search=${encodeURIComponent(q)}&limit=5`);
+                        const data = await res.json();
+                        const products = data.products || data;
+                        if (!products || products.length === 0) {
+                            searchResults.innerHTML = '<p style="padding:1rem;color:#888;">No products found</p>';
+                            return;
+                        }
+                        searchResults.innerHTML = products.map(p => `
+                            <div class="search-result-item" onclick="openProductModal('${p.id}')">
+                                <img src="${p.image || 'logo.png'}" alt="${p.name}" onerror="this.src='logo.png'">
+                                <div><h4>${p.name}</h4><p>₹${(parseFloat(p.price)||0).toLocaleString()}</p></div>
+                            </div>
+                        `).join('');
+                    } catch { searchResults.innerHTML = '<p style="padding:1rem;color:#888;">Search unavailable</p>'; }
+                }, 300);
             });
         }
 
@@ -980,7 +986,6 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            updateCountdown();
         });
     </script>
 <script src="hs-utils.js"></script>

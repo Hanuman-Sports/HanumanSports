@@ -1078,20 +1078,11 @@
         });
 
         const logoutBtn = document.getElementById("logout-btn");
-        const logoutPopup = document.getElementById("logout-popup");
         if (logoutBtn) {
             logoutBtn.addEventListener("click", function (e) {
                 e.preventDefault();
-                if (logoutPopup) logoutPopup.classList.add('active');
-                setTimeout(() => {
-                    localStorage.clear();
-                    window.location.href = "login.html";
-                }, 1500);
-            });
-        }
-        if (logoutPopup) {
-            logoutPopup.addEventListener('click', (e) => {
-                if (e.target === logoutPopup) logoutPopup.classList.remove('active');
+                localStorage.clear();
+                window.location.href = "login.html";
             });
         }
 

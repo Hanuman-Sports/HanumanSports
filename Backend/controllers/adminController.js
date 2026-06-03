@@ -26,6 +26,6 @@ exports.addStock = async (req, res) => {
         const product = await Product.create({ name, category, price, stock, image, original_price, rating, badge });
         res.status(201).json({ message: "Product added successfully", product });
     } catch (error) {
-        res.status(500).json({ message: "Database insertion failed", error: error.message });
+        res.status(500).json({ message: 'Failed to add product' });
     }
 };
